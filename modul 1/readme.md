@@ -7,14 +7,28 @@ Berikan penjelasan teori terkait materi modul ini dengan bahasa anda sendiri ser
 
 ## Guided 
 
-### 1. [Nama Topik]
+### 1. [Operasi dasar]
 
 ```C++
 #include <iostream>
 using namespace std;
 
-int main() {
-    cout << "ini adalah file code guided praktikan" << endl;
+int main(){
+    float a;
+    float b;
+
+    //Inputkan float
+     cout << "masukkan angka 1: " << endl;
+     cin >> a;
+     cout << "masukkan angka 2: " << endl;
+     cin >> b;
+
+    //Operasi Dasar
+    cout << "Hasil Penjumlahan = " << (a+b) << endl;
+    cout << "Hasil Pengurangan = " << (a-b) << endl;
+    cout << "Hasil Perkalian = " << (a*b) << endl;
+    cout << "Hasil Pembagian = " << (a/b) << endl;
+
     return 0;
 }
 ```
