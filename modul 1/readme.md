@@ -1,13 +1,28 @@
 # <h1 align="center">Laporan Praktikum Modul Pengenalan Bahasa C++ (1)</h1>
 <p align="center">Arvinanto Bahtiar</p>
 
-## Dasar Teori
+## Pengenalan Bahasa C++
 
 Berikan penjelasan teori terkait materi modul ini dengan bahasa anda sendiri serta susunan yang terstruktur per topiknya.
 
 ## Guided 
 
-### 1. [Operasi dasar]
+### 1. [Cetak text]
+
+```C++
+#include <iostream>
+using namespace std;
+
+int main() {
+    cout << "Hello world" << endl;
+    return 0;
+}
+```
+program ini dibuat menggunakan bahasa pemrograman C++, program akan menghasilkan output sesuai masukkan yang ditulis oleh pengguna.
+
+## Unguided 
+
+### 1. [Operasi Dasar]
 
 ```C++
 #include <iostream>
@@ -17,7 +32,7 @@ int main(){
     float a;
     float b;
 
-    //Inputkan float
+    //Inputan
      cout << "masukkan angka 1: " << endl;
      cin >> a;
      cout << "masukkan angka 2: " << endl;
@@ -29,21 +44,6 @@ int main(){
     cout << "Hasil Perkalian = " << (a*b) << endl;
     cout << "Hasil Pembagian = " << (a/b) << endl;
 
-    return 0;
-}
-```
-Kode di atas digunakan untuk mencetak teks "ini adalah file code guided praktikan" ke layar menggunakan function cout untuk mengeksekusi nya.
-
-## Unguided 
-
-### 1. [Soal]
-
-```C++
-#include <iostream>
-using namespace std;
-
-int main() {
-    cout << "ini adalah file code unguided praktikan" << endl;
     return 0;
 }
 ```
