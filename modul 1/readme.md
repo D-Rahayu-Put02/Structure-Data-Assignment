@@ -53,7 +53,7 @@ int main(){
 code di atas merupakan code untuk membuat bilangan bertipe float bisa melakukkan operasi dasar penjumlahan, pengurangan, perkalian dan pembagian, program akan meminta 2 inputan bertipe float lalu program akan mengeksekusi operasi dasar yang sudah di siapkan dan program akan langsung menghasil kan output hasil dari oprasi dasar tersebut.
 
 #### Full code Screenshot:
-<img width="1379" height="284" alt="image" src="https://github.com/user-attachments/assets/f70b153c-9fda-4ace-ae37-068435216ff8" />
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/6a045365-2bcb-4b36-9e66-c57fcde87f3d" />
 
 
 ## Kesimpulan
