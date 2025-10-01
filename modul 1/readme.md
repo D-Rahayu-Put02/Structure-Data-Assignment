@@ -39,7 +39,160 @@ int main() {
 
 }
 ```
-program input output jadi pengguna menginput variable bertipe int dengan const 3,14 cout di gunakan untuk wadah input dan cin sebagai wadah output program
+program input output jadi pengguna menginput variable bertipe int dengan const 3,14 cout di gunakan untuk wadah input dan cin sebagai wadah output program.
+
+### 3. [Operator Dasar]
+
+```C++
+#include <iostream>
+
+using namespace std;
+
+int main() {
+    int a;
+    int b;
+
+    cout << "Masukkan angka1: ";
+    cin >> a;
+    cout << "Masukkan angka2: ";
+    cin >> b;
+
+    //operator aritmatika
+    cout << "a + b = " << (a+b) << endl;
+    cout << "a - b = " << (a-b) << endl;
+    cout << "a * b = " << (a*b) << endl;
+    cout << "a / b = " << (a/b) << endl;
+    cout << "a % b = " << (a%b) << endl;
+
+    //operator logika 
+    cout << "a > b = " << (a>b) << endl;
+    cout << "a < b = " << (a<b) << endl;
+    cout << "a >= b = " << (a>=b) << endl;
+    cout << "a <= b = " << (a<=b) << endl;
+    cout << "a == b = " << (a==b) << endl;
+    cout << "a != b = " << (a!=b) << endl;
+
+    return 0;
+}
+```
+program ini menampilkan bagaimana operasi dasar dan oprasi logika di jalankan penggunaan tanda +-*/% merupakan sistem operasi dasar.
+
+### 4. [Percabangan]
+
+```C++
+#include <iostream>
+
+using namespace std;
+
+int main() {
+    int angka1 = 20;
+    int angka2 = 20;
+
+    if (angka1 > angka2) {
+        cout << "Angka1 lebih besar dari angka2" << endl;
+    }else if (angka1 < angka2) {
+        cout << "angka1 lebih kecil dari angka2" << endl;
+    }else {
+        cout << "angka1 sama dengan angka2" << endl;
+    }
+
+    return 0;
+}
+```
+program ini menggunakan if else untuk bisa beroperasi menentukkan output mana yang sesuai dengan inputan pengguna.
+
+### 5. [Perulangan for]
+
+```C++
+#include <iostream>
+
+using namespace std;
+
+int main() {
+    int i;
+    int j;
+
+    for (int i = 0; i <= 10; i++) {
+        cout << i << "-" ;
+    }
+
+    cout << endl;
+
+    for (int j = 20; j >= 10; j--) {
+        cout << j << "-" ;
+    }
+
+    return 0;
+}
+```
+program akan melakukkan perulangan menggunakan for pada inputan pengguna.
+
+### 6. [Perulangan WhileDo]
+
+```C++
+#include <iostream>
+using namespace std;
+
+int main() {
+    int i = 0;
+    int j = 20;
+
+    while (i <= 10) {
+        cout << i << "-";
+        i++;
+    }
+
+    cout << endl;
+
+    do {
+        cout << j << "-";
+        j++;
+    } while (j <=10);
+
+    return 0;
+}
+```
+program sama melakukkan perulangan beda nya akan terus berjalan jika kondisi nya benar dan akan berhenti jika sudah false.
+
+### 7. [Structre]
+
+```C++
+#include <iostream>
+#include <string>
+using namespace std;
+struct Mahasiswa {
+    string nama;
+    int umur;
+};
+
+int main() {
+    int jumlah;
+
+    cout << "masukkan jumlah mahasiswa: ";
+    cin >> jumlah;
+
+    Mahasiswa mhs[jumlah];
+
+    //input data menggunakan loop
+    for (int i = 0; i < jumlah; i++) {
+        cout << "\nMahasiswa ke-" << i + 1 << endl;
+        cout << "Nama: ";
+        cin >> mhs[i].nama;
+        cout << "Umur: ";
+        cin >> mhs[i].umur;
+    }
+    
+    //tampilkan data
+    cout << "\n === Data Mahasiswa ===\n";
+    for (int i = 0; i < jumlah; i++) {
+        cout << "Mahasiswa ke-" << i+1 
+             << "| Nama: |" << mhs[i].nama
+             << "| Umur: |" << mhs[i].umur << endl;
+    }
+    return 0;
+}
+```
+program ini merupakan implementasi dari struct yang bisa memuat berbagai tipe variable yang nantinya di gunakan dalam program.
 
 ## Unguided 
 
