@@ -102,38 +102,44 @@ Code di atas digunakan untuk mengubah angka atau tipe integer menjadi string, ja
 <img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/e27a31c1-a608-4d4d-92d8-f5b0aa638767" />
 
 
-### 3. [Buat Segitiga Berisi Angka]
+### 3. [Buat Segitiga Angka]
 
 ```C++
 #include <iostream>
 using namespace std;
 
-int main(){
-    float a;
-    float b;
+int main() {
+    int n;
+    cout << "input: ";
+    if (!(cin >> n)) return 0;
 
-    //Inputan
-     cout << "masukkan angka 1: " << endl;
-     cin >> a;
-     cout << "masukkan angka 2: " << endl;
-     cin >> b;
+    for (int i = n; i >= 0; i--) {
+        // Spasi di depan
+        for (int s = 0; s < n - i; s++) cout << "  ";
 
-    //Operasi Dasar
-    cout << "Hasil Penjumlahan = " << (a+b) << endl;
-    cout << "Hasil Pengurangan = " << (a-b) << endl;
-    cout << "Hasil Perkalian = " << (a*b) << endl;
-    cout << "Hasil Pembagian = " << (a/b) << endl;
+        //Angka menurun
+        for (int a = i; a >= 1; a--) cout << a << " ";
+
+        // Bintang di tengah
+        cout << "* ";
+
+        // Angka menaik
+        for (int b = 1; b <= i; b++) cout << b << " ";
+
+        cout << '\n';
+    }
 
     return 0;
 }
+
 ```
 #### Output:
-<img width="1379" height="284" alt="image" src="https://github.com/user-attachments/assets/51a8cf20-135c-4bb4-8f1d-c7d091ea2a86" />
+<img width="1359" height="272" alt="image" src="https://github.com/user-attachments/assets/73b7a654-53b6-47d9-ac51-aba9c1c2be62" />
 
-Kode di atas merupakan kode untuk membuat bilangan bertipe float bisa melakukkan operasi dasar penjumlahan, pengurangan, perkalian dan pembagian, program akan meminta 2 inputan bertipe float lalu program akan mengeksekusi operasi dasar yang sudah di siapkan dan program akan langsung menghasil kan output hasil dari oprasi dasar tersebut.
+Kode ini membuat urutan angka yang berbentuk segitiga sama sisi, .
 
 #### Full code Screenshot:
-<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/6a045365-2bcb-4b36-9e66-c57fcde87f3d" />
+<img width="1919" height="1078" alt="image" src="https://github.com/user-attachments/assets/8b954c7e-df0a-4c50-ba9c-28200fb562f2" />
 
 
 ## Kesimpulan
@@ -142,20 +148,11 @@ Ringkasan dan interpretasi pandangan kalia dari hasil praktikum dan pembelajaran
 ## Referensi
 [1] I. Holm, Narrator, and J. Fullerton-Smith, Producer, How to Build a Human [DVD]. London: BBC; 2002.
 
-int main() {
-    cout << "ini adalah file code unguided praktikan" << endl;
-    return 0;
-}
 Keluaran:
-240302_00h00m06s_tangkapan layar
-
-Kode di atas digunakan untuk mencetak teks "ini adalah kode file yang dipandu praktikan" ke layar menggunakan fungsi cout untuk mengeksekusinya.
+tangkapan layar
 
 Tangkapan Layar Kode Lengkap:
-240309_10h21m35s_tangkapan layar
-
-Kesimpulan
-Ringkasan dan interpretasi pandangan kalia dari hasil praktikum dan pembelajaran yang didapat[1].
+tangkapan layar
 
 Referensi
 [1] I. Holm, Narator, dan J. Fullerton-Smith, Produser, Cara Membangun Manusia [DVD]. London: BBC; 2002.
