@@ -20,6 +20,27 @@ int main() {
 ```
 program ini dibuat menggunakan bahasa pemrograman C++, program akan menghasilkan output sesuai masukkan yang ditulis oleh pengguna "Hello World".
 
+### 2. [Input Output]
+
+```C++
+#include <iostream>
+using namespace std;
+
+int main() {
+    int n;
+    const float pi = 3.14;
+
+    cout << "masukan angka: ";
+    cin >> n;
+
+    cout << "angka dikeluarkan: " << n << endl;
+    cout << "nilai konstanta pi: " << pi << endl;
+    return 0;
+
+}
+```
+program input output jadi pengguna menginput variable bertipe int dengan const 3,14 cout di gunakan untuk wadah input dan cin sebagai wadah output program
+
 ## Unguided 
 
 ### 1. [Operasi Dasar]
@@ -136,14 +157,14 @@ int main() {
 #### Output:
 <img width="1359" height="272" alt="image" src="https://github.com/user-attachments/assets/73b7a654-53b6-47d9-ac51-aba9c1c2be62" />
 
-Kode ini membuat urutan angka yang berbentuk segitiga sama sisi, .
+Kode ini membuat urutan angka yang berbentuk segitiga sama sisi, pengguna akan menginput variable bertipe int lalu akan masuk ke perulangan yang akan menulis ulang angka yang di inputkan dari yang terbesar sampai terkecil dengan di batasi tanda bintang setiap for memilki fungsi masing-masing untuk bisa membuat bentuk segitiga.
 
 #### Full code Screenshot:
 <img width="1919" height="1078" alt="image" src="https://github.com/user-attachments/assets/8b954c7e-df0a-4c50-ba9c-28200fb562f2" />
 
 
 ## Kesimpulan
-Ringkasan dan interpretasi pandangan kalia dari hasil praktikum dan pembelajaran yang didapat[1].
+Ringkasan dan interpretasi pandangan kalia dari hasil praktikum dan pembelajaran yang didapat[1]. pandangan ku di minggu pertama praktikum saya jadi bisa mengenal lebih dalam bahasa pemrograman C++ ini dari penggunaan dasar pemrograman, structure program, running code, compile code dan bentukan variblenya dengan belajar bahasa baru bisa menambah pengetahuan kalau bahasa program itu sangat beragam dan berbeda beda structure dan pembuatannya.   
 
 ## Referensi
 [1] I. Holm, Narrator, and J. Fullerton-Smith, Producer, How to Build a Human [DVD]. London: BBC; 2002.
