@@ -80,158 +80,77 @@ int main() {
 ```
 program input output jadi pengguna menginput variable bertipe int dengan const 3,14 cout di gunakan untuk wadah input dan cin sebagai wadah output program.
 
-### 3. [Operator Dasar]
+### 3. [Pointer]
 
 ```C++
+//Pointer
 #include <iostream>
-
 using namespace std;
 
+void tukar(int *x, int *y) {
+    int temp;
+    temp = *x;
+    *x = *y;
+    *y = temp;
+} 
+
 int main() {
-    int a;
-    int b;
+    int a =20, b =30;
+    int *ptr;
 
-    cout << "Masukkan angka1: ";
-    cin >> a;
-    cout << "Masukkan angka2: ";
-    cin >> b;
+    ptr = &a;
 
-    //operator aritmatika
-    cout << "a + b = " << (a+b) << endl;
-    cout << "a - b = " << (a-b) << endl;
-    cout << "a * b = " << (a*b) << endl;
-    cout << "a / b = " << (a/b) << endl;
-    cout << "a % b = " << (a%b) << endl;
+    cout << "Value of a: " << a << endl;
+    cout << "Address of a: " << &a << endl;
+    cout << "Value stored in ptr (Address of a): " << ptr << endl;
+    cout << "Value pointes to by ptr: " << *ptr << endl;
 
-    //operator logika 
-    cout << "a > b = " << (a>b) << endl;
-    cout << "a < b = " << (a<b) << endl;
-    cout << "a >= b = " << (a>=b) << endl;
-    cout << "a <= b = " << (a<=b) << endl;
-    cout << "a == b = " << (a==b) << endl;
-    cout << "a != b = " << (a!=b) << endl;
+    tukar(&a, &b);
+    cout << "After swapping, value of a = " << a << " and b = " << b << endl;
 
     return 0;
+    
 }
 ```
 program ini menampilkan bagaimana operasi dasar dan oprasi logika di jalankan penggunaan tanda +-*/% merupakan sistem operasi dasar.
 
-### 4. [Percabangan]
+### 4. [Refrence]
 
 ```C++
+//refrence
 #include <iostream>
-
 using namespace std;
 
-int main() {
-    int angka1 = 20;
-    int angka2 = 20;
+void tukar(int &x, int &y) {
+    int temp;
+    temp = x;
+    x = y;
+    y = temp;
+} 
 
-    if (angka1 > angka2) {
-        cout << "Angka1 lebih besar dari angka2" << endl;
-    }else if (angka1 < angka2) {
-        cout << "angka1 lebih kecil dari angka2" << endl;
-    }else {
-        cout << "angka1 sama dengan angka2" << endl;
-    }
+int main() {
+    int a =20, b =30;
+    int& ref = a;
+
+    cout << "Nilai a: " << a << endl;
+    cout << "Alamat a (&a): " << &a << endl;
+    cout << "Nilai ref (alias a): " << ref << endl;
+    cout << "Alamat ref (&ref): " << &ref << endl;
+
+    // mengubah nilai a lewat refrence
+    ref = 50;
+    cout << "\nSetelah ref = 50:" << endl;
+    cout << "Nilai a: " << a << endl;
+    cout << "Nilai ref: " << ref << endl;
+
+    tukar(a, b);
+    cout << "After swapping, value of a = " << a << " and b = " << b << endl;
 
     return 0;
+    
 }
 ```
 program ini menggunakan if else untuk bisa beroperasi menentukkan output mana yang sesuai dengan inputan pengguna.
-
-### 5. [Perulangan for]
-
-```C++
-#include <iostream>
-
-using namespace std;
-
-int main() {
-    int i;
-    int j;
-
-    for (int i = 0; i <= 10; i++) {
-        cout << i << "-" ;
-    }
-
-    cout << endl;
-
-    for (int j = 20; j >= 10; j--) {
-        cout << j << "-" ;
-    }
-
-    return 0;
-}
-```
-program akan melakukkan perulangan menggunakan for pada inputan pengguna.
-
-### 6. [Perulangan WhileDo]
-
-```C++
-#include <iostream>
-using namespace std;
-
-int main() {
-    int i = 0;
-    int j = 20;
-
-    while (i <= 10) {
-        cout << i << "-";
-        i++;
-    }
-
-    cout << endl;
-
-    do {
-        cout << j << "-";
-        j++;
-    } while (j <=10);
-
-    return 0;
-}
-```
-program sama melakukkan perulangan beda nya akan terus berjalan jika kondisi nya benar dan akan berhenti jika sudah false.
-
-### 7. [Structre]
-
-```C++
-#include <iostream>
-#include <string>
-using namespace std;
-struct Mahasiswa {
-    string nama;
-    int umur;
-};
-
-int main() {
-    int jumlah;
-
-    cout << "masukkan jumlah mahasiswa: ";
-    cin >> jumlah;
-
-    Mahasiswa mhs[jumlah];
-
-    //input data menggunakan loop
-    for (int i = 0; i < jumlah; i++) {
-        cout << "\nMahasiswa ke-" << i + 1 << endl;
-        cout << "Nama: ";
-        cin >> mhs[i].nama;
-        cout << "Umur: ";
-        cin >> mhs[i].umur;
-    }
-    
-    //tampilkan data
-    cout << "\n === Data Mahasiswa ===\n";
-    for (int i = 0; i < jumlah; i++) {
-        cout << "Mahasiswa ke-" << i+1 
-             << "| Nama: |" << mhs[i].nama
-             << "| Umur: |" << mhs[i].umur << endl;
-    }
-    return 0;
-}
-```
-program ini merupakan implementasi dari struct yang bisa memuat berbagai tipe variable yang nantinya di gunakan dalam program.
 
 ## Unguided 
 
