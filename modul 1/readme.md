@@ -44,6 +44,7 @@ program input output jadi pengguna menginput variable bertipe int dengan const 3
 ### 3. [Operator Dasar]
 
 ```C++
+//operator
 #include <iostream>
 
 using namespace std;
