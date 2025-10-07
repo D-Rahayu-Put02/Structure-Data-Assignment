@@ -154,87 +154,122 @@ program ini menggunakan if else untuk bisa beroperasi menentukkan output mana ya
 
 ## Unguided 
 
-### 1. [Operasi Dasar]
-
-```C++
-#include <iostream>
-using namespace std;
-
-int main(){
-    float a;
-    float b;
-
-    //Inputan
-     cout << "masukkan angka 1: " << endl;
-     cin >> a;
-     cout << "masukkan angka 2: " << endl;
-     cin >> b;
-
-    //Operasi Dasar
-    cout << "Hasil Penjumlahan = " << (a+b) << endl;
-    cout << "Hasil Pengurangan = " << (a-b) << endl;
-    cout << "Hasil Perkalian = " << (a*b) << endl;
-    cout << "Hasil Pembagian = " << (a/b) << endl;
-
-    return 0;
-}
-```
-#### Output:
-<img width="1379" height="284" alt="image" src="https://github.com/user-attachments/assets/51a8cf20-135c-4bb4-8f1d-c7d091ea2a86" />
-
-Kode di atas merupakan kode untuk membuat bilangan bertipe float bisa melakukkan operasi dasar penjumlahan, pengurangan, perkalian dan pembagian, program akan meminta 2 inputan bertipe float lalu program akan mengeksekusi operasi dasar yang sudah di siapkan dan program akan langsung menghasil kan output hasil dari oprasi dasar tersebut.
-
-#### Full code Screenshot:
-<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/6a045365-2bcb-4b36-9e66-c57fcde87f3d" />
-
-
-### 2. [Mengubah Angka Menjadi String]
+### 1. [Matrix 3x3]
 
 ```C++
 #include <iostream>
 using namespace std;
 
 int main() {
-    int n;
-    cout << "";
-    cin >> n;
+    int A[3][3], B[3][3],
+    C[3][3];
 
-    string satuan[] = {"nol", "satu", "dua", "tiga", "empat", "lima",
-                       "enam", "tujuh", "delapan", "sembilan", "sepuluh", "sebelas"};
+    cout << "Buat Matrix A:\n";
+    for (int i =0; i < 3; i++)
+        for (int j = 0; j < 3; j++)
+        cin >> A[i][j];
 
-    string hasil;
+    cout << "Buat Matrix B:\n";
+    for (int i =0; i < 3; i++)
+        for (int j = 0; j < 3; j++)
+        cin >> B[i][j];
 
-    if (n < 12) {
-        hasil = satuan[n];
-    } else if (n < 20) {
-        hasil = satuan[n - 10] + " belas";
-    } else if (n < 100) {
-        int puluh = n / 10;
-        int sisa = n % 10;
-        hasil = satuan[puluh] + " puluh";
-        if (sisa != 0) hasil += " " + satuan[sisa];
-    } else if (n == 100) {
-        hasil = "seratus";
-    } else {
-        hasil = "angka melebihi kapasitas ";
-    }
+        cout << "\nHasil Penjumlahan:\n";
+        for (int i =0; i < 3; i++) {
+            for (int j =0; j < 3; j++)
+                cout << A[i][j] + B[i][j] << "\t";
+                cout << endl;
+        }
 
-    cout << n << " : " << hasil << endl;
+        cout << "\nHasil Pengurangan:\n";
+        for (int i=0; i < 3; i++) {
+            for (int j =0; j < 3; j++) 
+            cout << A[i][j] - B[i][j] << "\t";
+            cout << endl;
+        }
+
+        cout << "\nHasil Perkalian:\n";
+        for (int i=0; i < 3; i++) {
+            for (int j=0; j < 3; j++) {
+                C[i][j] = 0;
+                for (int k=0; k < 3; k++)
+                C[i][j] += A[i][k] * B[k][j];
+                cout << C[i][j] << "\t";
+            }
+            cout << endl;
+        }
 
     return 0;
 }
 ```
 #### Output:
-<img width="1377" height="303" alt="image" src="https://github.com/user-attachments/assets/e3aa73c0-670d-486c-9c64-37f1a2bd2983" />
+<img width="1369" height="604" alt="image" src="https://github.com/user-attachments/assets/efcfc967-8dce-41c0-84fd-d2be24734325" />
 
-
-Code di atas digunakan untuk mengubah angka atau tipe integer menjadi string, jadi si program akan meminta input berupa int lalu program akan mengecek di bagian if else apakah sesuai dengan aturan jika iya makan angka tersebut akan diubah lalu jika angka puluhan maka akan ada tambahan berupa string yang sudah di siapkan di string satuan (buat string satuan []) dan jika angkanya melebihi kapasitas maka output yang keluar "angka melebihi kapasitas".
+Program ini dibuat untuk melakukan operasi dasar penjumlahan, pengurangan dan perkalian terhadap 2 buah matrix dengan ukuran 3x3, program akan meminta input untuk kedua matrix yang akan di lakukan operasi dasar lalu program akan melanjutkan ke proses operasi dasar yang sudah di buat lalu hasil akan di simpan di matrix C.
 
 #### Full code Screenshot:
-<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/e27a31c1-a608-4d4d-92d8-f5b0aa638767" />
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/9f230818-3dc2-4100-828e-042fb4d1ea91" />
 
 
-### 3. [Buat Segitiga Angka]
+### 2. [Menukar nilai variable]
+
+```C++
+#include <iostream>
+using namespace std;
+
+//Pakai Pointer
+void Pointer(int *x, int *y, int *z) {
+    int temp = *x;
+    *x = *y;
+    *y = *z;
+    *z = temp;
+}
+//Pakai Refrence
+void Refrence(int &x, int &y, int &z) {
+    int temp = x;
+    x = y;
+    y = z;
+    z = temp;
+}
+int main() {
+    int a,b,c;
+
+    cout << "TUKAR NILAI" << endl;
+    cout << "Masukkan Nilai a = ";
+    cin >> a;
+    cout << "Masukkan Nilai b = ";
+    cin >> b;
+    cout << "Masukkan Nilai c = ";
+    cin >> c;
+
+    cout << "\nNILAI AWAL" << endl;
+    cout << "a = " << a << ", b = " << b << ", c = " << c << endl;
+
+    // Tukar Pakai Pointer
+    Pointer(&a, &b, &c);
+    cout << "\nPakai Pointer" << endl;
+    cout << "a = " << a << ", b = " << b << ", c = " << c << endl;
+
+    // Tukar Pakai Refrence
+    Refrence(a, b, c);
+    cout << "\nPakai Pointer" << endl;
+    cout << "a = " << a << ", b = " << b << ", c = " << c << endl;
+
+    return 0;
+
+}
+```
+#### Output:
+<img width="1536" height="423" alt="image" src="https://github.com/user-attachments/assets/c42937a8-5977-4be4-b3d0-815359c8d4bc" />
+
+
+Code di buat untuk menukar 3 nilai variable menggunakan pointer dan refrence, program akan minta input angka apa saja yang akan di tukar lalu program akan menjalankan void pertama pertukaran nilai menggunakan pointer selanjutnya program akan menjalankan void refrence untuk melakukan penukaran juga lalu output yang di hasilkan adalah hasil proses tukar menukar menggunakan 2 cara yaitu pointer dan refrence.
+
+#### Full code Screenshot:
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/c8d83ee0-b919-4ff5-b869-b2ec13794b59" />
+
+
+### 3. [array]
 
 ```C++
 #include <iostream>
