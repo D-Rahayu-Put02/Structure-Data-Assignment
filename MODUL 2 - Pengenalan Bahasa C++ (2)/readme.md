@@ -57,7 +57,7 @@ int main() {
     return 0;
 }
 ```
-program ini dibuat untuk mengola array dengan
+program ini menunjukkan penggunaan array 1 dimensi, 2 dimensi dan 3 dimensi pada program C++, array 1 dimensi digunakan untuk menyimpan data dalam baris, 2 dimensi untuk menyimpan data array dalam bentuk baris dan kolom sedangkan yang 3 dimensi digunakan untuk data yang memiliki lebih dari dua lapisan baris dan kolom.
 
 ### 2. [Produser]
 
@@ -80,7 +80,7 @@ int main() {
     return 0;
 }
 ```
-program input output jadi pengguna menginput variable bertipe int dengan const 3,14 cout di gunakan untuk wadah input dan cin sebagai wadah output program.
+program ini menggunakan prosedur tulis() untuk menampilkan sejumlah baris text yang dimasukkan pengguna. nilai input di dismpan pada variable jum, lalu dikirim ke prosedur untuk menampilkan perulangan for.
 
 ### 3. [Pointer]
 
@@ -114,7 +114,7 @@ int main() {
     
 }
 ```
-program ini menampilkan bagaimana operasi dasar dan oprasi logika di jalankan penggunaan tanda +-*/% merupakan sistem operasi dasar.
+program ini menggunakan pointer untuk menukar dua nilai variable, pointer menyimpan alamat dari variable a sehingga nilai a bisa di akses oleh *ptr. fungsi tukar() menerima alamt a dan b lalu menukar nilainya.
 
 ### 4. [Refrence]
 
@@ -152,7 +152,8 @@ int main() {
     
 }
 ```
-program ini menggunakan if else untuk bisa beroperasi menentukkan output mana yang sesuai dengan inputan pengguna.
+Program ini menggunakan reference untuk menukar nilai dua variabel. Reference (ref) berfungsi sebagai alias dari variabel a, sehingga perubahan pada ref juga mengubah a. Fungsi tukar() menukar nilai a dan b tanpa menggunakan pointer.
+.
 
 ## Unguided 
 
