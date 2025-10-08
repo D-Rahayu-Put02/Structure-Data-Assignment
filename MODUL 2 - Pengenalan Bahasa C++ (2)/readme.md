@@ -3,7 +3,9 @@
 
 ## Dasar Teori
 
-mengenal bahasa pemrograman C++, bahasa C++ merupakan bahasa yang unik yang di mana memerlukkan code khusus untuk memamnggil suatu character agar bisa di compile dan bisa di baca oleh komputer seperti #include <iostream> digunakan untuk mendeklarasikan library yang akan digunakan dalam program, bahasa C++ cukup banyak di gemari karena mudah di gunakan oleh banyak orang.
+mengenal bahasa pemrograman C++, bahasa C++ merupakan bahasa yang unik yang di mana memerlukkan code khusus untuk memamnggil suatu character agar bisa di compile dan bisa di baca oleh komputer seperti #include <iostream> digunakan untuk mendeklarasikan library yang akan digunakan dalam program, bahasa C++ cukup banyak di gemari karena mudah di gunakan oleh banyak orang sekaligus mendukung pemrograman prosedural.
+
+Dalam modul ini toeri yang dipelajari adalah mengenai array satu dimensi, dua dimensi, tiga dimensi, function (void), prosedur, serta pointer dsn refrence sebagai cara untuk mengelola data di dalam memori, konsep ini penting untuk memahami carakerja memori, manipulasi data dan komunikasi antar fungsi dalam bahasa pemrograman C++. 
 
 ## Guided 
 
@@ -205,7 +207,7 @@ int main() {
 #### Output:
 <img width="1369" height="604" alt="image" src="https://github.com/user-attachments/assets/efcfc967-8dce-41c0-84fd-d2be24734325" />
 
-Program ini dibuat untuk melakukan operasi dasar penjumlahan, pengurangan dan perkalian terhadap 2 buah matrix dengan ukuran 3x3, program akan meminta input untuk kedua matrix yang akan di lakukan operasi dasar lalu program akan melanjutkan ke proses operasi dasar yang sudah di buat lalu hasil akan di simpan di matrix C.
+Program ini dibuat untuk melakukan operasi dasar penjumlahan, pengurangan dan perkalian terhadap 2 buah matrix dengan ukuran 3x3, program akan meminta input untuk kedua matrix yang akan di lakukan operasi dasar, lalu program akan melanjutkan ke proses operasi dasar yang sudah di buat lalu hasil akan di simpan di matrix C, output nya bentuk matrix 3x3 dengan hasil dari masing masing operasi dasar.
 
 #### Full code Screenshot:
 <img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/9f230818-3dc2-4100-828e-042fb4d1ea91" />
@@ -263,39 +265,87 @@ int main() {
 <img width="1536" height="423" alt="image" src="https://github.com/user-attachments/assets/c42937a8-5977-4be4-b3d0-815359c8d4bc" />
 
 
-Code di buat untuk menukar 3 nilai variable menggunakan pointer dan refrence, program akan minta input angka apa saja yang akan di tukar lalu program akan menjalankan void pertama pertukaran nilai menggunakan pointer selanjutnya program akan menjalankan void refrence untuk melakukan penukaran juga lalu output yang di hasilkan adalah hasil proses tukar menukar menggunakan 2 cara yaitu pointer dan refrence.
+program ini di buat untuk menukar 3 nilai variable menggunakan 2 cara yaitu pointer dan refrence, sebelum melakukan penukaran program akan minta input angka apa saja yang akan di tukar, lalu program akan menjalankan void pertama pertukaran nilai menggunakan pointer kemudian dilanjutkan dengan cara kedua untuk melakukakan petukaran menggunakan fungsi refrence, output yang di hasilkan adalah hasil dari proses pertukaran 3 variable menggunakan dua cara.
 
 #### Full code Screenshot:
 <img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/c8d83ee0-b919-4ff5-b869-b2ec13794b59" />
 
 
-### 3. [array]
+### 3. [array 1 dimensi]
 
 ```C++
 #include <iostream>
 using namespace std;
 
-int main() {
-    int n;
-    cout << "input: ";
-    if (!(cin >> n)) return 0;
-
-    for (int i = n; i >= 0; i--) {
-        // Spasi di depan
-        for (int s = 0; s < n - i; s++) cout << "  ";
-
-        //Angka menurun
-        for (int a = i; a >= 1; a--) cout << a << " ";
-
-        // Bintang di tengah
-        cout << "* ";
-
-        // Angka menaik
-        for (int b = 1; b <= i; b++) cout << b << " ";
-
-        cout << '\n';
+//fungsi mencari nilai min
+int Minimum(int arr[], int n) {
+    int min = arr[0];
+    for (int i = 1; i < n; i++) {
+        if (arr[i] < min)
+            min = arr[i];
     }
+    return min;
+}
 
+//fungsi mencari niai max
+int Maximum(int arr[], int n) {
+    int max = arr[0];
+    for (int i = 1; i < n; i++) {
+        if (arr[i] > max)
+            max = arr[i];
+    }
+    return max;
+}
+
+//fungsi cari nilai rata rata
+void Ratarata(int arr[], int n) {
+    float total = 0;
+    for (int i = 0; i < n; i++) {
+        total += arr[i];
+    }
+    float rata = total / n;
+    cout << "Nilai rata-rata = " << rata << endl;
+}
+
+
+int main() {
+    int arrA[] = {1,2,3,4,5,6,7,8,9,10};
+    int n = 10;
+    int pilih;
+
+    do {
+        cout << "\n---Menu Program Array---\n" << endl;
+        cout << "1.Tampilkan Array" << endl;
+        cout << "2.Cari Nilai Maximum" << endl;
+        cout << "3.Cari Nilai Minimum" << endl;
+        cout << "4.Hitung Rata Rata" << endl;
+        cout << "5.Keluar\n" << endl;
+        cout << "Pilih menu (1-5):";
+        cin >> pilih;
+
+        switch (pilih) {
+             case 1:
+                cout << "Isi array: ";
+                for (int i = 0; i < n; i++)
+                    cout << arrA[i] << " ";
+                cout << endl;
+                break;
+            case 2:
+                cout << "Nilai maksimum = " << Maximum(arrA, n) << endl;
+                break;
+            case 3:
+                cout << "Nilai minimum = " << Minimum(arrA, n) << endl;
+                break;
+            case 4:
+                Ratarata(arrA, n);
+                break;
+            case 5:
+                cout << "Program selesai\n";
+                break;
+            default:
+                cout << "Tidak ada yang sesuai\n";
+        }
+    } while (pilih !=5);
     return 0;
 }
 
@@ -310,7 +360,7 @@ Kode ini membuat urutan angka yang berbentuk segitiga sama sisi, pengguna akan m
 
 
 ## Kesimpulan
-Ringkasan dan interpretasi pandangan kalia dari hasil praktikum dan pembelajaran yang didapat[1]. pandangan ku di minggu pertama praktikum saya jadi bisa mengenal lebih dalam bahasa pemrograman C++ ini dari penggunaan dasar pemrograman, structure program, running code, compile code dan bentukan variblenya dengan belajar bahasa baru bisa menambah pengetahuan kalau bahasa program itu sangat beragam dan berbeda beda structure dan pembuatannya.   
+Ringkasan dan interpretasi pandangan kalia dari hasil praktikum dan pembelajaran yang didapat[1]. pandangan ku pada minggu kedua ini, dengan memahami bagaimana cara membuat fungsi terpisah di C++ dapat memudahkan pembuatan program dan program jadi terlihat tersusun rapi, dengan mempelajari pointer dan refrence kita jadi bisa memahami bagaimana cara memori itu bekerja. pengetahuan ini juga menjadi dasar penting untuk memahami konsep struktur data dan pemrograman yang lebih kompleks di modul berikutnya.
 
 ## Referensi
 [1] I. Holm, Narrator, and J. Fullerton-Smith, Producer, How to Build a Human [DVD]. London: BBC; 2002.
