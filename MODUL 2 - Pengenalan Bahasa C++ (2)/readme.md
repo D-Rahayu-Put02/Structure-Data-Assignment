@@ -1,4 +1,4 @@
-# <h1 align="center">Laporan Praktikum Modu2 Pengenalan Bahasa C++ (2)</h1>
+# <h1 align="center">Laporan Praktikum Modul 2 Pengenalan Bahasa C++ (2)</h1>
 <p align="center">Dwi Rahayu Putra</p>
 
 ## Dasar Teori
@@ -57,7 +57,7 @@ int main() {
     return 0;
 }
 ```
-program ini dibuat menggunakan bahasa pemrograman C++, program akan menghasilkan output sesuai masukkan yang ditulis oleh pengguna "Hello World".
+program ini dibuat untuk mengola array dengan
 
 ### 2. [Produser]
 
@@ -351,12 +351,13 @@ int main() {
 
 ```
 #### Output:
-<img width="1359" height="272" alt="image" src="https://github.com/user-attachments/assets/73b7a654-53b6-47d9-ac51-aba9c1c2be62" />
+<img width="1330" height="849" alt="image" src="https://github.com/user-attachments/assets/40a13c52-f9e3-43b3-94a2-d041a962e842" />
 
-Kode ini membuat urutan angka yang berbentuk segitiga sama sisi, pengguna akan menginput variable bertipe int lalu akan masuk ke perulangan yang akan menulis ulang angka yang di inputkan dari yang terbesar sampai terkecil dengan di batasi tanda bintang setiap for memilki fungsi masing-masing untuk bisa membuat bentuk segitiga.
+Program ini di buat untuk mengolah data array 1 dimensi untuk mencari nilai maximal, minimum dan nilai rata rata, terdapat menu switch case supaya pengguna bisa memilih opsi menu mencari nilai min, max dan rata rata. 
 
 #### Full code Screenshot:
-<img width="1919" height="1078" alt="image" src="https://github.com/user-attachments/assets/8b954c7e-df0a-4c50-ba9c-28200fb562f2" />
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/344b529b-6319-409b-8a98-7fc8ad669e04" />
+
 
 
 ## Kesimpulan
