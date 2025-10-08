@@ -1,0 +1,74 @@
+#include <iostream>
+using namespace std;
+
+//fungsi mencari nilai min
+int Minimum(int arr[], int n) {
+    int min = arr[0];
+    for (int i = 1; i < n; i++) {
+        if (arr[i] < min)
+            min = arr[i];
+    }
+    return min;
+}
+
+//fungsi mencari niai max
+int Maximum(int arr[], int n) {
+    int max = arr[0];
+    for (int i = 1; i < n; i++) {
+        if (arr[i] > max)
+            max = arr[i];
+    }
+    return max;
+}
+
+//fungsi cari nilai rata rata
+void Ratarata(int arr[], int n) {
+    float total = 0;
+    for (int i = 0; i < n; i++) {
+        total += arr[i];
+    }
+    float rata = total / n;
+    cout << "Nilai rata-rata = " << rata << endl;
+}
+
+
+int main() {
+    int arrA[] = {1,2,3,4,5,6,7,8,9,10};
+    int n = 10;
+    int pilih;
+
+    do {
+        cout << "\n---Menu Program Array---\n" << endl;
+        cout << "1.Tampilkan Array" << endl;
+        cout << "2.Cari Nilai Maximum" << endl;
+        cout << "3.Cari Nilai Minimum" << endl;
+        cout << "4.Hitung Rata Rata" << endl;
+        cout << "5.Keluar\n" << endl;
+        cout << "Pilih menu (1-5):";
+        cin >> pilih;
+
+        switch (pilih) {
+             case 1:
+                cout << "Isi array: ";
+                for (int i = 0; i < n; i++)
+                    cout << arrA[i] << " ";
+                cout << endl;
+                break;
+            case 2:
+                cout << "Nilai maksimum = " << Maximum(arrA, n) << endl;
+                break;
+            case 3:
+                cout << "Nilai minimum = " << Minimum(arrA, n) << endl;
+                break;
+            case 4:
+                Ratarata(arrA, n);
+                break;
+            case 5:
+                cout << "Program selesai\n";
+                break;
+            default:
+                cout << "Tidak ada yang sesuai\n";
+        }
+    } while (pilih !=5);
+    return 0;
+}
