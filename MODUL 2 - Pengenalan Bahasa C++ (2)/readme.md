@@ -168,26 +168,33 @@ int main() {
     C[3][3];
 
     cout << "Buat Matrix A:\n";
-    for (int i =0; i < 3; i++)
-        for (int j = 0; j < 3; j++)
-        cin >> A[i][j];
+    for (int i =0; i < 3; i++){
+        for (int j=0; j < 3; j++){
+            cin >> A[i][j];
+        }
+        cout << endl;
+    }
 
     cout << "Buat Matrix B:\n";
-    for (int i =0; i < 3; i++)
-        for (int j = 0; j < 3; j++)
-        cin >> B[i][j];
-
-        cout << "\nHasil Penjumlahan:\n";
-        for (int i =0; i < 3; i++) {
-            for (int j =0; j < 3; j++)
-                cout << A[i][j] + B[i][j] << "\t";
-                cout << endl;
+    for (int i =0; i < 3; i++){
+        for (int j =0; j < 3; j++){
+            cin >> B[i][j];
         }
+        cout << endl;
+    }
+        cout << "\nHasil Penjumlahan:\n";
+        for (int i =0; i < 3; i++){
+            for (int j =0; j < 3; j++){
+                cout << A[i][j] + B[i][j] << "\t";
+            }
+            cout << endl;
+        } 
 
         cout << "\nHasil Pengurangan:\n";
         for (int i=0; i < 3; i++) {
-            for (int j =0; j < 3; j++) 
-            cout << A[i][j] - B[i][j] << "\t";
+            for (int j =0; j < 3; j++) {
+                cout << A[i][j] - B[i][j] << "\t";
+            }
             cout << endl;
         }
 
@@ -211,7 +218,7 @@ int main() {
 Program ini dibuat untuk melakukan operasi dasar penjumlahan, pengurangan dan perkalian terhadap 2 buah matrix dengan ukuran 3x3, program akan meminta input untuk kedua matrix yang akan di lakukan operasi dasar, lalu program akan melanjutkan ke proses operasi dasar yang sudah di buat lalu hasil akan di simpan di matrix C, output nya bentuk matrix 3x3 dengan hasil dari masing masing operasi dasar.
 
 #### Full code Screenshot:
-<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/9f230818-3dc2-4100-828e-042fb4d1ea91" />
+<img width="1919" height="1057" alt="image" src="https://github.com/user-attachments/assets/1f4d4841-3728-41f9-9b24-fc54d933897e" />
 
 
 ### 2. [Menukar nilai variable]
