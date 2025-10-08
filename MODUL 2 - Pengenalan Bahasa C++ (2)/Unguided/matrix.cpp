@@ -6,26 +6,33 @@ int main() {
     C[3][3];
 
     cout << "Buat Matrix A:\n";
-    for (int i =0; i < 3; i++)
-        for (int j = 0; j < 3; j++)
-        cin >> A[i][j];
+    for (int i =0; i < 3; i++){
+        for (int j=0; j < 3; j++){
+            cin >> A[i][j];
+        }
+        cout << endl;
+    }
 
     cout << "Buat Matrix B:\n";
-    for (int i =0; i < 3; i++)
-        for (int j = 0; j < 3; j++)
-        cin >> B[i][j];
-
-        cout << "\nHasil Penjumlahan:\n";
-        for (int i =0; i < 3; i++) {
-            for (int j =0; j < 3; j++)
-                cout << A[i][j] + B[i][j] << "\t";
-                cout << endl;
+    for (int i =0; i < 3; i++){
+        for (int j =0; j < 3; j++){
+            cin >> B[i][j];
         }
+        cout << endl;
+    }
+        cout << "\nHasil Penjumlahan:\n";
+        for (int i =0; i < 3; i++){
+            for (int j =0; j < 3; j++){
+                cout << A[i][j] + B[i][j] << "\t";
+            }
+            cout << endl;
+        } 
 
         cout << "\nHasil Pengurangan:\n";
         for (int i=0; i < 3; i++) {
-            for (int j =0; j < 3; j++) 
-            cout << A[i][j] - B[i][j] << "\t";
+            for (int j =0; j < 3; j++) {
+                cout << A[i][j] - B[i][j] << "\t";
+            }
             cout << endl;
         }
 
