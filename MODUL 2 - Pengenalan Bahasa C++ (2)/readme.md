@@ -172,7 +172,6 @@ int main() {
         for (int j=0; j < 3; j++){
             cin >> A[i][j];
         }
-        cout << endl;
     }
 
     cout << "Buat Matrix B:\n";
@@ -180,7 +179,6 @@ int main() {
         for (int j =0; j < 3; j++){
             cin >> B[i][j];
         }
-        cout << endl;
     }
         cout << "\nHasil Penjumlahan:\n";
         for (int i =0; i < 3; i++){
@@ -218,7 +216,7 @@ int main() {
 Program ini dibuat untuk melakukan operasi dasar penjumlahan, pengurangan dan perkalian terhadap 2 buah matrix dengan ukuran 3x3, program akan meminta input untuk kedua matrix yang akan di lakukan operasi dasar, lalu program akan melanjutkan ke proses operasi dasar yang sudah di buat lalu hasil akan di simpan di matrix C, output nya bentuk matrix 3x3 dengan hasil dari masing masing operasi dasar.
 
 #### Full code Screenshot:
-<img width="1919" height="1057" alt="image" src="https://github.com/user-attachments/assets/1f4d4841-3728-41f9-9b24-fc54d933897e" />
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/58b0a0b2-041c-4e94-8b86-014b1b7513a0" />
 
 
 ### 2. [Menukar nilai variable]
