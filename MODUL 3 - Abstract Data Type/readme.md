@@ -3,9 +3,19 @@
 
 ## Dasar Teori
 
-mengenal bahasa pemrograman C++, bahasa C++ merupakan bahasa yang unik yang di mana memerlukkan code khusus untuk memamnggil suatu character agar bisa di compile dan bisa di baca oleh komputer seperti #include <iostream> digunakan untuk mendeklarasikan library yang akan digunakan dalam program, bahasa C++ cukup banyak di gemari karena mudah di gunakan oleh banyak orang sekaligus mendukung pemrograman prosedural.
+ADT adalah TYPE dan sekumpulan PRIMITIF (operasi dasar) terhadap TYPE tersebut. Selain itu, dalam
+sebuah ADT yang lengkap, disertakan pula definisi invarian dari TYPE dan aksioma yang berlaku. ADT
+merupakan definisi STATIK.
+Definisi type dari sebuah ADT dapat mengandung sebuah definisi ADT lain. Misalnya :
 
-Dalam modul ini toeri yang dipelajari adalah mengenai array satu dimensi, dua dimensi, tiga dimensi, function (void), prosedur, serta pointer dsn refrence sebagai cara untuk mengelola data di dalam memori, konsep ini penting untuk memahami carakerja memori, manipulasi data dan komunikasi antar fungsi dalam bahasa pemrograman C++. 
+3. ADT waktu yang terdiri dari ADT JAM dan ADT DATE
+
+4. Garis terdiri dari duah buah ADT POINT
+
+SEGI4 yang terdiri dari pasangan dua buah POINT (Top,Left) dan (Bottom,Right)
+TYPE diterjemahkan menjadi type terdefinisi dalam bahasa yang bersangkutan. Jika dalam bahasa C
+menggunakan struct PRIMITIF, dalam konteks prosedural, diterjemahkan menjadi fungsi atau
+prosedur. 
 
 ## Guided 
 
