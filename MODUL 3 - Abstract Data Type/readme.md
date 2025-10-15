@@ -8,9 +8,9 @@ sebuah ADT yang lengkap, disertakan pula definisi invarian dari TYPE dan aksioma
 merupakan definisi STATIK.
 Definisi type dari sebuah ADT dapat mengandung sebuah definisi ADT lain. Misalnya :
 
-3. ADT waktu yang terdiri dari ADT JAM dan ADT DATE
+- ADT waktu yang terdiri dari ADT JAM dan ADT DATE
 
-4. Garis terdiri dari duah buah ADT POINT
+- Garis terdiri dari duah buah ADT POINT
 
 SEGI4 yang terdiri dari pasangan dua buah POINT (Top,Left) dan (Bottom,Right)
 TYPE diterjemahkan menjadi type terdefinisi dalam bahasa yang bersangkutan. Jika dalam bahasa C
@@ -19,214 +19,127 @@ prosedur.
 
 ## Guided 
 
-### 1. [array]
+### 1. [mahasiswa.h]
 
 ```C++
 //array
-#include <iostream>
-using namespace std;
+#ifndef MAHASISWA_H_INCLUDED
+#define MAHASISWA_H_INCLUDED
 
-int main() {
-    //---Array 1Dimensi ---
-    int arr1D[5] = {10,20,30,40,50};
-    cout << "Array 1 Dimensi: " << endl;
-    for (int i = 0; i < 5; i++) {
-        cout << "arr1D[" << i << "] = " << arr1D[i] << endl;
-    }
-    cout << endl;
+struct mahasiswa{
+    char nim[10];
+    int nilai1, nilai2;
+};
 
-    //---Array 2 Dimensi (baris x kolom)
-    int arr2D[2] [3] = {
-        {1,2,3},
-        {4,5,6}
-    };
-    cout << "Array 2 Dimensi: " << endl;
-    for (int i = 0; i < 2; i++) {
-        for (int j = 0; j < 3; j++) {
-            cout << "arr2D[" << i << "] [" << j << "] = " << arr2D[i][j]
-            << " ";
-        }
-        cout << endl;
-    }
-    cout << endl;
+void inputmhs(mahasiswa &m);
+float rata2(mahasiswa m);
+#endif
 
-    //---Array Multi Dimensi (3D)---
-    int arr3D[2][2][3] = {
-        { {1,2,3}, {4,5,6} },
-        { {7,8,9}, {10,11,12} }
-    };
-    cout << "Array 3 Dimensi: " << endl;
-    for (int i =0; i < 2; i++) {
-        for (int j =0; j < 2; j++) {
-            for (int k =0; k < 3; k++) {
-                cout << "arr3D[" << i << "] [" << j <<"] ["
-                << k << "] = " << arr3D[i][j][k] << endl;
-            }
-        }
-    }
-    return 0;
-}
 ```
 program ini menunjukkan penggunaan array 1 dimensi, 2 dimensi dan 3 dimensi pada program C++, array 1 dimensi digunakan untuk menyimpan data dalam baris, 2 dimensi untuk menyimpan data array dalam bentuk baris dan kolom sedangkan yang 3 dimensi digunakan untuk data yang memiliki lebih dari dua lapisan baris dan kolom.
 
-### 2. [Produser]
+### 2. [mahasiswa.cpp]
 
 ```C++
-//Prosedur
 #include <iostream>
 using namespace std;
+#include "mahasiswa.h"
 
-void tulis (int x) {
-    for (int i = 0; i < x; i++) {
-        cout << "Baris ke-: " << i+1 << endl;
-    }
+void inputmhs(mahasiswa &m) {
+    cout << "input nama = ";
+    cin >> (m).nim;
+    cout << "input nilai1 = ";
+    cin >> (m).nilai1;
+    cout << "input nilai2 = ";
+    cin >> (m).nilai2;
+
 }
 
-int main() {
-    int jum;
-    cout << "Jumlah Baris Kata: ";
-    cin >> jum;
-    tulis(jum);
-    return 0;
-}
-```
-program ini menggunakan prosedur tulis() untuk menampilkan sejumlah baris text yang dimasukkan pengguna. nilai input di dismpan pada variable jum, lalu dikirim ke prosedur untuk menampilkan perulangan for.
-
-### 3. [Pointer]
-
-```C++
-//Pointer
-#include <iostream>
-using namespace std;
-
-void tukar(int *x, int *y) {
-    int temp;
-    temp = *x;
-    *x = *y;
-    *y = temp;
-} 
-
-int main() {
-    int a =20, b =30;
-    int *ptr;
-
-    ptr = &a;
-
-    cout << "Value of a: " << a << endl;
-    cout << "Address of a: " << &a << endl;
-    cout << "Value stored in ptr (Address of a): " << ptr << endl;
-    cout << "Value pointes to by ptr: " << *ptr << endl;
-
-    tukar(&a, &b);
-    cout << "After swapping, value of a = " << a << " and b = " << b << endl;
-
-    return 0;
-    
+float rata2(mahasiswa m) {
+    return (m.nilai1 + m.nilai2) /2.0;
 }
 ```
 program ini menggunakan pointer untuk menukar dua nilai variable, pointer menyimpan alamat dari variable a sehingga nilai a bisa di akses oleh *ptr. fungsi tukar() menerima alamt a dan b lalu menukar nilainya.
 
-### 4. [Refrence]
+### 3. [main.cpp]
 
 ```C++
-//refrence
 #include <iostream>
+#include "mahasiswa.h"
 using namespace std;
 
-void tukar(int &x, int &y) {
-    int temp;
-    temp = x;
-    x = y;
-    y = temp;
-} 
-
 int main() {
-    int a =20, b =30;
-    int& ref = a;
-
-    cout << "Nilai a: " << a << endl;
-    cout << "Alamat a (&a): " << &a << endl;
-    cout << "Nilai ref (alias a): " << ref << endl;
-    cout << "Alamat ref (&ref): " << &ref << endl;
-
-    // mengubah nilai a lewat refrence
-    ref = 50;
-    cout << "\nSetelah ref = 50:" << endl;
-    cout << "Nilai a: " << a << endl;
-    cout << "Nilai ref: " << ref << endl;
-
-    tukar(a, b);
-    cout << "After swapping, value of a = " << a << " and b = " << b << endl;
-
+    mahasiswa mhs;
+    inputmhs(mhs);
+    cout << "rata-rata = " << rata2(mhs);
     return 0;
-    
 }
+
 ```
 Program ini menggunakan reference untuk menukar nilai dua variabel. Reference (ref) berfungsi sebagai alias dari variabel a, sehingga perubahan pada ref juga mengubah a. Fungsi tukar() menukar nilai a dan b tanpa menggunakan pointer.
 .
 
 ## Unguided 
 
-### 1. [Matrix 3x3]
+### 1. [Nilai Mahasiswa]
 
 ```C++
 #include <iostream>
 using namespace std;
 
+struct Mahasiswa {
+    string nama;
+    string nim;
+    float uts, uas, tugas, nilaiAkhir;
+};
+
+float hitung(float uts, float uas, float tugas) {
+    return 0.3 * uts + 0.4 * uas + 0.3 * tugas;
+}
+
 int main() {
-    int A[3][3], B[3][3],
-    C[3][3];
+    Mahasiswa mhs[10];
+    int n;
 
-    cout << "Buat Matrix A:\n";
-    for (int i =0; i < 3; i++){
-        for (int j=0; j < 3; j++){
-            cin >> A[i][j];
-        }
+    cout << "Masukkan jumlah mahasiswa : ";
+    cin >> n;
+
+    for (int i = 0; i < n; i++) {
+        cout << "\nData mahasiswa ke-" << i + 1 << endl;
+        cout << "Nama: ";
+        cin >> mhs[i].nama;
+        cout << "NIM : ";
+        cin >> mhs[i].nim;
+        cout << "Nilai UTS   : ";
+        cin >> mhs[i].uts;
+        cout << "Nilai UAS   : ";
+        cin >> mhs[i].uas;
+        cout << "Nilai Tugas : ";
+        cin >> mhs[i].tugas;
+
+        mhs[i].nilaiAkhir = hitung(mhs[i].uts, mhs[i].uas, mhs[i].tugas);
     }
 
-    cout << "Buat Matrix B:\n";
-    for (int i =0; i < 3; i++){
-        for (int j =0; j < 3; j++){
-            cin >> B[i][j];
-        }
+    cout << "\n--- Data Mahasiswa ---\n";
+    for (int i = 0; i < n; i++) {
+        cout << "Nama: " << mhs[i].nama << endl;
+        cout << "NIM : " << mhs[i].nim << endl;
+        cout << "Nilai Akhir: " << mhs[i].nilaiAkhir << endl;
+        cout << "---------------------------\n";
+
     }
-        cout << "\nHasil Penjumlahan:\n";
-        for (int i =0; i < 3; i++){
-            for (int j =0; j < 3; j++){
-                cout << A[i][j] + B[i][j] << "\t";
-            }
-            cout << endl;
-        } 
-
-        cout << "\nHasil Pengurangan:\n";
-        for (int i=0; i < 3; i++) {
-            for (int j =0; j < 3; j++) {
-                cout << A[i][j] - B[i][j] << "\t";
-            }
-            cout << endl;
-        }
-
-        cout << "\nHasil Perkalian:\n";
-        for (int i=0; i < 3; i++) {
-            for (int j=0; j < 3; j++) {
-                C[i][j] = 0;
-                for (int k=0; k < 3; k++)
-                C[i][j] += A[i][k] * B[k][j];
-                cout << C[i][j] << "\t";
-            }
-            cout << endl;
-        }
 
     return 0;
 }
+
 ```
 #### Output:
-<img width="1369" height="604" alt="image" src="https://github.com/user-attachments/assets/efcfc967-8dce-41c0-84fd-d2be24734325" />
+<img width="1374" height="950" alt="image" src="https://github.com/user-attachments/assets/0e96e068-6d16-4b95-a6c1-1700040b80b3" />
 
 Program ini dibuat untuk melakukan operasi dasar penjumlahan, pengurangan dan perkalian terhadap 2 buah matrix dengan ukuran 3x3, program akan meminta input untuk kedua matrix yang akan di lakukan operasi dasar, lalu program akan melanjutkan ke proses operasi dasar yang sudah di buat lalu hasil akan di simpan di matrix C, output nya bentuk matrix 3x3 dengan hasil dari masing masing operasi dasar.
 
 #### Full code Screenshot:
-<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/58b0a0b2-041c-4e94-8b86-014b1b7513a0" />
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/8f13324c-89d2-4754-9400-a4614d6a3f9d" />
 
 
 ### 2. [Menukar nilai variable]
