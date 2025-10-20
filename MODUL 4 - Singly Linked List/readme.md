@@ -6,6 +6,14 @@
 Singly Linked List (biasa di sebut list) adalah salah satu bentuk struktur data (representasi peyimpanan) yang terdiri dari serangkaian elemen data yang saling terhubung (berkaitan) dan bersifat fleksibel, karena ukurannya bisa bertambah atau berkurang sesuai kebutuhan. setiap elemen dalam linked list disebut node, yang berisi data atau pointer yang menunjuk ke node berikutnya.
 
 Linked list digunakkan untuk menyimpan data baik yang bersifat tunggal (satu variable) atau majemuk (beberapa variable).
+Implementasi Linked List
+
+Linked list dapat dibuat menggunakan Array atau Pointer, namun pointer lebih sering digunakan karena beberapa alasan:
+1. Array bersifat statis, sedangkan pointer bersifat dinamis.
+2. Bentuk data pada linked list saling berhubungan, sehingga mudah diatur dengan pointer.
+3. Sifatnya yang fleksibel lebih cocok dengan pointer yang dapat menyesuaikan kebutuhan memori.
+4. Array lebih sulit digunakan untuk linked list, sedangkan pointer lebih mudah.
+5. Array cocok untuk data dengan jumlah elemen tetap, sedangkan linked list untuk data yang jumlahnya berubah-ubah.
 
 ## Guided 
 
