@@ -160,7 +160,7 @@ void printList(linkedlist List) {
     }
 }
 ```
-program ini digunakan untuk menyimpan void input yang berfungsi untuk menampilkan input nama, nilai1, dan nilai2, disini juga ada proses untuk menghitung rata rata dari nilai1 dan nilai2 kemudian di bagi 2.0.
+program ini digunakan untuk mendeklarasikan semu fungsi yang di butuhkan untuk membuat program berjalan.
 
 ### 3. [main.cpp]
 
@@ -197,218 +197,237 @@ int main(){
 
 ```
 program ini merupakan file utama untuk menjalankan dan menyatukan semua program yang sudah di buat di atas.
-.
+
 
 ## Unguided 
 
-### 1. [Nilai Mahasiswa]
+### 1. [Single List]
 
 ```C++
+//singlylist.h
+#ifndef SINGLYLIST_H
+#define SINGLYLIST_H
+#define NIL NUL 
+
 #include <iostream>
 using namespace std;
 
-struct Mahasiswa {
-    string nama;
-    string nim;
-    float uts, uas, tugas, nilaiAkhir;
+typedef int infotype;
+typedef struct Elmlist *address;
+
+struct Elmlist{ 
+    infotype info;
+    address next;
 };
 
-float hitung(float uts, float uas, float tugas) {
-    return 0.3 * uts + 0.4 * uas + 0.3 * tugas;
-}
-
-int main() {
-    Mahasiswa mhs[10];
-    int n;
-
-    cout << "Masukkan jumlah mahasiswa : ";
-    cin >> n;
-
-    for (int i = 0; i < n; i++) {
-        cout << "\nData mahasiswa ke-" << i + 1 << endl;
-        cout << "Nama: ";
-        cin >> mhs[i].nama;
-        cout << "NIM : ";
-        cin >> mhs[i].nim;
-        cout << "Nilai UTS   : ";
-        cin >> mhs[i].uts;
-        cout << "Nilai UAS   : ";
-        cin >> mhs[i].uas;
-        cout << "Nilai Tugas : ";
-        cin >> mhs[i].tugas;
-
-        mhs[i].nilaiAkhir = hitung(mhs[i].uts, mhs[i].uas, mhs[i].tugas);
-    }
-
-    cout << "\n--- Data Mahasiswa ---\n";
-    for (int i = 0; i < n; i++) {
-        cout << "Nama: " << mhs[i].nama << endl;
-        cout << "NIM : " << mhs[i].nim << endl;
-        cout << "Nilai Akhir: " << mhs[i].nilaiAkhir << endl;
-        cout << "---------------------------\n";
-
-    }
-
-    return 0;
-}
-
-```
-#### Output:
-<img width="1374" height="950" alt="image" src="https://github.com/user-attachments/assets/0e96e068-6d16-4b95-a6c1-1700040b80b3" />
-
-Program ini menyimpan data mahasiswa maximal sebanyak sepuluh orang kedalam array yang berisi nama, nim, nilai uts, uas, tugas dan nilai akhir, nilai akhir akan di hitung menggunakan rumus pada code (hitung) yang sudah di buat, jadi intinya program ini melatih penggunaan array of struct, input/output dan fungsi perhitungan sederhana untuk menghitung nilai akhir mahasiswa.
-
-#### Full code Screenshot:
-<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/8f13324c-89d2-4754-9400-a4614d6a3f9d" />
-
-
-### 2. [Nama Matkul]
-
-```C++
-//pelajaran.h
-#ifndef PELAJARAN_H_INCLUDED
-#define PELAJARAN_H_INCLUDED
-
-#include <string>
-using namespace std;
-
-struct Pelajaran {
-    string namaMapel;
-    string kodeMapel;
+struct List{
+    address first;
 };
 
-Pelajaran create_pelajaran(string nama, string kode);
-void tampil_pelajaran(Pelajaran pel);
+void CreateList(List &L);
+address alokasi(infotype x);
+void dealokasi(address &P);
+void insertFirst(List &L, address P);
+void insertLast(List &L, address P);
+void insertAfter(List &L, address P, address Prec);
+void printInfo(List L);
+void deleteFirst(List &L);
+void deleteLast(List &L);
+void deleteAfter(List &L, address Prec);
+int nbList(List L);
+void deleteList(List &L);
 
 #endif
 ```
-berisi deklarasi struct dan fungsi, struct ini dipakai untuk menyimpan data nama pelajaran.
-```C++
-//pelajaran.cpp
-#include <iostream>
-#include "pelajaran.h"
-using namespace std;
+Berisi deklarasi struktur data dan prototype fungsi, seperti ElmtList, List, serta fungsi CreateList, insert, delete, nbList, dan lainnya.
+Fungsinya sebagai kerangka utama dari program agar bisa dipanggil di file lain.
 
-Pelajaran create_pelajaran(string nama, string kode) {
-    Pelajaran p;
-    p.namaMapel = nama;
-    p.kodeMapel = kode;
-    return p;
+```C++
+//singlylist.cpp
+#include "singlylist.h"
+
+// Membuat list kosong
+void CreateList(List &L) {
+    L.first = NULL;
 }
 
-void tampil_pelajaran(Pelajaran pel) {
-    cout << "Nama pelajaran : " << pel.namaMapel << endl;
-    cout << "Nilai          : " << pel.kodeMapel << endl;
-}D
-```
-berisi implementasi fungsi fungsi yang ada di header.
-```C++
-//main.cpp
-#include <iostream>
-#include "pelajaran.h"
-using namespace std;
-
-int main() {
-    string namaPel = "Struktur Data";
-    string kodePel = "STD";
-
-    Pelajaran pel = create_pelajaran(namaPel, kodePel);
-
-    tampil_pelajaran(pel);
-
-    return 0;
+// Alokasi node baru
+address alokasi(infotype x) {
+    address P = new Elmlist;
+    P-> info = x;
+    P-> next = NULL;
+    return P;
 }
-```
-file utama untuk menjalankan program.
 
-#### Output:
-<img width="1147" height="169" alt="image" src="https://github.com/user-attachments/assets/f5f7ae41-0410-458a-beef-85ec5c75b3de" />
+// Dealokasi node
+void dealokasi(address &P) {
+    delete P;
+    P = NULL;
+}
 
+// Insert di awal
+void insertFirst(List &L, address P) {
+    P-> next = L.first;
+    L.first = P;
+}
 
-Program ini menggunakan ADT (Abstract Data Type) untuk menyimpan dan menampilkan data pelajaran. Struct Pelajaran berisi nama dan kode mapel, lalu ada fungsi create_pelajaran untuk membuat data baru dan tampil_pelajaran untuk menampilkannya. Program ini menunjukkan cara memisahkan data dan fungsinya agar kode lebih rapi dan terstruktur.
+// Insert setelah node tertentu
+void insertAfter(List &L, address P, address Prec) {
+    if (Prec != NULL) {
+        P-> next = Prec-> next;
+        Prec-> next = P;
+    }
+}
 
-#### Full code Screenshot:
-<img width="1914" height="1004" alt="image" src="https://github.com/user-attachments/assets/e9562d1d-f244-4357-b7d6-c399ca5c29fd" />
-<img width="1906" height="1013" alt="image" src="https://github.com/user-attachments/assets/55c95bd3-54ad-4a7b-84ac-8708e89289c8" />
-<img width="1918" height="1055" alt="image" src="https://github.com/user-attachments/assets/3b56ec3d-7a7d-4147-90fd-739e153cebe9" />
+// Insert di akhir
+void insertLast(List &L, address P) {
+    if (L.first == NULL) {
+        L.first = P;
+    } else {
+        address Q = L.first;
+        while (Q-> next != NULL) {
+            Q = Q-> next;
+        }
+        Q-> next = P;
+    }
+}
 
-
-### 3. [Tukar array 2D]
-
-```C++
-#include <iostream>
-using namespace std;
-
-void tampilArray(int arr[3][3]) {
-    for (int i = 0; i < 3; i++) {
-        for (int j = 0; j < 3; j++) {
-            cout << arr[i][j] << "\t";
+// Print isi list
+void printInfo(List L) {
+    if (L.first == NULL) {
+        cout << "List kosong." << endl;
+    } else {
+        address P = L.first;
+        while (P != NULL) {
+            cout << P-> info << " ";
+            P = P-> next;
         }
         cout << endl;
     }
 }
 
-void tukarPosisi(int arr1[3][3], int arr2[3][3], int baris, int kolom) {
-    int temp = arr1[baris][kolom];
-    arr1[baris][kolom] = arr2[baris][kolom];
-    arr2[baris][kolom] = temp;
+// Hapus node pertama
+void deleteFirst(List &L) {
+     if (L.first != NULL) {
+        address P = L.first;
+        L.first = P->next;
+           dealokasi(P);
+    }
 }
 
-void tukarPointer(int* a, int* b) {
-    int temp = *a;
-    *a = *b;
-    *b = temp;
+// // Hapus node terakhir
+void deleteLast(List &L) {
+    if (L.first != NULL) {
+        if (L.first->next == NULL) {
+            dealokasi(L.first);
+            L.first = NULL;
+        } else {
+            address P = L.first;
+            address Prec = NULL;
+            while (P->next != NULL) {
+                Prec = P;
+                P = P->next;
+            }
+            Prec->next = NULL;
+            dealokasi(P);
+        }
+    }
 }
+
+// Hapus setelah node tertentu
+void deleteAfter(List &L, address Prec) {
+    if (Prec != NULL && Prec->next != NULL) {
+        address P = Prec->next;
+        Prec->next = P->next;
+        dealokasi(P);
+    }
+}
+
+int nbList(List L) {
+    int count = 0;
+    address P = L.first;
+    while (P != NULL) {
+        count++;
+        P = P->next;
+    }
+    return count;
+}
+
+
+// func untuk menghapus list
+void deleteList(List &L) {
+     while (L.first != NULL) {
+         deleteFirst(L);
+     }
+}
+```
+berisi semua implementasi mulai dari pembuatan list, alokasi node, operasi insert & delete, sampai menghitung jumlah node (nbList) dan menghapus semua node (deleteList).
+
+```C++
+//main.cpp
+#include "singlylist.h"
+#include <iostream>
+using namespace std;
 
 int main() {
-    int A[3][3] = {
-        {1, 2, 3},
-        {4, 5, 6},
-        {7, 8, 9}
-    };
+    List L;
+    address P1, P2, P3, P4, P5 = NULL;
+    CreateList(L);
 
-    int B[3][3] = {
-        {10, 11, 12},
-        {13, 14, 15},
-        {16, 17, 18}
-    };
+    // Alokasi node
+    P1 = alokasi(2);
+    insertFirst(L, P1);
+    P2 = alokasi(0);
+    insertFirst(L, P2);
+    P3 = alokasi(8);
+    insertFirst(L, P3);
+    P4 = alokasi(12);
+    insertFirst(L, P4);
+    P5 = alokasi(9);
+    insertFirst(L, P5);
 
-    cout << "Array A sebelum ditukar:\n";
-    tampilArray(A);
-    cout << "\nArray B sebelum ditukar:\n";
-    tampilArray(B);
+    cout << "Isi Linked List Awal: ";
+    printInfo(L);
 
-    tukarPosisi(A, B, 0, 0);
+    // Hapus node 9 (deleteFirst)
+    deleteFirst(L);
+    // Hapus node 2 (deleteLast)
+    deleteLast(L);
+    // Hapus node 8 (deleteAfter)
+    address Prec = L.first->next; // node setelah 12 (yaitu 8)
+    deleteAfter(L, Prec);
 
-    cout << "\nSetelah tukar posisi (baris 1 kolom 1):\n";
-    cout << "Array A:\n";
-    tampilArray(A);
-    cout << "\nArray B:\n";
-    tampilArray(B);
+    cout << "Isi Linked List Setelah Delete: ";
+    printInfo(L);
 
-    int x = 100, y = 200;
-    int* px = &x;
-    int* py = &y;
+    cout << "Jumlah node: " << nbList(L) << endl;
 
-    cout << "\nSebelum tukar pointer: x = " << x << ", y = " << y << endl;
-    tukarPointer(px, py);
-    cout << "Setelah tukar pointer: x = " << x << ", y = " << y << endl;
+    // Hapus semua node
+    deleteList(L);
+    cout << "List setelah deleteList(): ";
+    printInfo(L);
+    cout << "Jumlah node: " << nbList(L) << endl;
 
     return 0;
 }
 ```
-#### Output:
-<img width="1535" height="556" alt="image" src="https://github.com/user-attachments/assets/110493da-96bd-4402-9334-aef498fcfdbc" />
+Program menambahkan beberapa data ke list, menampilkan isi list, lalu melakukan operasi penghapusan dan menampilkan hasil akhirnya.
 
-Program ini menampilkan cara menukar nilai antar elemen array 2 dimensi dan antar variabel menggunakan pointer. Fungsi tukarPosisi menukar elemen dua array di posisi tertentu, sedangkan tukarPointer menukar nilai dua variabel lewat pointer. Program ini menunjukkan penggunaan array, fungsi, dan pointer dalam C++. 
+#### Output:
+<img width="992" height="245" alt="image" src="https://github.com/user-attachments/assets/f08a2feb-9c01-499e-af45-5b8c13d8defe" />
+
+
+Program ini digunakan untuk mengelola data secara dinamis menggunakan struktur Single Linked List, di mana data dapat ditambahkan, dihapus, dan ditampilkan dengan memanfaatkan konsep pointer pada bahasa C++.
 
 #### Full code Screenshot:
-<img width="1919" height="1011" alt="image" src="https://github.com/user-attachments/assets/70c45fad-5ed0-48c6-8f3a-1e45d0ba4d3f" />
+<img width="1915" height="1029" alt="image" src="https://github.com/user-attachments/assets/86a1b4a7-bdf9-4fa4-a8e4-8c10a3e0c5e5" />
 
 
 
 ## Kesimpulan
-Ringkasan dan interpretasi pandangan kalia dari hasil praktikum dan pembelajaran yang didapat[1]. pandangan ku pada minggu ketiga, setelah memasuki modul 3 konsep ADT (Abtract Data Type) membantu agar membuat program terlihat rapi dan mudah untuk di pahami, dengan memisahkan data dan fungsi di file yang berbeda membuat program menjadi terstruktur, konsep ini mempermudah mengelola dan mengubah data tanpa terganggu bagian lain.
+Ringkasan dan interpretasi pandangan kalia dari hasil praktikum dan pembelajaran yang didapat[1]. Pada modul ini dipelajari cara membuat, menambah, menghapus, dan menampilkan node dalam linked list menggunakan pointer.
+Kita juga belajar fungsi seperti insertFirst, insertLast, deleteFirst, deleteLast, dan nbList.
+Intinya, modul ini melatih pemahaman tentang manajemen memori dan hubungan antar data secara dinamis.
 
 ## Referensi
 [1] I. Holm, Narrator, and J. Fullerton-Smith, Producer, How to Build a Human [DVD]. London: BBC; 2002.
