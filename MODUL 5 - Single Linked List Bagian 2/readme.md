@@ -13,52 +13,60 @@ pemrograman Cp semua ADT tersebut tersimpan dalam file *.c dan file *.h.
 
 ## Guided 
 
-### 1. [list.h]
+### 1. [listbuah.h]
 
 ```C++
-#ifndef LIST_H
-#define LIST_H
-#define NIL NULL
+#ifndef LISTBUAH_H
+#define LISTBUAH_H
+#define Nil NULL
 
 #include <iostream>
 using namespace std;
 
-struct mahasiswa {
+struct buah {
     string nama;
-    string nim;
-    int umur;
+    int jumlah;
+    float harga;
 };
 
-typedef mahasiswa datamahasiswa;
-
+typedef buah dataBuah;
 typedef struct node *address;
 
-struct node{
-    datamahasiswa isidata;
+struct node {
+    dataBuah isidata;
     address next;
 };
 
-struct linkedlist{
+struct linkedlist {
     address first;
 };
 
-bool isEmpty(linkedlist list);
-void createList(linkedlist &list);
-address alokasi(string nama, string nim, int umur);
-void dealokasi(address &node);
-void printList(linkedlist list);
-void insertFirst(linkedlist &list, address nodebaru);
-void insertAfter(linkedlist &list, address nodebaru, address prev);
-void insertLast(linkedlist &list, address nodebaru);
 
-void delFirst(linkedlist &list);
+bool isEmpty(linkedlist List);
+void createList(linkedlist &List);
+address alokasi(string nama, int jumlah, float harga);
+void dealokasi(address &node);
+void printList(linkedlist List);
+void insertFirst(linkedlist &List, address nodeBaru);
+void insertAfter(linkedlist &List, address nodeBaru, address prev);
+void insertLast(linkedlist &List, address nodeBaru);
+void delFirst(linkedlist &List);
 void delLast(linkedlist &list);
-void delAfter(linkedlist &list, address nodeHapus, address nodeprev);
-int nbList(linkedlist list);
-void deleteList(linkedlist &list);
+void delAfter(linkedlist &List, address nodeHapus, address nodePrev);
+int nbList(linkedlist List);
+void deleteList(linkedlist &List);
+
+//materi modul 5 (part 1 update)
+void updateFirst(linkedlist &List);
+void updateLast(linkedlist &List);
+void updateAfter(linkedlist &List, address prev);
+
+// materi modul 5 (part 2, searching)
+void FindNodeByData(linkedlist List, string data);
+void FindNodeByAddress(linkedlist List, address node);
+void FindNodeByRange(linkedlist List, float hargaAwal, float hargaAkhir);
 
 #endif
-
 ```
 program digunakan untuk membuat struct mahasiswa yang terdiri dari char nim dan nilai1, nilai2.
 ### 2. [list.cpp]
