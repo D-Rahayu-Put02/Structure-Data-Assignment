@@ -2,15 +2,15 @@
 <p align="center">Dwi Rahayu Putra</p>
 
 ## Dasar Teori
+Operasi Searching
 
-Searching
-Searching merupakan operasi dasar list dengan melakukan aktivitas pencarian terhadap node
-tertentu. Proses ini berjalan dengan mengunjungi setiap node dan berhenti setelah node yang dicari
-ketemu. Dengan melakukan operasi searching, operasi-operasi seperti insert after, delete after, dan
-update akan lebih mudah.
-Semua fungsi dasar di atas merupakan bagian dari ADT dari singgle linked list, dan aplikasi pada bahasa
-pemrograman Cp semua ADT tersebut tersimpan dalam file *.c dan file *.h.
-
+Searching adalah proses mencari node tertentu dalam list berdasarkan suatu kriteria (misalnya nama buah atau nilai tertentu)
+Jika pointer next sudah NULL (ujung list) dan data belum ditemukan, maka data tidak ada di dalam list.
+Jenis-jenis searching dalam program:
+- FindNodeByData() → mencari node berdasarkan nama buah.
+- FindNodeByAddress() → mencari node berdasarkan alamat memori.
+- FindNodeByRange() → mencari node yang memiliki harga dalam rentang tertentu.
+Dengan adanya fungsi searching ini, proses seperti insertAfter, deleteAfter, atau updateAfter dapat dilakukan dengan lebih mudah karena kita bisa menemukan node acuan (prev) terlebih dahulu.
 ## Guided 
 
 ### 1. [listbuah.h]
