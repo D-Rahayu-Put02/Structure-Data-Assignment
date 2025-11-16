@@ -437,22 +437,28 @@ int main(){
 Program main() di atas adalah program utama untuk menguji semua fungsi linked list yang sudah kamu buat di file buah.cpp.
 
 ## Unguided 
-
-### 1. [Single List]
+untuk latihan soal saya menggunakan tema tempat pemancingan untuk mennetukkan harga ikan yang akan di jual
+### 1. [Listikan.h]
 
 ```C++
-//singlylist.h
-#ifndef SINGLYLIST_H
-#define SINGLYLIST_H
-#define NIL NUL 
+//listikan.h
+#ifndef LISTIKAN_H
+#define LISTIKAN_H
+#define Nil NULL 
 
 #include <iostream>
 using namespace std;
 
-typedef int infotype;
-typedef struct Elmlist *address;
+struct ikan {
+    string nama;
+    float berat;
+    int harga; 
+};
 
-struct Elmlist{ 
+typedef ikan infotype;
+typedef struct Node *address;
+
+struct Node{
     infotype info;
     address next;
 };
@@ -461,18 +467,15 @@ struct List{
     address first;
 };
 
-void CreateList(List &L);
-address alokasi(infotype x);
+void createList(List &L);
+bool isEmpty(List L);
+address alokasi(string nama, float berat, int harga);
 void dealokasi(address &P);
-void insertFirst(List &L, address P);
 void insertLast(List &L, address P);
-void insertAfter(List &L, address P, address Prec);
 void printInfo(List L);
-void deleteFirst(List &L);
-void deleteLast(List &L);
-void deleteAfter(List &L, address Prec);
-int nbList(List L);
-void deleteList(List &L);
+address findIkan(List L, string nama);
+void updateIkan(List &L, string namaCari, float beratBaru, int hargaBaru);
+int totalHarga(List L);
 
 #endif
 ```
@@ -480,170 +483,120 @@ Berisi deklarasi struktur data dan prototype fungsi, seperti ElmtList, List, ser
 Fungsinya sebagai kerangka utama dari program agar bisa dipanggil di file lain.
 
 ```C++
-//singlylist.cpp
-#include "singlylist.h"
+//listikan.cpp
+#include "ListIkan.h"
 
-// Membuat list kosong
-void CreateList(List &L) {
-    L.first = NULL;
+void createList(List &L) {
+    L.first = Nil;
 }
 
-// Alokasi node baru
-address alokasi(infotype x) {
-    address P = new Elmlist;
-    P-> info = x;
-    P-> next = NULL;
+bool isEmpty(List L) {
+    return (L.first == Nil);
+}
+
+address alokasi(string nama, float berat, int harga) {
+    address P = new Node;
+    P->info.nama = nama;
+    P->info.berat = berat;
+    P->info.harga = harga;
+    P->next = Nil;
     return P;
 }
 
-// Dealokasi node
 void dealokasi(address &P) {
     delete P;
-    P = NULL;
+    P = Nil;
 }
 
-// Insert di awal
-void insertFirst(List &L, address P) {
-    P-> next = L.first;
-    L.first = P;
-}
-
-// Insert setelah node tertentu
-void insertAfter(List &L, address P, address Prec) {
-    if (Prec != NULL) {
-        P-> next = Prec-> next;
-        Prec-> next = P;
-    }
-}
-
-// Insert di akhir
 void insertLast(List &L, address P) {
-    if (L.first == NULL) {
+    if (isEmpty(L)) {
         L.first = P;
     } else {
         address Q = L.first;
-        while (Q-> next != NULL) {
-            Q = Q-> next;
+        while (Q->next != Nil) {
+            Q = Q->next;
         }
-        Q-> next = P;
+        Q->next = P;
     }
 }
 
-// Print isi list
 void printInfo(List L) {
-    if (L.first == NULL) {
+    if (isEmpty(L)) {
         cout << "List kosong." << endl;
     } else {
         address P = L.first;
-        while (P != NULL) {
-            cout << P-> info << " ";
-            P = P-> next;
-        }
-        cout << endl;
-    }
-}
-
-// Hapus node pertama
-void deleteFirst(List &L) {
-     if (L.first != NULL) {
-        address P = L.first;
-        L.first = P->next;
-           dealokasi(P);
-    }
-}
-
-// // Hapus node terakhir
-void deleteLast(List &L) {
-    if (L.first != NULL) {
-        if (L.first->next == NULL) {
-            dealokasi(L.first);
-            L.first = NULL;
-        } else {
-            address P = L.first;
-            address Prec = NULL;
-            while (P->next != NULL) {
-                Prec = P;
-                P = P->next;
-            }
-            Prec->next = NULL;
-            dealokasi(P);
+        while (P != Nil) {
+            cout << "Nama ikan : " << P->info.nama << endl;
+            cout << "Berat (kg): " << P->info.berat << endl;
+            cout << "Harga/kg  : " << P->info.harga << endl;
+            cout << "---------------------------" << endl;
+            P = P->next;
         }
     }
 }
 
-// Hapus setelah node tertentu
-void deleteAfter(List &L, address Prec) {
-    if (Prec != NULL && Prec->next != NULL) {
-        address P = Prec->next;
-        Prec->next = P->next;
-        dealokasi(P);
-    }
-}
-
-int nbList(List L) {
-    int count = 0;
+address findIkan(List L, string nama) {
     address P = L.first;
-    while (P != NULL) {
-        count++;
+    while (P != Nil && P->info.nama != nama) {
         P = P->next;
     }
-    return count;
+    return P;
 }
 
+void updateIkan(List &L, string namaCari, float beratBaru, int hargaBaru) {
+    address P = findIkan(L, namaCari);
+    if (P != Nil) {
+        P->info.berat = beratBaru;
+        P->info.harga = hargaBaru;
+        cout << "Data ikan " << namaCari << " berhasil diperbarui!" << endl;
+    } else {
+        cout << "Ikan " << namaCari << " tidak ditemukan dalam list." << endl;
+    }
+}
 
-// func untuk menghapus list
-void deleteList(List &L) {
-     while (L.first != NULL) {
-         deleteFirst(L);
-     }
+int totalHarga(List L) {
+    address P = L.first;
+    int total = 0;
+    while (P != Nil) {
+        total += (P->info.berat * P->info.harga);
+        P = P->next;
+    }
+    return total;
 }
 ```
 berisi semua implementasi mulai dari pembuatan list, alokasi node, operasi insert & delete, sampai menghitung jumlah node (nbList) dan menghapus semua node (deleteList).
 
 ```C++
 //main.cpp
-#include "singlylist.h"
-#include <iostream>
-using namespace std;
+#include "ListIkan.h"
 
 int main() {
     List L;
-    address P1, P2, P3, P4, P5 = NULL;
-    CreateList(L);
+    createList(L);
 
-    // Alokasi node
-    P1 = alokasi(2);
-    insertFirst(L, P1);
-    P2 = alokasi(0);
-    insertFirst(L, P2);
-    P3 = alokasi(8);
-    insertFirst(L, P3);
-    P4 = alokasi(12);
-    insertFirst(L, P4);
-    P5 = alokasi(9);
-    insertFirst(L, P5);
+    insertLast(L, alokasi("Lele", 2.5, 20000));
+    insertLast(L, alokasi("Gurame", 1.2, 35000));
+    insertLast(L, alokasi("Patin", 3.0, 25000));
+    insertLast(L, alokasi("Nila", 2.0, 30000));
 
-    cout << "Isi Linked List Awal: ";
+    cout << "=== Data Ikan Hasil Pancingan ===" << endl;
     printInfo(L);
 
-    // Hapus node 9 (deleteFirst)
-    deleteFirst(L);
-    // Hapus node 2 (deleteLast)
-    deleteLast(L);
-    // Hapus node 8 (deleteAfter)
-    address Prec = L.first->next; // node setelah 12 (yaitu 8)
-    deleteAfter(L, Prec);
+    cout << "\nCari ikan 'Patin':" << endl;
+    address cari = findIkan(L, "Patin");
+    if (cari != Nil)
+        cout << "Ikan ditemukan! Berat: " << cari->info.berat << " kg, Harga/kg: " << cari->info.harga << endl;
+    else
+        cout << "Ikan tidak ditemukan." << endl;
 
-    cout << "Isi Linked List Setelah Delete: ";
+    cout << "\nUpdate ikan 'Lele' jadi berat 3 kg dan harga 22000/kg" << endl;
+    updateIkan(L, "Lele", 3.0, 22000);
+
+    cout << "\n=== Data Setelah Update ===" << endl;
     printInfo(L);
 
-    cout << "Jumlah node: " << nbList(L) << endl;
-
-    // Hapus semua node
-    deleteList(L);
-    cout << "List setelah deleteList(): ";
-    printInfo(L);
-    cout << "Jumlah node: " << nbList(L) << endl;
+    int total = totalHarga(L);
+    cout << "\nTotal harga semua ikan: Rp " << total << endl;
 
     return 0;
 }
