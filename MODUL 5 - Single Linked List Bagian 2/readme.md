@@ -479,8 +479,6 @@ int totalHarga(List L);
 
 #endif
 ```
-Berisi deklarasi struktur data dan prototype fungsi, seperti ElmtList, List, serta fungsi CreateList, insert, delete, nbList, dan lainnya.
-Fungsinya sebagai kerangka utama dari program agar bisa dipanggil di file lain.
 
 ```C++
 //listikan.cpp
@@ -564,7 +562,6 @@ int totalHarga(List L) {
     return total;
 }
 ```
-berisi semua implementasi mulai dari pembuatan list, alokasi node, operasi insert & delete, sampai menghitung jumlah node (nbList) dan menghapus semua node (deleteList).
 
 ```C++
 //main.cpp
@@ -601,23 +598,21 @@ int main() {
     return 0;
 }
 ```
-Program menambahkan beberapa data ke list, menampilkan isi list, lalu melakukan operasi penghapusan dan menampilkan hasil akhirnya.
 
 #### Output:
-<img width="992" height="245" alt="image" src="https://github.com/user-attachments/assets/f08a2feb-9c01-499e-af45-5b8c13d8defe" />
+<img width="1051" height="816" alt="image" src="https://github.com/user-attachments/assets/c9f2967d-be30-4eec-a27b-3b7a801f3814" />
 
-
-Program ini digunakan untuk mengelola data secara dinamis menggunakan struktur Single Linked List, di mana data dapat ditambahkan, dihapus, dan ditampilkan dengan memanfaatkan konsep pointer pada bahasa C++.
+program ini digunakan untuk mengelola data hasil pemancingan menggunakan struktur data singly linked list, didalam program, setiap node mewakili seekor ikan yang terdiri dari nama ikan, berat dan harganya, dengan linked list, program bisa menambahkan di list tertentu, menghapus data ikan, mengupdate data ikan, mencari data ikan berdasarkan nama, alamat dan rata rata berat, menampilkan semua data ikan dan bisa menghitung jumlah data.
 
 #### Full code Screenshot:
-<img width="1915" height="1029" alt="image" src="https://github.com/user-attachments/assets/86a1b4a7-bdf9-4fa4-a8e4-8c10a3e0c5e5" />
+<img width="1916" height="993" alt="image" src="https://github.com/user-attachments/assets/2549e94c-b321-4029-b69a-3b742d129a6c" />
+
 
 
 
 ## Kesimpulan
 Ringkasan dan interpretasi pandangan kalia dari hasil praktikum dan pembelajaran yang didapat[1]. Pada modul ini dipelajari cara membuat, menambah, menghapus, dan menampilkan node dalam linked list menggunakan pointer.
-Kita juga belajar fungsi seperti insertFirst, insertLast, deleteFirst, deleteLast, dan nbList.
-Intinya, modul ini melatih pemahaman tentang manajemen memori dan hubungan antar data secara dinamis.
+Secara keseluruhan, program pemancingan ini membantu mempelajari manajemen memori dinamis, pointer, dan struktur data linked list, tetapi dikemas dalam tema pemancingan.
 
 ## Referensi
 [1] I. Holm, Narrator, and J. Fullerton-Smith, Producer, How to Build a Human [DVD]. London: BBC; 2002.
