@@ -602,7 +602,7 @@ int main() {
 #### Output:
 <img width="1051" height="816" alt="image" src="https://github.com/user-attachments/assets/c9f2967d-be30-4eec-a27b-3b7a801f3814" />
 
-program ini digunakan untuk mengelola data hasil pemancingan menggunakan struktur data singly linked list, didalam program, setiap node mewakili seekor ikan yang terdiri dari nama ikan, berat dan harganya, dengan linked list, program bisa menambahkan di list tertentu, menghapus data ikan, mengupdate data ikan, mencari data ikan berdasarkan nama, alamat dan rata rata berat, menampilkan semua data ikan dan bisa menghitung jumlah data.
+program ini digunakan untuk mengelola data hasil pemancingan menggunakan struktur data singly linked list, didalam program, setiap node mewakili seekor ikan yang terdiri dari nama ikan, berat dan harganya, dengan linked list, program bisa menambahkan di list tertentu, menghapus data ikan, mengupdate data ikan, mencari data ikan berdasarkan nama, alamat dan rata rata harga, menampilkan semua data ikan dan bisa menghitung jumlah data.
 
 #### Full code Screenshot:
 <img width="1916" height="993" alt="image" src="https://github.com/user-attachments/assets/2549e94c-b321-4029-b69a-3b742d129a6c" />
@@ -611,8 +611,8 @@ program ini digunakan untuk mengelola data hasil pemancingan menggunakan struktu
 
 
 ## Kesimpulan
-Ringkasan dan interpretasi pandangan kalia dari hasil praktikum dan pembelajaran yang didapat[1]. Pada modul ini dipelajari cara membuat, menambah, menghapus, dan menampilkan node dalam linked list menggunakan pointer.
-Secara keseluruhan, program pemancingan ini membantu mempelajari manajemen memori dinamis, pointer, dan struktur data linked list, tetapi dikemas dalam tema pemancingan.
+Ringkasan dan interpretasi pandangan kalia dari hasil praktikum dan pembelajaran yang didapat[1]. Pada modul ini dipelajari cara membuat, menambah, menghapus, menampilkan dan mencari node dalam linked list menggunakan pointer berdasarkan nama, alamat dan harga.
+Secara keseluruhan, program pemancingan ini membantu mempelajari manajemen memori dinamis, pointer, dan struktur data linked list, dalam tema pemancingan, sama seperti materi pada modul sebelumnya hanya saja pada program kali ini ada tambahan program baru yaitu serching untuk mencari data ikan sesuai nama, alamat node dan rata rata harga.
 
 ## Referensi
 [1] I. Holm, Narrator, and J. Fullerton-Smith, Producer, How to Build a Human [DVD]. London: BBC; 2002.
