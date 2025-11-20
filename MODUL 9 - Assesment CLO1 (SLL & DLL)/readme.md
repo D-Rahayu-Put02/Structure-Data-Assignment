@@ -284,7 +284,10 @@ int main() {
 <img width="624" height="572" alt="image" src="https://github.com/user-attachments/assets/a556fa75-e607-427b-a51c-bda8d118183e" />
 
 ##SOAL 2
+Buatlah ADT Doubly Linked List (DLL) untuk menyimpan data lagu dalam file
+
 ```C++
+//DLLPlaylist.h
 #ifndef DLLPLAYLIST_H
 #define DLLPLAYLIST_H
 
@@ -339,6 +342,7 @@ float getPopularityScore(Song S);
 #endif
 ```
 ```C++
+//DLLPlaylist.cpp
 #include "DLLPlaylist.h"
 
 bool isEmpty(List L) {
@@ -563,6 +567,7 @@ void searchByPopularityRange(List L, float minScore, float maxScore) {
 }
 ```
 ```C++
+//main
 #include "DLLPlaylist.h"
 
 address getNodeAt(List L, int posisi) {
