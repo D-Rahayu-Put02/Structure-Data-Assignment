@@ -213,7 +213,175 @@ int main() {
 Buatlah ADT queue menggunakan ARRAY sebagai berikut
 
 ```C++
+#ifndef QUEUE_H
+#define QUEUE_H
 
+#include <iostream>
+using namespace std;
+
+const int MAX = 5;
+
+struct Paket {
+    string KodeResi;
+    string NamaPengirim;
+    int BeratBarang; 
+    string Tujuan;
+};
+
+struct QueueEkspedisi {
+    Paket dataPaket[MAX];
+    int Head;
+    int Tail;
+};
+
+bool isEmpty(QueueEkspedisi Q);
+bool isFull(QueueEkspedisi Q);
+void createQueue(QueueEkspedisi &Q);
+void enQueue(QueueEkspedisi &Q);
+void deQueue(QueueEkspedisi &Q);
+void viewQueue(QueueEkspedisi Q);
+
+int TotalBiayaPengiriman(QueueEkspedisi Q);
+
+#endif
+```
+```C++
+#include "queu.h"
+
+bool isEmpty(QueueEkspedisi Q) {
+    return (Q.Head == -1 && Q.Tail == -1);
+}
+
+bool isFull(QueueEkspedisi Q) {
+    return (Q.Tail == MAX - 1);
+}
+
+void createQueue(QueueEkspedisi &Q) {
+    Q.Head = -1;
+    Q.Tail = -1;
+}
+
+void enQueue(QueueEkspedisi &Q) {
+    if (isFull(Q)) {
+        cout << "Queue penuh!\n";
+        return;
+    }
+
+    Paket P;
+    cout << "Masukkan Kode Resi     : "; cin >> P.KodeResi;
+    cout << "Masukkan Nama Pengirim : "; cin >> P.NamaPengirim;
+    cout << "Masukkan Berat Barang  : "; cin >> P.BeratBarang;
+    cout << "Masukkan Tujuan        : "; cin >> P.Tujuan;
+
+    if (isEmpty(Q)) {
+        Q.Head = Q.Tail = 0;
+    } else {
+        Q.Tail++;
+    }
+
+    Q.dataPaket[Q.Tail] = P;
+}
+
+void deQueue(QueueEkspedisi &Q) {
+    if (isEmpty(Q)) {
+        cout << "Queue kosong!\n";
+        return;
+    }
+
+    cout << "Menghapus paket dengan resi: " << Q.dataPaket[Q.Head].KodeResi << "\n";
+
+    for (int i = Q.Head; i < Q.Tail; i++) {
+        Q.dataPaket[i] = Q.dataPaket[i + 1];
+    }
+
+    Q.Tail--;
+
+    if (Q.Tail < 0) {
+        Q.Head = Q.Tail = -1;
+    }
+}
+
+void viewQueue(QueueEkspedisi Q) {
+    if (isEmpty(Q)) {
+        cout << "Queue kosong!\n";
+        return;
+    }
+
+    cout << "\n--- Daftar Paket dalam Antrian ---\n";
+    for (int i = Q.Head; i <= Q.Tail; i++) {
+        cout << "Posisi " << i + 1 << ":\n";
+        cout << "  Kode Resi     : " << Q.dataPaket[i].KodeResi << endl;
+        cout << "  Pengirim      : " << Q.dataPaket[i].NamaPengirim << endl;
+        cout << "  Berat Barang  : " << Q.dataPaket[i].BeratBarang << " kg" << endl;
+        cout << "  Tujuan        : " << Q.dataPaket[i].Tujuan << endl;
+        cout << "-----------------------------------\n";
+    }
+}
+
+int TotalBiayaPengiriman(QueueEkspedisi Q) {
+    if (isEmpty(Q)) return 0;
+
+    int total = 0;
+    for (int i = Q.Head; i <= Q.Tail; i++) {
+        total += Q.dataPaket[i].BeratBarang * 8250;
+    }
+    return total;
+}
+```
+```C++
+#include <iostream>
+#include "queu.h"
+
+using namespace std;
+
+int main() {
+    QueueEkspedisi Q;
+    createQueue(Q);
+
+    int pilihan;
+
+    do {
+        cout << "\n--- Gojira Express ---\n";
+        cout << "1. Input Data Paket\n";
+        cout << "2. Hapus Data Paket\n";
+        cout << "3. Tampilkan Queue Paket\n";
+        cout << "4. Hitung Total Biaya Pengiriman\n";
+        cout << "5. Exit\n";
+        cout << "Pilihan anda : ";
+        cin >> pilihan;
+
+        switch (pilihan) {
+        case 1:
+            enQueue(Q);
+            break;
+
+        case 2:
+            deQueue(Q);
+            break;
+
+        case 3:
+            viewQueue(Q);
+            break;
+
+        case 4:
+            cout << "Total Biaya Pengiriman: Rp. " 
+                 << TotalBiayaPengiriman(Q) << endl;
+            break;
+
+        case 5:
+            cout << "Keluar...\n";
+            break;
+
+        default:
+            cout << "Pilihan tidak valid!\n";
+        }
+
+    } while (pilihan != 5);
+
+    return 0;
+}
 ```
 ##OUTPUT
+
+<img width="774" height="870" alt="image" src="https://github.com/user-attachments/assets/114f0917-f8fe-411f-bc57-b0f0a6680e18" />
 
