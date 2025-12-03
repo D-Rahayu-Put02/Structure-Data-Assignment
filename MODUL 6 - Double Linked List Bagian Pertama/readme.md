@@ -75,9 +75,7 @@ float getPopularityScore(Song S);
 
 #endif
 ```
-Program ini dibuat untuk mengelola data buah menggunakan struktur data linked list.
-Dengan program ini, kita bisa:
-Menyimpan data buah (nama, jumlah, harga) secara dinamis, menambah, menghapus, atau memperbarui data buah di mana saja dalam list, mencari data buah berdasarkan nama, alamat node, atau rentang harga, menampilkan semua data buah yang tersimpan dalam list.
+Program ini merupakan implementasi Doubly Linked List yang digunakan untuk mengelola data playlist lagu, di mana setiap node menyimpan informasi lagu dan terhubung dua arah. Program menyediakan fungsi untuk menambah, menghapus, memperbarui, menampilkan, serta mencari lagu berdasarkan nilai popularitas.
 
 ### 2. [DLLPlayList.cpp]
 
@@ -305,10 +303,7 @@ void searchByPopularityRange(List L, float minScore, float maxScore) {
     }
 }
 ```
-Program di atas adalah implementasi struktur data singly linked list dalam bahasa C++ untuk menyimpan data buah yang berisi:
-- nama buah (string)
-- jumlah buah (int)
-- harga buah (float)
+Program ini merupakan implementasi lengkap Doubly Linked List untuk pengelolaan playlist lagu, yang mencakup proses alokasi dan dealokasi node, operasi penyisipan dan penghapusan di berbagai posisi, pembaruan data lagu, perhitungan skor popularitas, penelusuran data berdasarkan rentang skor, serta penampilan seluruh isi playlist secara terurut. Program ini mengatur setiap lagu sebagai node yang terhubung dua arah sehingga memudahkan manipulasi data playlist secara fleksibel.
 
 ### 3. [main.cpp]
 
@@ -373,7 +368,7 @@ int main(){
 }
 
 ```
-Program main() di atas adalah program utama untuk menguji semua fungsi linked list yang sudah kamu buat di file buah.cpp.
+Program di atas merupakan contoh penggunaan linked list (kemungkinan singly linked list) untuk mengelola data buah. Program melakukan serangkaian operasi utama pada struktur data tersebut, mulai dari membuat list, menambahkan node (insert), memperbarui data node (update), mencari data dengan berbagai metode (by data, by address, dan by range), menghapus node (delete), hingga menghapus seluruh list. Program kemudian menampilkan isi list dan jumlah node setelah setiap operasi, sehingga berfungsi sebagai demonstrasi lengkap manipulasi dan pengujian operasi pada struktur data linked list untuk data buah.
 
 ## Unguided 
 untuk latihan soal saya menggunakan tema tempat pemancingan untuk mennetukkan harga ikan yang akan di jual
