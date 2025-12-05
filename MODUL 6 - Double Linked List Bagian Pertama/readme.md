@@ -375,159 +375,198 @@ untuk latihan soal saya menggunakan tema tempat pemancingan untuk mennetukkan ha
 ### 1. [Listikan.h]
 
 ```C++
-//listikan.h
-#ifndef LISTIKAN_H
-#define LISTIKAN_H
-#define Nil NULL 
-
+#ifndef DOUBLELIST_H
+#define DOUBLELIST_H
+#define NIL NULL
 #include <iostream>
 using namespace std;
 
-struct ikan {
-    string nama;
-    float berat;
-    int harga; 
+struct kendaraan {
+    string nopol;
+    string warna;
+    int tahunbuat;
 };
 
-typedef ikan infotype;
-typedef struct Node *address;
+typedef kendaraan infotype;
+typedef struct ElmtList *address;
 
-struct Node{
+struct ElmtList {
     infotype info;
     address next;
+    address prev;
 };
 
-struct List{
+struct List {
     address first;
+    address last;
 };
 
-void createList(List &L);
-bool isEmpty(List L);
-address alokasi(string nama, float berat, int harga);
+void CreateList(List &L);
+address alokasi(infotype x);
 void dealokasi(address &P);
 void insertLast(List &L, address P);
 void printInfo(List L);
-address findIkan(List L, string nama);
-void updateIkan(List &L, string namaCari, float beratBaru, int hargaBaru);
-int totalHarga(List L);
+address findElm(List L, string nopol);
+void deleteFirst(List &L);
+void deleteLast(List &L);
+void deleteAfter(List &L, address Prec);
 
 #endif
 ```
 
 ```C++
-//listikan.cpp
-#include "ListIkan.h"
+#include "doublelist.h"
 
-void createList(List &L) {
-    L.first = Nil;
+void CreateList(List &L) {
+    L.first = NIL;
+    L.last = NIL;
 }
 
-bool isEmpty(List L) {
-    return (L.first == Nil);
-}
-
-address alokasi(string nama, float berat, int harga) {
-    address P = new Node;
-    P->info.nama = nama;
-    P->info.berat = berat;
-    P->info.harga = harga;
-    P->next = Nil;
+address alokasi(infotype x) {
+    address P = new ElmtList;
+    P->info = x;
+    P->next = NIL;
+    P->prev = NIL;
     return P;
 }
 
 void dealokasi(address &P) {
     delete P;
-    P = Nil;
+    P = NIL;
 }
 
 void insertLast(List &L, address P) {
-    if (isEmpty(L)) {
+    if (L.first == NIL) {
         L.first = P;
+        L.last = P;
     } else {
-        address Q = L.first;
-        while (Q->next != Nil) {
-            Q = Q->next;
-        }
-        Q->next = P;
+        L.last->next = P;
+        P->prev = L.last;
+        L.last = P;
     }
 }
 
 void printInfo(List L) {
-    if (isEmpty(L)) {
-        cout << "List kosong." << endl;
-    } else {
+    address P = L.first;
+    while (P != NIL) {
+        cout << "Nomor Polisi : " << P->info.nopol << endl;
+        cout << "Warna        : " << P->info.warna << endl;
+        cout << "Tahun        : " << P->info.tahunbuat << endl;
+        cout << endl;
+        P = P->next;
+    }
+}
+
+address findElm(List L, string nopol) {
+    address P = L.first;
+    while (P != NIL) {
+        if (P->info.nopol == nopol) return P;
+        P = P->next;
+    }
+    return NIL;
+}
+
+void deleteFirst(List &L) {
+    if (L.first != NIL) {
         address P = L.first;
-        while (P != Nil) {
-            cout << "Nama ikan : " << P->info.nama << endl;
-            cout << "Berat (kg): " << P->info.berat << endl;
-            cout << "Harga/kg  : " << P->info.harga << endl;
-            cout << "---------------------------" << endl;
-            P = P->next;
+
+        if (L.first == L.last) {
+            L.first = L.last = NIL;
+        } else {
+            L.first = P->next;
+            L.first->prev = NIL;
         }
+        dealokasi(P);
     }
 }
 
-address findIkan(List L, string nama) {
-    address P = L.first;
-    while (P != Nil && P->info.nama != nama) {
-        P = P->next;
-    }
-    return P;
-}
+void deleteLast(List &L) {
+    if (L.first != NIL) {
+        address P = L.last;
 
-void updateIkan(List &L, string namaCari, float beratBaru, int hargaBaru) {
-    address P = findIkan(L, namaCari);
-    if (P != Nil) {
-        P->info.berat = beratBaru;
-        P->info.harga = hargaBaru;
-        cout << "Data ikan " << namaCari << " berhasil diperbarui!" << endl;
-    } else {
-        cout << "Ikan " << namaCari << " tidak ditemukan dalam list." << endl;
+        if (L.first == L.last) {
+            L.first = L.last = NIL;
+        } else {
+            L.last = P->prev;
+            L.last->next = NIL;
+        }
+        dealokasi(P);
     }
 }
 
-int totalHarga(List L) {
-    address P = L.first;
-    int total = 0;
-    while (P != Nil) {
-        total += (P->info.berat * P->info.harga);
-        P = P->next;
+void deleteAfter(List &L, address Prec) {
+    if (Prec != NIL && Prec->next != NIL) {
+        address P = Prec->next;
+        Prec->next = P->next;
+        if (P->next != NIL) {
+            P->next->prev = Prec;
+        } else {
+            L.last = Prec;
+        }
+        dealokasi(P);
     }
-    return total;
 }
 ```
 
 ```C++
-//main.cpp
-#include "ListIkan.h"
+#include "doublelist.h"
 
 int main() {
     List L;
-    createList(L);
+    CreateList(L);
 
-    insertLast(L, alokasi("Lele", 2.5, 20000));
-    insertLast(L, alokasi("Gurame", 1.2, 35000));
-    insertLast(L, alokasi("Patin", 3.0, 25000));
-    insertLast(L, alokasi("Nila", 2.0, 30000));
+    infotype x;
+    address P;
 
-    cout << "=== Data Ikan Hasil Pancingan ===" << endl;
+    // Input data 4 kendaraan (contoh sesuai soal)
+    string listNopol[4]  = {"D001", "D003", "D001", "D004"};
+    string listWarna[4]  = {"hitam", "putih", "merah", "kuning"};
+    int listTahun[4]     = {90, 70, 80, 90};
+
+    for (int i = 0; i < 4; i++) {
+        // Cek duplikasi nopol
+        if (findElm(L, listNopol[i]) != NIL) {
+            cout << "Nomor Polisi sudah terdaftar" << endl;
+            continue;
+        }
+
+        x.nopol = listNopol[i];
+        x.warna = listWarna[i];
+        x.tahunbuat = listTahun[i];
+
+        P = alokasi(x);
+        insertLast(L, P);
+    }
+
+    cout << "\nDATA LIST 1\n";
     printInfo(L);
 
-    cout << "\nCari ikan 'Patin':" << endl;
-    address cari = findIkan(L, "Patin");
-    if (cari != Nil)
-        cout << "Ikan ditemukan! Berat: " << cari->info.berat << " kg, Harga/kg: " << cari->info.harga << endl;
-    else
-        cout << "Ikan tidak ditemukan." << endl;
+    // ===== SOAL NOMOR 2 : Find D001 =====
+    cout << "\nMencari Nomor Polisi D001" << endl;
+    address found = findElm(L, "D001");
+    if (found != NIL) {
+        cout << "Nomor Polisi : " << found->info.nopol << endl;
+        cout << "Warna        : " << found->info.warna << endl;
+        cout << "Tahun        : " << found->info.tahunbuat << endl;
+    }
 
-    cout << "\nUpdate ikan 'Lele' jadi berat 3 kg dan harga 22000/kg" << endl;
-    updateIkan(L, "Lele", 3.0, 22000);
+    // ===== SOAL NOMOR 3 : Hapus D003 =====
+    cout << "\nMenghapus nomor polisi D003..." << endl;
+    address target = findElm(L, "D003");
 
-    cout << "\n=== Data Setelah Update ===" << endl;
+    if (target != NIL) {
+        if (target == L.first) {
+            deleteFirst(L);
+        } else if (target == L.last) {
+            deleteLast(L);
+        } else {
+            deleteAfter(L, target->prev);
+        }
+        cout << "Data dengan nomor polisi D003 berhasil dihapus.\n";
+    }
+
+    cout << "\nDATA LIST 1 SETELAH HAPUS\n";
     printInfo(L);
-
-    int total = totalHarga(L);
-    cout << "\nTotal harga semua ikan: Rp " << total << endl;
 
     return 0;
 }
