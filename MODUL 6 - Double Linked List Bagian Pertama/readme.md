@@ -575,7 +575,8 @@ int main() {
 ```
 
 #### Output:
-<img width="1108" height="629" alt="image" src="https://github.com/user-attachments/assets/b366fa13-c110-47e4-b95a-d3a7af054ea0" />
+<img width="1020" height="920" alt="image" src="https://github.com/user-attachments/assets/ead53e62-fdab-42d5-84a6-fa2a90b31401" />
+
 
 
 Program ini dibuat untuk mengelola data kendaraan menggunakan Doubly Linked List.
@@ -589,9 +590,11 @@ Program dapat melakukan:
 - menolak input kendaraan dengan nopol yang sama (duplikasi)
 Program ini mensimulasikan cara kerja struktur data Double Linked List untuk pengolahan data kendaraan secara dinamis.
 #### Full code Screenshot:
-<img width="1913" height="1007" alt="image" src="https://github.com/user-attachments/assets/da87ba11-1c13-4e57-9724-af914ec381ba" />
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/cb3d1f32-c50b-487f-b408-ae51c39b75b6" />
 
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/362d23f7-1a6d-48df-851b-5f8361dffdda" />
 
+<img width="1917" height="1079" alt="image" src="https://github.com/user-attachments/assets/cae371a4-c2bb-432e-a55a-fcb7a56fb7ca" />
 
 
 ## Kesimpulan
