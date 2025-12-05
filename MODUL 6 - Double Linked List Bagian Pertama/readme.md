@@ -308,70 +308,72 @@ Program ini merupakan implementasi lengkap Doubly Linked List untuk pengelolaan 
 ### 3. [main.cpp]
 
 ```C++
-#include "buah.h"
+#include "DLLPlaylist.h"
 
-#include<iostream>
-using namespace std;
-
-int main(){
-    linkedlist List;
-    address nodeA, nodeB, nodeC, nodeD, nodeE = NIL;
-    createList(List);
-
-    dataBuah dtBuah;
-
-    nodeA = alokasi("Apel", 100, 20000);
-    nodeB = alokasi("Cemangka", 75, 21000);
-    nodeC = alokasi("Apple", 87, 20000);
-    nodeD = alokasi("Tomato", 43, 21000);
-    nodeE = alokasi("Duren", 70, 50000);
-
-    insertFirst(List, nodeA);
-    insertLast(List, nodeB);
-    insertAfter(List, nodeC, nodeA);
-    insertAfter(List, nodeD, nodeC);
-    insertLast(List, nodeE);
-
-    cout << "--- ISI LIST SETELAH DILAKUKAN INSERT ---" << endl;
-    printList(List);
-    cout << "jumlah node: " << nbList(List) << endl;
-    cout << endl;
-
-    updateFirst(List);
-    updateLast(List);
-    updateAfter(List, nodeD);
-
-    cout << "--- ISI LIST SETELAH DILAKUKAN UPDATE ---" << endl;
-    printList(List);
-    cout << "jumlah node : " << nbList(List) << endl;
-    cout << endl;
-
-    FindNodeByData(List, "kalpa");
-    FindNodeByAddress(List, nodeC);
-    FindNodeByRange(List, 50, 1000);
-
-    delFirst(List);
-    delLast(List);
-    delAfter(List, nodeA, nodeB);
-
-     cout << "--- ISI LIST SETELAH DILAKUKAN DELETE ---" << endl;
-    printList(List);
-    cout << "jumlah node : " << nbList(List) << endl;
-    cout << endl;
-
-     deleteList(List);
-    cout << "--- ISI LIST SETELAH DILAKUKAN DELETE ---" << endl;
-    printList(List);
-    cout << "Jumlah Node: " << nbList(List) << endl;
-    cout << endl;
-    return 0;
+address getNodeAt(List L, int posisi) {
+    int idx = 1;
+    address P = L.head;
+    while (P != nullptr && idx < posisi) {
+        P = P->next;
+        idx++;
+    }
+    return P;
 }
 
+int main() {
+    List L;
+    createList(L);
+
+    insertLast(L, {"Senja di Kota", "Nona Band", 210, 150, 4.2});
+    insertLast(L, {"Langkahmu", "Delta", 185, 320, 4.8});
+    insertLast(L, {"Hujan Minggu", "Arka", 240, 90, 3.95});
+
+    cout << "\n=== List Awal ===\n";
+    viewList(L);
+
+    Song removed;
+    deleteLast(L, removed);
+
+    cout << "\n Setelah deleteLast \n";
+    viewList(L);
+
+    cout << "\n Update posisi ke-2 \n";
+    updateAtPosition(L, 2);
+
+    cout << "\n Setelah Update \n";
+    viewList(L);
+
+    address pos2 = getNodeAt(L, 2);
+
+    insertBefore(L, pos2, {"Senandung", "Mira", 175, 120, 4.0});
+    cout << "\n Setelah insertBefore posisi 2 \n";
+    viewList(L);
+
+    cout << "\n UpdateBefore posisi 2 \n";
+    pos2 = getNodeAt(L, 2);
+    updateBefore(L, pos2);
+
+    cout << "\n Setelah updateBefore \n";
+    viewList(L);
+
+    cout << "\n deleteBefore posisi 3 \n";
+    Song removed2;
+    address pos3 = getNodeAt(L, 3);
+    deleteBefore(L, pos3, removed2);
+
+    cout << "\n Setelah deleteBefore \n";
+    viewList(L);
+
+    cout << "\n Searching PopularityScore 150–300 \n";
+    searchByPopularityRange(L, 150.0, 300.0);
+
+    return 0;
+}
 ```
-Program di atas merupakan contoh penggunaan linked list (kemungkinan singly linked list) untuk mengelola data buah. Program melakukan serangkaian operasi utama pada struktur data tersebut, mulai dari membuat list, menambahkan node (insert), memperbarui data node (update), mencari data dengan berbagai metode (by data, by address, dan by range), menghapus node (delete), hingga menghapus seluruh list. Program kemudian menampilkan isi list dan jumlah node setelah setiap operasi, sehingga berfungsi sebagai demonstrasi lengkap manipulasi dan pengujian operasi pada struktur data linked list untuk data buah.
+Program ini digunakan untuk mengatur data playlist lagu, seperti menambah, menghapus, menyisipkan, dan memperbarui lagu pada posisi tertentu.
+Seluruh pengelolaan playlist dilakukan menggunakan struktur data Doubly Linked List, sehingga setiap lagu dapat diakses, dipindahkan, atau dimodifikasi melalui node yang saling terhubung dua arah.
 
 ## Unguided 
-untuk latihan soal saya menggunakan tema tempat pemancingan untuk mennetukkan harga ikan yang akan di jual
 ### 1. [Listikan.h]
 
 ```C++
