@@ -374,7 +374,7 @@ Program ini digunakan untuk mengatur data playlist lagu, seperti menambah, mengh
 Seluruh pengelolaan playlist dilakukan menggunakan struktur data Doubly Linked List, sehingga setiap lagu dapat diakses, dipindahkan, atau dimodifikasi melalui node yang saling terhubung dua arah.
 
 ## Unguided 
-### 1. [Listikan.h]
+### 1. [doublelist.h]
 
 ```C++
 #ifndef DOUBLELIST_H
@@ -415,7 +415,7 @@ void deleteAfter(List &L, address Prec);
 
 #endif
 ```
-
+### 2. [doublelist.cpp]
 ```C++
 #include "doublelist.h"
 
@@ -509,6 +509,7 @@ void deleteAfter(List &L, address Prec) {
     }
 }
 ```
+### 3. [main.cpp]
 
 ```C++
 #include "doublelist.h"
@@ -519,42 +520,58 @@ int main() {
 
     infotype x;
     address P;
+    string nopolInput;
 
-    // Input data 4 kendaraan (contoh sesuai soal)
-    string listNopol[4]  = {"D001", "D003", "D001", "D004"};
-    string listWarna[4]  = {"hitam", "putih", "merah", "kuning"};
-    int listTahun[4]     = {90, 70, 80, 90};
-
+    // Input 4 kali sesuai contoh modul
     for (int i = 0; i < 4; i++) {
-        // Cek duplikasi nopol
-        if (findElm(L, listNopol[i]) != NIL) {
-            cout << "Nomor Polisi sudah terdaftar" << endl;
+        cout << "masukkan nomor polisi: ";
+        cin >> x.nopol;
+
+        // Cek duplikasi
+        if (findElm(L, x.nopol) != NIL) {
+            cout << "nomor polisi sudah terdaftar\n\n";
+            // skip input warna/tahun kalau dupe
             continue;
         }
 
-        x.nopol = listNopol[i];
-        x.warna = listWarna[i];
-        x.tahunbuat = listTahun[i];
+        cout << "masukkan warna kendaraan: ";
+        cin >> x.warna;
+
+        cout << "masukkan tahun kendaraan: ";
+        cin >> x.tahunbuat;
+
+        cout << endl;
 
         P = alokasi(x);
         insertLast(L, P);
     }
 
-    cout << "\nDATA LIST 1\n";
+    cout << "DATA LIST 1\n";
     printInfo(L);
+    cout << endl;
+
 
     // ===== SOAL NOMOR 2 : Find D001 =====
-    cout << "\nMencari Nomor Polisi D001" << endl;
-    address found = findElm(L, "D001");
+    cout << "Masukkan Nomor Polisi yang dicari : ";
+    cin >> nopolInput;
+
+    address found = findElm(L, nopolInput);
     if (found != NIL) {
         cout << "Nomor Polisi : " << found->info.nopol << endl;
         cout << "Warna        : " << found->info.warna << endl;
         cout << "Tahun        : " << found->info.tahunbuat << endl;
+    } else {
+        cout << "Data tidak ditemukan.\n";
     }
 
-    // ===== SOAL NOMOR 3 : Hapus D003 =====
-    cout << "\nMenghapus nomor polisi D003..." << endl;
-    address target = findElm(L, "D003");
+    cout << endl;
+
+
+    // ===== SOAL NOMOR 3 : Hapus =====
+    cout << "Masukkan Nomor Polisi yang akan dihapus : ";
+    cin >> nopolInput;
+
+    address target = findElm(L, nopolInput);
 
     if (target != NIL) {
         if (target == L.first) {
@@ -564,10 +581,12 @@ int main() {
         } else {
             deleteAfter(L, target->prev);
         }
-        cout << "Data dengan nomor polisi D003 berhasil dihapus.\n";
+        cout << "Data dengan nomor polisi " << nopolInput << " berhasil dihapus.\n";
+    } else {
+        cout << "Data tidak ditemukan.\n";
     }
 
-    cout << "\nDATA LIST 1 SETELAH HAPUS\n";
+    cout << "\nDATA LIST 1\n";
     printInfo(L);
 
     return 0;
