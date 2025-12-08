@@ -2,77 +2,42 @@
 <p align="center">Dwi Rahayu Putra</p>
 
 ## Dasar Teori
-Double Linked List
+- Pengertian Stack
+    Stack adalah struktur data yang bekerja dengan dengan prinsip LiFO (Last in First Out), artinya elemen yang terakhir masuk akan menjadi yang pertama keluar. Dalam stack hanya ada satu pointer penting yaitu TOP yang menunjuk ke elemen paling atas, implementasi stack di modul ini menggunakan pointer seperti linked list, dengan node yang berisi info dan pointer next. Operasi utama pada stack adalah push untuk menambahkan elemen kebagian atas dan pop untuk mengambil sekaligus menghapus elemen paling atas. stack dianggap kosong jika TOP berniali NULL. Stack hanya bisa diakses dari bagian atas sehingga elemen dibawah nya tidak dapat diambil tanpa mengeluarkan elemen elemen di atas nya terlebih dahulu. 
 
-Doubly Linked list adalah linked list yang masing – masing elemen nya memiliki 2 successor, yaitu
-successor yang menunjuk pada elemen sebelumnya (prev) dan successor yang menunjuk pada elemen
-sesudahnya (next).
+## Guided
 
-Doubly linked list juga menggunakan dua buah successor utama yang terdapat pada list, yaitu first
-(successor yang menunjuk elemen pertama) dan last (susesor yang menunjuk elemen terakhir list).
-Komponen-komponen dalam Doubly linked list:
-1. First : pointer pada list yang menunjuk pada elemen pertama list.
-2. Last : pointer pada list yang menunjuk pada elemen terakhir list.
-3. Next : pointer pada elemen sebagai successor yang menunjuk pada elemen didepannya.
-4. Prev : pointer pada elemen sebagai successor yang menunjuk pada elemen dibelakangnya.
-
-
-## Guided 
-
-### 1. [DLLPlayList.h]
+### 1. [Stack.h]
 
 ```C++
-#ifndef DLLPLAYLIST_H
-#define DLLPLAYLIST_H
+#ifndef STACK
+#define STACK 
+#define Nil nullptr
 
 #include <iostream>
-#include <string>
 using namespace std;
 
-struct Song {
-    string Title;
-    string Artist;
-    int DurationSec;
-    int PlayCount;
-    float Rating;    
-};
+typedef struct node *address;
 
-typedef struct Node* address;
-
-struct Node {
-    Song info;
-    address prev;
+struct node {
+    int dataAngka;
     address next;
 };
 
-struct List {
-    address head;
-    address tail;
+struct stack{
+    address top;
 };
 
-bool isEmpty(List L);
-void createList(List &L);
-address allocate(Song S);
-void deallocate(address P);
+bool isEmpty(stack listStack);
+void createStack(stack &listStack);
+address alokasi(int angka);
+void dealokasi(address &node);
 
-void insertFirst(List &L, Song S);
-void insertLast(List &L, Song S);
-void insertAfter(List &L, address Q, Song S);
-void insertBefore(List &L, address Q, Song S);
-
-void deleteFirst(List &L, Song &S);
-void deleteLast(List &L, Song &S);
-void deleteAfter(List &L, address Q, Song &S);
-void deleteBefore(List &L, address Q, Song &S);
-
-void updateAtPosition(List &L, int posisi);
-void updateBefore(List &L, address Q);
-
-void viewList(List L);
-void searchByPopularityRange(List L, float minScore, float maxScore);
-
-float getPopularityScore(Song S);
-
+void push(stack &listStack, address nodeBaru);
+void pop(stack &listStack);
+void update(stack &listStack, int posisi);
+void view(stack listStack);
+void searchData(stack listStack, int data);
 #endif
 ```
 Program ini merupakan implementasi Doubly Linked List yang digunakan untuk mengelola data playlist lagu, di mana setiap node menyimpan informasi lagu dan terhubung dua arah. Program menyediakan fungsi untuk menambah, menghapus, memperbarui, menampilkan, serta mencari lagu berdasarkan nilai popularitas.
