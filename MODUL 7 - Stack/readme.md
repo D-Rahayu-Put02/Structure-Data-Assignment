@@ -3,7 +3,8 @@
 
 ## Dasar Teori
 - Pengertian Stack
-    Stack adalah struktur data yang bekerja dengan dengan prinsip LiFO (Last in First Out), artinya elemen yang terakhir masuk akan menjadi yang pertama keluar. Dalam stack hanya ada satu pointer penting yaitu TOP yang menunjuk ke elemen paling atas, implementasi stack di modul ini menggunakan pointer seperti linked list, dengan node yang berisi info dan pointer next. Operasi utama pada stack adalah push untuk menambahkan elemen kebagian atas dan pop untuk mengambil sekaligus menghapus elemen paling atas. stack dianggap kosong jika TOP berniali NULL. Stack hanya bisa diakses dari bagian atas sehingga elemen dibawah nya tidak dapat diambil tanpa mengeluarkan elemen elemen di atas nya terlebih dahulu. 
+
+Stack adalah struktur data yang bekerja dengan dengan prinsip LiFO (Last in First Out), artinya elemen yang terakhir masuk akan menjadi yang pertama keluar. Dalam stack hanya ada satu pointer penting yaitu TOP yang menunjuk ke elemen paling atas, implementasi stack di modul ini menggunakan pointer seperti linked list, dengan node yang berisi info dan pointer next. Operasi utama pada stack adalah push untuk menambahkan elemen kebagian atas dan pop untuk mengambil sekaligus menghapus elemen paling atas. stack dianggap kosong jika TOP berniali NULL. Stack hanya bisa diakses dari bagian atas sehingga elemen dibawah nya tidak dapat diambil tanpa mengeluarkan elemen elemen di atas nya terlebih dahulu. 
 
 ## Guided
 
@@ -40,9 +41,9 @@ void view(stack listStack);
 void searchData(stack listStack, int data);
 #endif
 ```
-Program ini merupakan implementasi Doubly Linked List yang digunakan untuk mengelola data playlist lagu, di mana setiap node menyimpan informasi lagu dan terhubung dua arah. Program menyediakan fungsi untuk menambah, menghapus, memperbarui, menampilkan, serta mencari lagu berdasarkan nilai popularitas.
+Program stack.h digunakan untuk membuat dan mengelola sebuah struktur data Stack. Stack adalah tempat penyimpanan data dengan sistem LIFO (Last In, First Out), artinya data yang terakhir dimasukkan akan menjadi data yang pertama diambil. di file ini berisi deklarasi struktur dan fungsi seperti membuat stack baru, mengecek apakah stack kosong, menambah data atau push, mengahpus data atau pop, mengubah data atau update, menampilkan isi stack dan mencari data tertentu.
 
-### 2. [DLLPlayList.cpp]
+### 2. [Stack.cpp]
 
 ```C++
 #include "stack.h"
@@ -163,7 +164,7 @@ void searchData(stack listStack, int data){
     }
 }
 ```
-Program ini merupakan implementasi lengkap Doubly Linked List untuk pengelolaan playlist lagu, yang mencakup proses alokasi dan dealokasi node, operasi penyisipan dan penghapusan di berbagai posisi, pembaruan data lagu, perhitungan skor popularitas, penelusuran data berdasarkan rentang skor, serta penampilan seluruh isi playlist secara terurut. Program ini mengatur setiap lagu sebagai node yang terhubung dua arah sehingga memudahkan manipulasi data playlist secara fleksibel.
+Program ini adalah implementasi struktur data Stack dengan cara penyimpanan berantai (mirip daftar yang saling terhubung). Stack bekerja dengan aturan LIFO (Last In, First Out), artinya data yang terakhir masuk akan menjadi data pertama yang keluar.
 
 ### 3. [main.cpp]
 
@@ -217,8 +218,7 @@ int main(){
     return 0;
 }
 ```
-Program ini digunakan untuk mengatur data playlist lagu, seperti menambah, menghapus, menyisipkan, dan memperbarui lagu pada posisi tertentu.
-Seluruh pengelolaan playlist dilakukan menggunakan struktur data Doubly Linked List, sehingga setiap lagu dapat diakses, dipindahkan, atau dimodifikasi melalui node yang saling terhubung dua arah.
+ini main program stack yang digunakan untuk mengelola data dalam sebuah Stack dengan melakukan operasi push, pop, update, view, dan search. Program akan menunjukkan bagaimana stack berubah setelah setiap operasi.
 
 ## Unguided 
 ### 1. [doublelist.h]
