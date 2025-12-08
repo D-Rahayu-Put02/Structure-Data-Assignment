@@ -45,226 +45,121 @@ Program ini merupakan implementasi Doubly Linked List yang digunakan untuk menge
 ### 2. [DLLPlayList.cpp]
 
 ```C++
-#include "DLLPlaylist.h"
+#include "stack.h"
+#include <iostream>
 
-bool isEmpty(List L) {
-    return L.head == nullptr;
-}
+using namespace std;
 
-void createList(List &L) {
-    L.head = nullptr;
-    L.tail = nullptr;
-}
-
-address allocate(Song S) {
-    address P = new Node;
-    P->info = S;
-    P->prev = nullptr;
-    P->next = nullptr;
-    return P;
-}
-
-void deallocate(address P) {
-    delete P;
-}
-
-float getPopularityScore(Song S) {
-    return 0.8 * S.PlayCount + 20.0 * S.Rating;
-}
-
-void insertFirst(List &L, Song S) {
-    address P = allocate(S);
-    if (isEmpty(L)) {
-        L.head = L.tail = P;
+bool isEmpty(stack listStack){
+    if(listStack.top == Nil){
+        return true;
     } else {
-        P->next = L.head;
-        L.head->prev = P;
-        L.head = P;
+        return false;
     }
 }
 
-void insertLast(List &L, Song S) {
-    address P = allocate(S);
-    if (isEmpty(L)) {
-        L.head = L.tail = P;
+void createStack(stack &listStack){
+    listStack.top = Nil;
+}
+
+address alokasi(int angka){
+    address nodeBaru = new node;
+    nodeBaru->dataAngka = angka;
+    nodeBaru->next = Nil;
+    return nodeBaru;
+}
+
+void dealokasi(address &node){
+    node->next = Nil;
+    delete node;
+}
+
+void push(stack &listStack, address nodeBaru){
+    nodeBaru->next = listStack.top;
+    listStack.top = nodeBaru;
+    cout << "Node " << nodeBaru->dataAngka << " berhasil ditambahkan kedalam stack!" << endl;
+}
+
+void pop(stack &listStack){
+    address nodeHapus;
+    if(isEmpty(listStack) == true){
+        cout << "Stack kosong!" << endl;
     } else {
-        P->prev = L.tail;
-        L.tail->next = P;
-        L.tail = P;
+        nodeHapus = listStack.top;
+        listStack.top = listStack.top->next;
+        nodeHapus->next = Nil;
+        dealokasi(nodeHapus);
+        cout << "node " <<  nodeHapus->dataAngka << " berhasil dihapus dari stack!" << endl;
     }
 }
 
-void insertAfter(List &L, address Q, Song S) {
-    if (Q != nullptr) {
-        address P = allocate(S);
-        P->next = Q->next;
-        P->prev = Q;
-
-        if (Q->next != nullptr)
-            Q->next->prev = P;
-        else
-            L.tail = P;
-
-        Q->next = P;
-    }
-}
-
-void insertBefore(List &L, address Q, Song S) {
-    if (Q != nullptr) {
-        if (Q == L.head) {
-            insertFirst(L, S);
+void update(stack &listStack, int posisi){
+    if(isEmpty(listStack) == true){
+        cout << "Stack kosong!" << endl;
+    } else {
+        if(posisi == 0){
+            cout << "Posisi tidak valid!" << endl;
         } else {
-            address P = allocate(S);
-            P->next = Q;
-            P->prev = Q->prev;
-
-            Q->prev->next = P;
-            Q->prev = P;
+            address nodeBantu = listStack.top;
+            int count = 1;
+            bool found = false;
+            while(nodeBantu != Nil){
+                if(count < posisi){
+                    nodeBantu = nodeBantu->next;
+                    count++;
+                } else if(count == posisi){
+                    cout << "Update node poisisi ke-" << posisi << endl;
+                    cout << "Masukkan angka : ";
+                    cin >> nodeBantu->dataAngka;
+                    cout << "Data berhasil diupdate!" << endl;
+                    cout << endl;
+                    found = true;
+                    break;
+                }
+            }
+            if(found == false){
+                cout << "Posisi " << posisi << " tidak valid!" << endl;
+            }
         }
     }
 }
 
-void deleteFirst(List &L, Song &S) {
-    if (!isEmpty(L)) {
-        address P = L.head;
-        S = P->info;
-
-        if (L.head == L.tail) {
-            L.head = L.tail = nullptr;
-        } else {
-            L.head = P->next;
-            L.head->prev = nullptr;
-        }
-        deallocate(P);
-    }
-}
-
-void deleteLast(List &L, Song &S) {
-    if (!isEmpty(L)) {
-        address P = L.tail;
-        S = P->info;
-
-        if (L.head == L.tail) {
-            L.head = L.tail = nullptr;
-        } else {
-            L.tail = P->prev;
-            L.tail->next = nullptr;
-        }
-        deallocate(P);
-    }
-}
-
-void deleteAfter(List &L, address Q, Song &S) {
-    if (Q != nullptr && Q->next != nullptr) {
-        address P = Q->next;
-        S = P->info;
-
-        Q->next = P->next;
-        if (P->next != nullptr)
-            P->next->prev = Q;
-        else
-            L.tail = Q;
-
-        deallocate(P);
-    }
-}
-
-void deleteBefore(List &L, address Q, Song &S) {
-    if (Q != nullptr && Q->prev != nullptr) {
-        address P = Q->prev;
-        S = P->info;
-
-        if (P == L.head) {
-            deleteFirst(L, S);
-        } else {
-            P->prev->next = Q;
-            Q->prev = P->prev;
-            deallocate(P);
+void view(stack listStack){
+    if(isEmpty(listStack) == true){
+        cout << "List kosong!" << endl;
+    } else {
+        address nodeBantu = listStack.top;
+        while(nodeBantu != Nil){
+            cout << nodeBantu->dataAngka << " ";
+            nodeBantu = nodeBantu->next;
         }
     }
+    cout << endl;
 }
 
-void updateAtPosition(List &L, int posisi) {
-    int idx = 1;
-    address P = L.head;
-
-    while (P != nullptr && idx < posisi) {
-        P = P->next;
-        idx++;
-    }
-
-    if (P != nullptr) {
-        cout << "Masukkan Title baru: ";
-        cin >> P->info.Title;
-        cout << "Masukkan Artist baru: ";
-        cin >> P->info.Artist;
-        cout << "Masukkan Duration baru: ";
-        cin >> P->info.DurationSec;
-        cout << "Masukkan PlayCount baru: ";
-        cin >> P->info.PlayCount;
-        cout << "Masukkan Rating baru: ";
-        cin >> P->info.Rating;
-    }
-}
-
-void updateBefore(List &L, address Q) {
-    if (Q != nullptr && Q->prev != nullptr) {
-        address P = Q->prev;
-
-        cout << "Masukkan Title baru: ";
-        cin >> P->info.Title;
-        cout << "Masukkan Artist baru: ";
-        cin >> P->info.Artist;
-        cout << "Masukkan Duration baru: ";
-        cin >> P->info.DurationSec;
-        cout << "Masukkan PlayCount baru: ";
-        cin >> P->info.PlayCount;
-        cout << "Masukkan Rating baru: ";
-        cin >> P->info.Rating;
-    }
-}
-
-void viewList(List L) {
-    if (isEmpty(L)) {
-        cout << "List kosong.\n";
-        return;
-    }
-
-    address P = L.head;
-    int idx = 1;
-
-    while (P != nullptr) {
-        float pop = getPopularityScore(P->info);
-
-        cout << idx << ". "
-             << P->info.Title << " | " << P->info.Artist
-             << " | " << P->info.DurationSec << "s | PC: "
-             << P->info.PlayCount << " | Rating: "
-             << P->info.Rating << " | PopularityScore: "
-             << pop << endl;
-
-        P = P->next;
-        idx++;
-    }
-}
-
-void searchByPopularityRange(List L, float minScore, float maxScore) {
-    address P = L.head;
-    int idx = 1;
-
-    cout << "\nHasil searching PopularityScore in [" 
-         << minScore << ", " << maxScore << "]\n";
-
-    while (P != nullptr) {
-        float pop = getPopularityScore(P->info);
-
-        if (pop >= minScore && pop <= maxScore) {
-            cout << idx << ". " << P->info.Title 
-                 << " | PopularityScore: " << pop << endl;
+void searchData(stack listStack, int data){
+    if(isEmpty(listStack) == true){
+        cout << "List kosong!" << endl;
+    } else {
+        address nodeBantu = listStack.top;
+        int posisi = 1;
+        bool found = false;
+        cout << "Mencari data " << data << "..." << endl;
+        while(nodeBantu != Nil){
+            if(nodeBantu->dataAngka == data){
+                cout << "Data " << data << " ditemukan pada posisi ke-" << posisi << endl;
+                found = true;
+                cout << endl;
+                break;
+            } else {
+                posisi++;
+                nodeBantu = nodeBantu->next;
+            }
         }
-
-        P = P->next;
-        idx++;
+        if(found == false){
+            cout << "Data " << data << " tidak ditemukan didalam stack!" << endl;
+            cout << endl;
+        }
     }
 }
 ```
@@ -273,65 +168,52 @@ Program ini merupakan implementasi lengkap Doubly Linked List untuk pengelolaan 
 ### 3. [main.cpp]
 
 ```C++
-#include "DLLPlaylist.h"
+#include "stack.h"
+#include <iostream>
 
-address getNodeAt(List L, int posisi) {
-    int idx = 1;
-    address P = L.head;
-    while (P != nullptr && idx < posisi) {
-        P = P->next;
-        idx++;
-    }
-    return P;
-}
+using namespace std;
 
-int main() {
-    List L;
-    createList(L);
+int main(){
+    stack listStack;
+    address nodeA, nodeB, nodeC, nodeD, nodeE = Nil;
+    createStack(listStack);
 
-    insertLast(L, {"Senja di Kota", "Nona Band", 210, 150, 4.2});
-    insertLast(L, {"Langkahmu", "Delta", 185, 320, 4.8});
-    insertLast(L, {"Hujan Minggu", "Arka", 240, 90, 3.95});
+    nodeA = alokasi(1);
+    nodeB = alokasi(2);
+    nodeC = alokasi(3);
+    nodeD = alokasi(4);
+    nodeE = alokasi(5);
 
-    cout << "\n=== List Awal ===\n";
-    viewList(L);
+    push(listStack, nodeA);
+    push(listStack, nodeB);
+    push(listStack, nodeC);
+    push(listStack, nodeD);
+    push(listStack, nodeE);
+    cout << endl;
 
-    Song removed;
-    deleteLast(L, removed);
+    cout << "--- Stack setelah push ---" << endl;
+    view(listStack);
+    cout << endl;
 
-    cout << "\n Setelah deleteLast \n";
-    viewList(L);
+    pop(listStack);
+    pop(listStack);
+    cout << endl;
 
-    cout << "\n Update posisi ke-2 \n";
-    updateAtPosition(L, 2);
+    cout << "--- Stack setelah pop 2 kali ---" << endl;
+    view(listStack);
+    cout << endl;
 
-    cout << "\n Setelah Update \n";
-    viewList(L);
+    update(listStack, 2);
+    update(listStack, 1);
+    update(listStack, 4);
+    cout << endl;
 
-    address pos2 = getNodeAt(L, 2);
+    cout << "--- Stack setelah update ---" << endl;
+    view(listStack);
+    cout << endl;
 
-    insertBefore(L, pos2, {"Senandung", "Mira", 175, 120, 4.0});
-    cout << "\n Setelah insertBefore posisi 2 \n";
-    viewList(L);
-
-    cout << "\n UpdateBefore posisi 2 \n";
-    pos2 = getNodeAt(L, 2);
-    updateBefore(L, pos2);
-
-    cout << "\n Setelah updateBefore \n";
-    viewList(L);
-
-    cout << "\n deleteBefore posisi 3 \n";
-    Song removed2;
-    address pos3 = getNodeAt(L, 3);
-    deleteBefore(L, pos3, removed2);
-
-    cout << "\n Setelah deleteBefore \n";
-    viewList(L);
-
-    cout << "\n Searching PopularityScore 150–300 \n";
-    searchByPopularityRange(L, 150.0, 300.0);
-
+    searchData(listStack, 4);
+    searchData(listStack, 9);
     return 0;
 }
 ```
