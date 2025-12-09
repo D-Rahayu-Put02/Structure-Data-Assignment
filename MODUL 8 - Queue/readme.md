@@ -2,20 +2,21 @@
 <p align="center">Dwi Rahayu Putra</p>
 
 ## Dasar Teori
-Double Linked List
+#### Queue
 
-Doubly Linked list adalah linked list yang masing – masing elemen nya memiliki 2 successor, yaitu
-successor yang menunjuk pada elemen sebelumnya (prev) dan successor yang menunjuk pada elemen
-sesudahnya (next).
+Queue merupakan struktur data yang dapat diumpamakan seperti sebuah antrean.
+Misalkan antrean pada loket pembelian tiket Kereta Api. Orang yang akan mendapatkan pelayanan
+yang pertama adalah orang pertamakali masuk dalam antrean tersebut dan yang terakhir masuk dia
+akan mendapatkan layanan yang terakhir pula. Jadi prinsip dasar dalam Queue adalah FIFO (First in
+Fisrt out), proses yang pertama masuk akan diakses terlebih dahulu. Dalam pengimplementasian
+struktur Queue dalam C dapat menggunakan tipe data array dan linked list.
 
-Doubly linked list juga menggunakan dua buah successor utama yang terdapat pada list, yaitu first
-(successor yang menunjuk elemen pertama) dan last (susesor yang menunjuk elemen terakhir list).
-Komponen-komponen dalam Doubly linked list:
-1. First : pointer pada list yang menunjuk pada elemen pertama list.
-2. Last : pointer pada list yang menunjuk pada elemen terakhir list.
-3. Next : pointer pada elemen sebagai successor yang menunjuk pada elemen didepannya.
-4. Prev : pointer pada elemen sebagai successor yang menunjuk pada elemen dibelakangnya.
-
+#### 1. Operasi Dasar pada Queue
+- Enqueue → menambahkan elemen ke dalam antrean (di bagian belakang / tail)
+- Dequeue → menghapus elemen dari antrean (di bagian depan / head)
+- Front / Peek → melihat elemen paling depan tanpa menghapusnya
+- IsEmpty → mengecek apakah queue kosong
+- IsFull (hanya pada implementasi berbasis array)
 
 ## Guided 
 
@@ -54,7 +55,7 @@ int TotalBiayaPengiriman(QueueEkspedisi Q);
 
 #endif
 ```
-Program ini merupakan implementasi Doubly Linked List yang digunakan untuk mengelola data playlist lagu, di mana setiap node menyimpan informasi lagu dan terhubung dua arah. Program menyediakan fungsi untuk menambah, menghapus, memperbarui, menampilkan, serta mencari lagu berdasarkan nilai popularitas.
+Program ini digunakan untuk mengelola antrean paket ekspedisi menggunakan struktur queue. Di dalamnya terdapat fitur untuk menambah paket, menghapus paket, menampilkan antrean, serta menghitung total biaya pengiriman.
 
 ### 2. [Queu.cpp]
 
@@ -141,7 +142,7 @@ int TotalBiayaPengiriman(QueueEkspedisi Q) {
     return total;
 }
 ```
-Program ini merupakan implementasi lengkap Doubly Linked List untuk pengelolaan playlist lagu, yang mencakup proses alokasi dan dealokasi node, operasi penyisipan dan penghapusan di berbagai posisi, pembaruan data lagu, perhitungan skor popularitas, penelusuran data berdasarkan rentang skor, serta penampilan seluruh isi playlist secara terurut. Program ini mengatur setiap lagu sebagai node yang terhubung dua arah sehingga memudahkan manipulasi data playlist secara fleksibel.
+Program ini berfungsi untuk mengelola antrean paket ekspedisi menggunakan struktur queue berbasis array. Didalamnya ada proses menambah paket (enqueue), menghapus paket (dequeue), menampilkan antrean, dan menghitung total biaya pengiriman berdasarkan berat barang. Program ini mensimulasikan sistem antrean pada layanan pengiriman paket.
 
 ### 3. [main.cpp]
 
@@ -198,8 +199,15 @@ int main() {
     return 0;
 }
 ```
-Program ini digunakan untuk mengatur data playlist lagu, seperti menambah, menghapus, menyisipkan, dan memperbarui lagu pada posisi tertentu.
-Seluruh pengelolaan playlist dilakukan menggunakan struktur data Doubly Linked List, sehingga setiap lagu dapat diakses, dipindahkan, atau dimodifikasi melalui node yang saling terhubung dua arah.
+Program main() ini digunakan sebagai menu interaktif untuk menjalankan sistem antrean ekspedisi Gojira Express.
+
+Melalui menu tersebut, pengguna bisa:
+- Menambah data paket ke dalam antrean (enqueue)
+- Menghapus paket terdepan (dequeue)
+- Melihat seluruh paket dalam antrean
+- Menghitung total biaya pengiriman
+- Keluar dari program
+program ini mensimulasikan sistem antrean layanan pengiriman paket menggunakan queue.
 
 ## Unguided 
 ### 1. [doublelist.h]
