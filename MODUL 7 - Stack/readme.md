@@ -441,8 +441,14 @@ int main() {
 ```
 
 #### Output:
-<img width="1020" height="920" alt="image" src="https://github.com/user-attachments/assets/ead53e62-fdab-42d5-84a6-fa2a90b31401" />
+#### Soal nomor 1:
+<img width="192" height="96" alt="image" src="https://github.com/user-attachments/assets/c9c10b84-b3ed-4ed5-b779-bfc4744c4548" />
 
+#### Soal nomor 2:
+<img width="182" height="85" alt="image" src="https://github.com/user-attachments/assets/ff3a039c-2365-40ea-81ea-24f3e1bb0564" />
+
+#### Soal nomor 3:
+<img width="224" height="107" alt="image" src="https://github.com/user-attachments/assets/0927e53a-7f9c-45ee-9e17-9f3eb6ec281e" />
 
 
 Program ini dibuat untuk mengelola data kendaraan menggunakan Doubly Linked List.
