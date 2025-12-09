@@ -221,220 +221,177 @@ int main(){
 ini main program stack yang digunakan untuk mengelola data dalam sebuah Stack dengan melakukan operasi push, pop, update, view, dan search. Program akan menunjukkan bagaimana stack berubah setelah setiap operasi.
 
 ## Unguided 
-### 1. [doublelist.h]
+### 1. [soalstack.h]
 
 ```C++
-#ifndef DOUBLELIST_H
-#define DOUBLELIST_H
-#define NIL NULL
+#ifndef SOALSTACK_H
+#define SOALSTACK_H
+#define MAX 20
+#define NIL -1
 #include <iostream>
 using namespace std;
 
-struct kendaraan {
-    string nopol;
-    string warna;
-    int tahunbuat;
+typedef int infotype;
+
+struct Stack {
+    infotype info[MAX];
+    int top;
 };
 
-typedef kendaraan infotype;
-typedef struct ElmtList *address;
+void createStack(Stack &S);
+void push(Stack &S, infotype x);
+infotype pop(Stack &S);
+void printInfo(Stack S);
+void balikStack(Stack &S);
 
-struct ElmtList {
-    infotype info;
-    address next;
-    address prev;
-};
+// fungsi untuk nomor 2
+void pushAscending(Stack &S, infotype x);
 
-struct List {
-    address first;
-    address last;
-};
-
-void CreateList(List &L);
-address alokasi(infotype x);
-void dealokasi(address &P);
-void insertLast(List &L, address P);
-void printInfo(List L);
-address findElm(List L, string nopol);
-void deleteFirst(List &L);
-void deleteLast(List &L);
-void deleteAfter(List &L, address Prec);
+// fungsi untuk nomor 3
+void getInputStream(Stack &S);
 
 #endif
 ```
-### 2. [doublelist.cpp]
+### 2. [soalstack.cpp]
 ```C++
-#include "doublelist.h"
+#include "soalstack.h"
 
-void CreateList(List &L) {
-    L.first = NIL;
-    L.last = NIL;
+void createStack(Stack &S) {
+    S.top = NIL;
 }
 
-address alokasi(infotype x) {
-    address P = new ElmtList;
-    P->info = x;
-    P->next = NIL;
-    P->prev = NIL;
-    return P;
+void push(Stack &S, infotype x) {
+    if (S.top == MAX - 1) return;
+    S.top++;
+    S.info[S.top] = x;
 }
 
-void dealokasi(address &P) {
-    delete P;
-    P = NIL;
+infotype pop(Stack &S) {
+    if (S.top == NIL) return -999; 
+    infotype x = S.info[S.top];
+    S.top--;
+    return x;
 }
 
-void insertLast(List &L, address P) {
-    if (L.first == NIL) {
-        L.first = P;
-        L.last = P;
-    } else {
-        L.last->next = P;
-        P->prev = L.last;
-        L.last = P;
+void printInfo(Stack S) {
+    cout << "[TOP] ";
+    for (int i = S.top; i >= 0; i--) {
+        cout << S.info[i] << " ";
+    }
+    cout << endl;
+}
+
+void balikStack(Stack &S) {
+    Stack temp;
+    createStack(temp);
+
+    while (S.top != NIL) {
+        push(temp, pop(S));
+    }
+
+    S = temp;
+}
+
+void pushAscending(Stack &S, infotype x) {
+    if (S.top == MAX - 1) return;
+
+    Stack temp;
+    createStack(temp);
+
+    while (S.top != NIL && S.info[S.top] < x) {
+        push(temp, pop(S));
+    }
+
+    push(S, x);
+
+    while (temp.top != NIL) {
+        push(S, pop(temp));
     }
 }
 
-void printInfo(List L) {
-    address P = L.first;
-    while (P != NIL) {
-        cout << "Nomor Polisi : " << P->info.nopol << endl;
-        cout << "Warna        : " << P->info.warna << endl;
-        cout << "Tahun        : " << P->info.tahunbuat << endl;
-        cout << endl;
-        P = P->next;
-    }
-}
-
-address findElm(List L, string nopol) {
-    address P = L.first;
-    while (P != NIL) {
-        if (P->info.nopol == nopol) return P;
-        P = P->next;
-    }
-    return NIL;
-}
-
-void deleteFirst(List &L) {
-    if (L.first != NIL) {
-        address P = L.first;
-
-        if (L.first == L.last) {
-            L.first = L.last = NIL;
-        } else {
-            L.first = P->next;
-            L.first->prev = NIL;
+void getInputStream(Stack &S) {
+    char c;
+    while (true) {
+        c = cin.get();
+        if (c == '\n') break;
+        int x = c - '0';  
+        if (x >= 0 && x <= 9) {
+            push(S, x);
         }
-        dealokasi(P);
-    }
-}
-
-void deleteLast(List &L) {
-    if (L.first != NIL) {
-        address P = L.last;
-
-        if (L.first == L.last) {
-            L.first = L.last = NIL;
-        } else {
-            L.last = P->prev;
-            L.last->next = NIL;
-        }
-        dealokasi(P);
-    }
-}
-
-void deleteAfter(List &L, address Prec) {
-    if (Prec != NIL && Prec->next != NIL) {
-        address P = Prec->next;
-        Prec->next = P->next;
-        if (P->next != NIL) {
-            P->next->prev = Prec;
-        } else {
-            L.last = Prec;
-        }
-        dealokasi(P);
     }
 }
 ```
-### 3. [main.cpp]
+### 3. [main.cpp] soal 1
 
 ```C++
-#include "doublelist.h"
+#include "soalstack.h"
 
 int main() {
-    List L;
-    CreateList(L);
+    cout << "Hello world!" << endl;
 
-    infotype x;
-    address P;
-    string nopolInput;
+    Stack S;
+    createStack(S);
 
-    // Input 4 kali sesuai contoh modul
-    for (int i = 0; i < 4; i++) {
-        cout << "masukkan nomor polisi: ";
-        cin >> x.nopol;
+    push(S, 3);
+    push(S, 4);
+    push(S, 8);
+    push(S, 2);
 
-        // Cek duplikasi
-        if (findElm(L, x.nopol) != NIL) {
-            cout << "nomor polisi sudah terdaftar\n\n";
-            // skip input warna/tahun kalau dupe
-            continue;
-        }
+    printInfo(S);
 
-        cout << "masukkan warna kendaraan: ";
-        cin >> x.warna;
+    cout << "balik stack" << endl;
+    balikStack(S);
+    printInfo(S);
 
-        cout << "masukkan tahun kendaraan: ";
-        cin >> x.tahunbuat;
+    return 0;
+}
+```
+### 4. [main.cpp] soal 2
 
-        cout << endl;
+```C++
+#include "soalstack.h"
 
-        P = alokasi(x);
-        insertLast(L, P);
-    }
+int main() {
+    cout << "Hello world!" << endl;
 
-    cout << "DATA LIST 1\n";
-    printInfo(L);
-    cout << endl;
+    Stack S;
+    createStack(S);
 
+    pushAscending(S, 3);
+    pushAscending(S, 4);
+    pushAscending(S, 8);
+    pushAscending(S, 2);
+    pushAscending(S, 3);
+    pushAscending(S, 9);
 
-    // ===== SOAL NOMOR 2 : Find D001 =====
-    cout << "Masukkan Nomor Polisi yang dicari : ";
-    cin >> nopolInput;
+    printInfo(S);
 
-    address found = findElm(L, nopolInput);
-    if (found != NIL) {
-        cout << "Nomor Polisi : " << found->info.nopol << endl;
-        cout << "Warna        : " << found->info.warna << endl;
-        cout << "Tahun        : " << found->info.tahunbuat << endl;
-    } else {
-        cout << "Data tidak ditemukan.\n";
-    }
+    cout << "balik stack" << endl;
+    balikStack(S);
+    printInfo(S);
 
-    cout << endl;
+    return 0;
+}
+```
+### 5. [main.cpp] soal 3
 
+```C++
+#include "soalstack.h"
 
-    // ===== SOAL NOMOR 3 : Hapus =====
-    cout << "Masukkan Nomor Polisi yang akan dihapus : ";
-    cin >> nopolInput;
+int main() {
+    cout << "Hello world!" << endl;
 
-    address target = findElm(L, nopolInput);
+    Stack S;
+    createStack(S);
 
-    if (target != NIL) {
-        if (target == L.first) {
-            deleteFirst(L);
-        } else if (target == L.last) {
-            deleteLast(L);
-        } else {
-            deleteAfter(L, target->prev);
-        }
-        cout << "Data dengan nomor polisi " << nopolInput << " berhasil dihapus.\n";
-    } else {
-        cout << "Data tidak ditemukan.\n";
-    }
+    cout << "Masukkan input: ";
+    getInputStream(S);
 
-    cout << "\nDATA LIST 1\n";
-    printInfo(L);
+    printInfo(S);
+
+    cout << "balik stack" << endl;
+    balikStack(S);
+    printInfo(S);
 
     return 0;
 }
@@ -450,23 +407,18 @@ int main() {
 #### Soal nomor 3:
 <img width="224" height="107" alt="image" src="https://github.com/user-attachments/assets/0927e53a-7f9c-45ee-9e17-9f3eb6ec281e" />
 
+Program ini dibuat untuk mengimplementasikan struktur data stack menggunakan pendekatan pointer seperti pada linked list. Stack bekerja dengan prinsip LIFO (Last In First Out), sehingga data terakhir yang dimasukkan akan menjadi data pertama yang diambil.
 
-Program ini dibuat untuk mengelola data kendaraan menggunakan Doubly Linked List.
-Setiap node menyimpan nomor polisi, warna kendaraan, dan tahun pembuatan.
-Program dapat melakukan:
-- menambah data kendaraan ke belakang list (insertLast)
-- menampilkan seluruh data (printInfo)
-- mengecek apakah nopol sudah terdaftar (findElm)
-- mencari data kendaraan tertentu
-- menghapus data berdasarkan posisi (deleteFirst, deleteLast, deleteAfter)
-- menolak input kendaraan dengan nopol yang sama (duplikasi)
-Program ini mensimulasikan cara kerja struktur data Double Linked List untuk pengolahan data kendaraan secara dinamis.
 #### Full code Screenshot:
-<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/cb3d1f32-c50b-487f-b408-ae51c39b75b6" />
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/54319d21-e979-47fb-92ff-7238b37a9a71" />
 
-<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/362d23f7-1a6d-48df-851b-5f8361dffdda" />
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/38945648-451e-4f37-a385-19a0ac38f3e2" />
 
-<img width="1917" height="1079" alt="image" src="https://github.com/user-attachments/assets/cae371a4-c2bb-432e-a55a-fcb7a56fb7ca" />
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/277b0c69-733d-4325-a5ce-d8581df2d613" />
+
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/6ac5be95-6921-4db0-a54a-3356ee467bd2" />
+
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/204a41f1-9656-4e16-92fc-7abc766d8aec" />
 
 
 ## Kesimpulan
