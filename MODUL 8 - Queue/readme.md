@@ -4,7 +4,7 @@
 ## Dasar Teori
 #### Queue
 
-Queue merupakan struktur data yang dapat diumpamakan seperti sebuah antrean.
+Queue merupakan struktur data yang dapat diartikan seperti sebuah antrean.
 Misalkan antrean pada loket pembelian tiket Kereta Api. Orang yang akan mendapatkan pelayanan
 yang pertama adalah orang pertamakali masuk dalam antrean tersebut dan yang terakhir masuk dia
 akan mendapatkan layanan yang terakhir pula. Jadi prinsip dasar dalam Queue adalah FIFO (First in
