@@ -210,254 +210,257 @@ Melalui menu tersebut, pengguna bisa:
 program ini mensimulasikan sistem antrean layanan pengiriman paket menggunakan queue.
 
 ## Unguided 
-### 1. [doublelist.h]
+### 1. [Qantri.h]
 
 ```C++
-#ifndef DOUBLELIST_H
-#define DOUBLELIST_H
-#define NIL NULL
+#ifndef QANTRI_H
+#define QANTRI_H
+
 #include <iostream>
 using namespace std;
 
-struct kendaraan {
-    string nopol;
-    string warna;
-    int tahunbuat;
+#define MAX 5
+#define NIL -1
+
+typedef int infotype;
+struct Queue {
+    infotype info[MAX];
+    int head;
+    int tail;
 };
 
-typedef kendaraan infotype;
-typedef struct ElmtList *address;
-
-struct ElmtList {
-    infotype info;
-    address next;
-    address prev;
-};
-
-struct List {
-    address first;
-    address last;
-};
-
-void CreateList(List &L);
-address alokasi(infotype x);
-void dealokasi(address &P);
-void insertLast(List &L, address P);
-void printInfo(List L);
-address findElm(List L, string nopol);
-void deleteFirst(List &L);
-void deleteLast(List &L);
-void deleteAfter(List &L, address Prec);
+void createQueue(Queue &Q);
+bool isEmptyQueue(Queue Q);
+bool isFullQueue(Queue Q);
+void enqueue(Queue &Q, infotype x);
+infotype dequeue(Queue &Q);
+void printInfo(Queue Q);
 
 #endif
 ```
-### 2. [doublelist.cpp]
+### 2. [Qantri.cpp]
 ```C++
-#include "doublelist.h"
+#include "Qantri.h"
 
-void CreateList(List &L) {
-    L.first = NIL;
-    L.last = NIL;
+void createQueue(Queue &Q) {
+    Q.head = NIL;
+    Q.tail = NIL;
 }
 
-address alokasi(infotype x) {
-    address P = new ElmtList;
-    P->info = x;
-    P->next = NIL;
-    P->prev = NIL;
-    return P;
+bool isEmptyQueue(Queue Q) {
+    return Q.head == NIL;
 }
 
-void dealokasi(address &P) {
-    delete P;
-    P = NIL;
+bool isFullQueue(Queue Q) {
+    return Q.tail == MAX - 1;
 }
 
-void insertLast(List &L, address P) {
-    if (L.first == NIL) {
-        L.first = P;
-        L.last = P;
+void enqueue(Queue &Q, infotype x) {
+    if (!isFullQueue(Q)) {
+        if (isEmptyQueue(Q)) {
+            Q.head = 0;
+            Q.tail = 0;
+        } else {
+            Q.tail++;
+        }
+        Q.info[Q.tail] = x;
+    }
+}
+
+infotype dequeue(Queue &Q) {
+    infotype x = Q.info[Q.head];
+
+    if (Q.head == Q.tail) {
+        Q.head = NIL;
+        Q.tail = NIL;
     } else {
-        L.last->next = P;
-        P->prev = L.last;
-        L.last = P;
+        Q.head++;
     }
+    return x;
 }
 
-void printInfo(List L) {
-    address P = L.first;
-    while (P != NIL) {
-        cout << "Nomor Polisi : " << P->info.nopol << endl;
-        cout << "Warna        : " << P->info.warna << endl;
-        cout << "Tahun        : " << P->info.tahunbuat << endl;
-        cout << endl;
-        P = P->next;
-    }
-}
+void printInfo(Queue Q) {
+    cout << Q.head << " - " << Q.tail << "   | ";
 
-address findElm(List L, string nopol) {
-    address P = L.first;
-    while (P != NIL) {
-        if (P->info.nopol == nopol) return P;
-        P = P->next;
-    }
-    return NIL;
-}
-
-void deleteFirst(List &L) {
-    if (L.first != NIL) {
-        address P = L.first;
-
-        if (L.first == L.last) {
-            L.first = L.last = NIL;
-        } else {
-            L.first = P->next;
-            L.first->prev = NIL;
+    if (isEmptyQueue(Q)) {
+        cout << "empty queue";
+    } else {
+        for (int i = Q.head; i <= Q.tail; i++) {
+            cout << Q.info[i] << "";
         }
-        dealokasi(P);
+    }
+   cout << endl;
+}
+```
+### 4. [Qantri2.cpp]
+
+```C++
+#include "Qantri.h"
+
+void createQueue(Queue &Q) {
+    Q.head = -1;
+    Q.tail = -1;
+}
+
+bool isEmptyQueue(Queue Q) {
+    return (Q.head == -1 && Q.tail == -1);
+}
+
+bool isFullQueue(Queue Q) {
+    return (Q.tail == 4);
+}
+
+void enqueue(Queue &Q, infotype x) {
+    if (!isFullQueue(Q)) {
+        if (isEmptyQueue(Q)) {
+            Q.head = 0;
+            Q.tail = 0;
+        } else {
+            Q.tail++;
+        }
+        Q.info[Q.tail] = x;
     }
 }
 
-void deleteLast(List &L) {
-    if (L.first != NIL) {
-        address P = L.last;
-
-        if (L.first == L.last) {
-            L.first = L.last = NIL;
-        } else {
-            L.last = P->prev;
-            L.last->next = NIL;
+infotype dequeue(Queue &Q) {
+    infotype x = -1;
+    if (!isEmptyQueue(Q)) {
+        x = Q.info[Q.head];
+        Q.head++;
+        if (Q.head > Q.tail) {
+            Q.head = -1;
+            Q.tail = -1;
         }
-        dealokasi(P);
+    }
+    return x;
+}
+
+void printInfo(Queue Q) {
+    cout << Q.head << " - " << Q.tail << " | ";
+    if (isEmptyQueue(Q)) {
+        cout << "empty queue";
+    } else {
+        for (int i = Q.head; i <= Q.tail; i++) {
+            cout << Q.info[i] << " ";
+        }
+    }
+    cout << endl;
+}
+```
+### 5. [Qantri3.cpp]
+
+```C++
+#include "Qantri.h"
+
+void createQueue(Queue &Q) {
+    Q.head = -1;
+    Q.tail = -1;
+}
+
+bool isEmptyQueue(Queue Q) {
+    return (Q.head == -1);
+}
+
+bool isFullQueue(Queue Q) {
+    return ((Q.tail + 1) % 5 == Q.head);
+}
+
+void enqueue(Queue &Q, infotype x) {
+    if (!isFullQueue(Q)) {
+        if (isEmptyQueue(Q)) {
+            Q.head = 0;
+            Q.tail = 0;
+        } else {
+            Q.tail = (Q.tail + 1) % 5;
+        }
+        Q.info[Q.tail] = x;
     }
 }
 
-void deleteAfter(List &L, address Prec) {
-    if (Prec != NIL && Prec->next != NIL) {
-        address P = Prec->next;
-        Prec->next = P->next;
-        if (P->next != NIL) {
-            P->next->prev = Prec;
+infotype dequeue(Queue &Q) {
+    infotype x = -1;
+    if (!isEmptyQueue(Q)) {
+        x = Q.info[Q.head];
+        if (Q.head == Q.tail) {
+            Q.head = -1;
+            Q.tail = -1;
         } else {
-            L.last = Prec;
+            Q.head = (Q.head + 1) % 5;
         }
-        dealokasi(P);
     }
+    return x;
+}
+
+void printInfo(Queue Q) {
+    cout << Q.head << " - " << Q.tail << " | ";
+    if (isEmptyQueue(Q)) {
+        cout << "empty queue";
+    } else {
+        int i = Q.head;
+        while (true) {
+            cout << Q.info[i] << " ";
+            if (i == Q.tail) break;
+            i = (i + 1) % 5;
+        }
+    }
+    cout << endl;
 }
 ```
 ### 3. [main.cpp]
 
 ```C++
-#include "doublelist.h"
+#include "Qantri.h"
 
 int main() {
-    List L;
-    CreateList(L);
+    cout << "Hello world!" << endl;
 
-    infotype x;
-    address P;
-    string nopolInput;
+    Queue Q;
+    createQueue(Q);
 
-    // Input 4 kali sesuai contoh modul
-    for (int i = 0; i < 4; i++) {
-        cout << "masukkan nomor polisi: ";
-        cin >> x.nopol;
+    cout << "------------------------" << endl;
+    cout << "H - T \t| Queue Info" << endl;
+    cout << "------------------------" << endl;
 
-        // Cek duplikasi
-        if (findElm(L, x.nopol) != NIL) {
-            cout << "nomor polisi sudah terdaftar\n\n";
-            // skip input warna/tahun kalau dupe
-            continue;
-        }
+    printInfo(Q);
 
-        cout << "masukkan warna kendaraan: ";
-        cin >> x.warna;
-
-        cout << "masukkan tahun kendaraan: ";
-        cin >> x.tahunbuat;
-
-        cout << endl;
-
-        P = alokasi(x);
-        insertLast(L, P);
-    }
-
-    cout << "DATA LIST 1\n";
-    printInfo(L);
-    cout << endl;
-
-
-    // ===== SOAL NOMOR 2 : Find D001 =====
-    cout << "Masukkan Nomor Polisi yang dicari : ";
-    cin >> nopolInput;
-
-    address found = findElm(L, nopolInput);
-    if (found != NIL) {
-        cout << "Nomor Polisi : " << found->info.nopol << endl;
-        cout << "Warna        : " << found->info.warna << endl;
-        cout << "Tahun        : " << found->info.tahunbuat << endl;
-    } else {
-        cout << "Data tidak ditemukan.\n";
-    }
-
-    cout << endl;
-
-
-    // ===== SOAL NOMOR 3 : Hapus =====
-    cout << "Masukkan Nomor Polisi yang akan dihapus : ";
-    cin >> nopolInput;
-
-    address target = findElm(L, nopolInput);
-
-    if (target != NIL) {
-        if (target == L.first) {
-            deleteFirst(L);
-        } else if (target == L.last) {
-            deleteLast(L);
-        } else {
-            deleteAfter(L, target->prev);
-        }
-        cout << "Data dengan nomor polisi " << nopolInput << " berhasil dihapus.\n";
-    } else {
-        cout << "Data tidak ditemukan.\n";
-    }
-
-    cout << "\nDATA LIST 1\n";
-    printInfo(L);
-
+    enqueue(Q, 5);  printInfo(Q);
+    enqueue(Q, 2);  printInfo(Q);
+    enqueue(Q, 7);  printInfo(Q);
+    dequeue(Q);     printInfo(Q);
+    enqueue(Q, 4);  printInfo(Q);
+    dequeue(Q);     printInfo(Q);
+    dequeue(Q);     printInfo(Q);
     return 0;
 }
 ```
-
 #### Output:
-<img width="1020" height="920" alt="image" src="https://github.com/user-attachments/assets/ead53e62-fdab-42d5-84a6-fa2a90b31401" />
+#### Soal 1:
+<img width="626" height="305" alt="image" src="https://github.com/user-attachments/assets/e1415f73-c9e4-4973-a944-aeef363c830e" />
+
+#### Soal 2:
+<img width="493" height="283" alt="image" src="https://github.com/user-attachments/assets/89b3d7a8-6e79-4aed-a5c8-252a37ee8842" />
+
+#### Soal 3:
+<img width="490" height="282" alt="image" src="https://github.com/user-attachments/assets/d4803f92-086e-4fb6-bbf0-de8891008a55" />
 
 
+Program ini dibuat untuk mengimplementasikan konsep ADT Queue (antrian) menggunakan array dalam bahasa C++. Program mensimulasikan proses antrian dengan operasi utama enqueue (menambah data) dan dequeue (menghapus data) sesuai prinsip FIFO (First In First Out).
+Pada latihan ini, queue diimplementasikan dalam beberapa mekanisme, yaitu queue dengan head dan tail bergerak serta circular queue, untuk menunjukkan perbedaan cara pengelolaan indeks dalam struktur data queue.
 
-Program ini dibuat untuk mengelola data kendaraan menggunakan Doubly Linked List.
-Setiap node menyimpan nomor polisi, warna kendaraan, dan tahun pembuatan.
-Program dapat melakukan:
-- menambah data kendaraan ke belakang list (insertLast)
-- menampilkan seluruh data (printInfo)
-- mengecek apakah nopol sudah terdaftar (findElm)
-- mencari data kendaraan tertentu
-- menghapus data berdasarkan posisi (deleteFirst, deleteLast, deleteAfter)
-- menolak input kendaraan dengan nopol yang sama (duplikasi)
-Program ini mensimulasikan cara kerja struktur data Double Linked List untuk pengolahan data kendaraan secara dinamis.
 #### Full code Screenshot:
-<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/cb3d1f32-c50b-487f-b408-ae51c39b75b6" />
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/e3b2ebfd-9935-4374-803a-6c6c4513403d" />
 
-<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/362d23f7-1a6d-48df-851b-5f8361dffdda" />
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/914b77a0-e8e0-4b70-b605-072f5107f9e7" />
 
-<img width="1917" height="1079" alt="image" src="https://github.com/user-attachments/assets/cae371a4-c2bb-432e-a55a-fcb7a56fb7ca" />
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/20097e09-2d7f-49f6-b27f-e64cb89897bc" />
+
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/921979ec-b70a-4bc5-a852-bd501fd8401c" />
+
+<img width="1919" height="1074" alt="image" src="https://github.com/user-attachments/assets/b6a5951f-dc86-4119-ab3b-a6d5b05b3a22" />
 
 
 ## Kesimpulan
-Ringkasan dan interpretasi pandangan kalia dari hasil praktikum dan pembelajaran yang didapat[1]. Pada modul ini dapat disimpulkan kalau Doubly Linked List sangat cocok digunakan untuk mengelola data secara dinamis karena setiap node memiliki pointer ke depan dan ke belakang.
-Hal ini memudahkan proses penelusuran, pencarian, penambahan, maupun penghapusan data tanpa harus memindahkan seluruh elemen.
-Struktur ini memberikan fleksibilitas lebih besar dibanding single linked list, terutama pada operasi delete dan insert di tengah list.
-
-
+Ringkasan dan interpretasi pandangan kalia dari hasil praktikum dan pembelajaran yang didapat[1]. Pada modul ini dapat disimpulkan bahwa struktur data queue sangat cocok digunakan untuk menangani proses antrian yang bersifat berurutan. Implementasi circular queue memberikan solusi yang lebih optimal dibandingkan queue linear karena dapat mengurangi pemborosan ruang memori. Dengan memahami perbedaan mekanisme head dan tail, programmer dapat memilih jenis queue yang paling sesuai dengan kebutuhan sistem yang dibangun.
 
 ## Referensi
 [1] I. Holm, Narrator, and J. Fullerton-Smith, Producer, How to Build a Human [DVD]. London: BBC; 2002.
