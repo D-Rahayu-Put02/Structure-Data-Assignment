@@ -3,17 +3,15 @@
 
 ## Dasar Teori
 - Pengertian Rekursif
-Secara harfiah, rekursif berarti suatu proses pengulangan sesuatu dengan cara kesamaan-diri atau
-suatu proses yang memanggil dirinya sendiri. Prosedur dan fungsi merupakan sub program yang
-sangat bermanfaat dalam pemrograman, terutama untuk program atau proyek yang besar.
-Manfaat penggunaan sub program antara lain adalah :
-    1. meningkatkan readibility, yaitu mempermudah pembacaan program
-    2. meningkatkan modularity, yaitu memecah sesuatu yang besar menjadi modul-modul atau
-bagian-bagian yang lebih kecil sesuai dengan fungsinya, sehingga mempermudah
-pengecekan, testing dan lokalisasi kesalahan.
-    3. meningkatkan reusability, yaitu suatu sub program dapat dipakai berulang kali dengan hanya
-memanggil sub program tersebut tanpa menuliskan perintah-perintah yang semestinya
-diulang-ulang
+
+Secara harfiah, rekursif adalah suatu proses pengulangan yang dilakukan dengan cara kesamaan-diri, yaitu suatu prosedur atau fungsi yang memanggil dirinya sendiri secara langsung maupun tidak langsung. Dalam pemrograman, rekursif digunakan untuk menyelesaikan permasalahan dengan cara memecah masalah besar menjadi submasalah yang lebih kecil hingga mencapai kondisi dasar (base case).
+Prosedur dan fungsi merupakan bentuk subprogram yang sangat bermanfaat dalam pemrograman, khususnya pada program atau proyek berskala besar. Salah satu teknik yang sering digunakan dalam subprogram adalah rekursi, karena dapat menyederhanakan logika penyelesaian masalah tertentu.
+Manfaat penggunaan subprogram, termasuk subprogram rekursif, antara lain sebagai berikut:
+1. Meningkatkan readability, yaitu mempermudah pembacaan dan pemahaman kode program.
+2. Meningkatkan modularity, yaitu memecah program yang kompleks menjadi modul-modul atau bagian-bagian kecil sesuai dengan fungsinya, sehingga memudahkan proses pengecekan, pengujian (testing), dan pelokalan kesalahan.
+3. Meningkatkan reusability, yaitu subprogram dapat digunakan kembali berkali-kali hanya dengan memanggilnya, tanpa perlu menuliskan ulang perintah-perintah yang sama.
+
+Dengan demikian, penggunaan rekursif dalam subprogram dapat membantu menghasilkan program yang lebih terstruktur, mudah dipahami, dan efisien dalam pengembangan maupun pemeliharaan.
 ## Guided
 
 ### 1. [Stack.h]
