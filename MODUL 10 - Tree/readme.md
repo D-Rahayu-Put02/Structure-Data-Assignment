@@ -64,130 +64,222 @@ int height(BinTree tree);
 
 #endif
 ```
-Program stack.h digunakan untuk membuat dan mengelola sebuah struktur data Stack. Stack adalah tempat penyimpanan data dengan sistem LIFO (Last In, First Out), artinya data yang terakhir dimasukkan akan menjadi data yang pertama diambil. di file ini berisi deklarasi struktur dan fungsi seperti membuat stack baru, mengecek apakah stack kosong, menambah data atau push, mengahpus data atau pop, mengubah data atau update, menampilkan isi stack dan mencari data tertentu.
+File header yang berisi deklarasi struktur dan fungsi bst 
 
-### 2. [Stack.cpp]
+### 2. [bst.cpp]
 
 ```C++
-#include "stack.h"
+#include "bst.h"
 #include <iostream>
 
 using namespace std;
 
-bool isEmpty(stack listStack){
-    if(listStack.top == Nil){
+//NOTE : parameter tree disini maksudnya merujuk ke node; baik itu node root atau node lain dari tree
+
+bool isEmpty(BinTree tree){
+    if(tree == Nil){
         return true;
     } else {
         return false;
     }
 }
 
-void createStack(stack &listStack){
-    listStack.top = Nil;
+void createTree(BinTree &tree){
+    tree = Nil;
 }
 
-address alokasi(int angka){
-    address nodeBaru = new node;
-    nodeBaru->dataAngka = angka;
-    nodeBaru->next = Nil;
+node alokasi(int angkaInput){
+    node nodeBaru = new BST;
+    nodeBaru->angka = angkaInput;
+    nodeBaru->left = Nil;
+    nodeBaru->right = Nil;
     return nodeBaru;
 }
 
-void dealokasi(address &node){
-    node->next = Nil;
-    delete node;
+void dealokasi(node nodeHapus){
+    delete nodeHapus;
 }
 
-void push(stack &listStack, address nodeBaru){
-    nodeBaru->next = listStack.top;
-    listStack.top = nodeBaru;
-    cout << "Node " << nodeBaru->dataAngka << " berhasil ditambahkan kedalam stack!" << endl;
-}
-
-void pop(stack &listStack){
-    address nodeHapus;
-    if(isEmpty(listStack) == true){
-        cout << "Stack kosong!" << endl;
-    } else {
-        nodeHapus = listStack.top;
-        listStack.top = listStack.top->next;
-        nodeHapus->next = Nil;
-        dealokasi(nodeHapus);
-        cout << "node " <<  nodeHapus->dataAngka << " berhasil dihapus dari stack!" << endl;
+void insertNode(BinTree &tree, node nodeBaru){
+    if(tree == Nil){
+        tree = nodeBaru;
+        cout << "Node " << nodeBaru->angka << " berhasil ditambahkan ke dalam tree!" << endl;
+        return;
+    } else if(nodeBaru->angka < tree->angka){
+        insertNode(tree->left, nodeBaru);
+    } else if(nodeBaru->angka > tree->angka){
+        insertNode(tree->right, nodeBaru);
     }
 }
 
-void update(stack &listStack, int posisi){
-    if(isEmpty(listStack) == true){
-        cout << "Stack kosong!" << endl;
+void searchByData(BinTree tree, int angkaCari){
+    if(isEmpty(tree) == true){
+        cout << "Tree kosong!" << endl;
     } else {
-        if(posisi == 0){
-            cout << "Posisi tidak valid!" << endl;
-        } else {
-            address nodeBantu = listStack.top;
-            int count = 1;
-            bool found = false;
-            while(nodeBantu != Nil){
-                if(count < posisi){
-                    nodeBantu = nodeBantu->next;
-                    count++;
-                } else if(count == posisi){
-                    cout << "Update node poisisi ke-" << posisi << endl;
-                    cout << "Masukkan angka : ";
-                    cin >> nodeBantu->dataAngka;
-                    cout << "Data berhasil diupdate!" << endl;
-                    cout << endl;
-                    found = true;
-                    break;
-                }
-            }
-            if(found == false){
-                cout << "Posisi " << posisi << " tidak valid!" << endl;
-            }
-        }
-    }
-}
-
-void view(stack listStack){
-    if(isEmpty(listStack) == true){
-        cout << "List kosong!" << endl;
-    } else {
-        address nodeBantu = listStack.top;
+        node nodeBantu = tree;
+        node parent = Nil;
+        bool ketemu = false;
         while(nodeBantu != Nil){
-            cout << nodeBantu->dataAngka << " ";
-            nodeBantu = nodeBantu->next;
+            if(angkaCari < nodeBantu->angka){
+                parent = nodeBantu;
+                nodeBantu = nodeBantu->left;
+            } else if(angkaCari > nodeBantu->angka){
+                parent = nodeBantu;
+                nodeBantu = nodeBantu->right;
+            } else if(angkaCari == nodeBantu->angka){
+                ketemu = true;
+                break;
+            }
         }
+        if(ketemu == false){
+            cout << "Data tidak ditemukan" << endl;
+        } else if(ketemu == true){
+            cout << "Data ditemukan didalam tree!" << endl;
+            cout << "Data Angka : " << nodeBantu->angka << endl;
+
+            //menampilkan parentnya & pengecekan sibling
+            node sibling = Nil;
+            if(parent != Nil){
+                cout << "Parent : " << parent->angka << endl;
+                if(parent->left == nodeBantu){
+                    sibling = parent->right;
+                } else if(parent->right == nodeBantu){
+                    sibling = parent->left;
+                }
+            } else {
+                cout << "Parent : - (node root)"<< endl;
+            }
+
+            //menampilkan siblingnya
+            if(sibling != Nil){
+                cout << "Sibling : " << sibling->angka << endl;
+            } else {
+                cout << "Sibling : - " << endl;
+            }
+
+            //menampilkan childnya
+            if(nodeBantu->left != Nil){
+                cout << "Child kiri : " << nodeBantu->left->angka << endl;
+            } else if(nodeBantu->left == Nil){
+                cout << "Child kiri : -" << endl;
+            }
+            if(nodeBantu->right != Nil){
+                cout << "Child kanan : " << nodeBantu->right->angka << endl;
+            } else if(nodeBantu->right == Nil){
+                cout << "Child kanan : -" << endl;
+            }
+        }
+    }
+}
+
+void preOrder(BinTree tree){
+    if(tree == Nil){
+        return;
+    }
+    cout << tree->angka << " - ";
+    preOrder(tree->left);
+    preOrder(tree->right);
+}
+
+void inOrder(BinTree tree){
+    if(tree == Nil){
+        return;
+    }
+    inOrder(tree->left);
+    cout << tree->angka << " - ";
+    inOrder(tree->right);
+}
+
+void postOrder(BinTree tree){
+    if(tree == Nil){
+        return;
+    }
+    postOrder(tree->left);
+    postOrder(tree->right);
+    cout << tree->angka << " - ";
+}
+
+
+
+bool deleteNode(BinTree &tree, int angka) {
+    if (tree == Nil) {
+        return false; //data tidak ditemukan di subtree ini
+    } else {
+        if (angka < tree->angka) {
+            return deleteNode(tree->left, angka);
+        } else if (angka > tree->angka) {
+            return deleteNode(tree->right, angka);
+        } else {
+            //jika node yang mau dihapus ditemukan
+            //Case 1 : node yang mau dihapus adalah leaf
+            if (tree->left == Nil && tree->right == Nil) {
+                node tmp = tree;
+                tree = Nil;
+                dealokasi(tmp);
+            }
+            //Case 2 : node yang mau dihapus hanya punya right child
+            else if (tree->left == Nil) {
+                node tmp = tree;
+                tree = tree->right;
+                dealokasi(tmp);
+            }
+            //Case 3 : node yang mau dihapus hanya punya left child
+            else if (tree->right == Nil) {
+                node tmp = tree;
+                tree = tree->left;
+                dealokasi(tmp);
+            }
+            // Case 4 : jika node yang mau dihapus punya dua child, maka ambil mostleft dari subtree kanan untuk menggantikan node yang mau dihapus
+            else {
+                //mostleft dari subtree kanan = node successor (node penerus)
+                node successor = mostLeft(tree->right);
+                //salin data successor ke node saat ini
+                tree->angka = successor->angka;
+                //hapus successor pada subtree kanan
+                return deleteNode(tree->right, successor->angka);
+            }
+            return true; //berhasil dihapus
+        }
+    }
+}
+
+node mostRight(BinTree tree){
+    while (tree->right != Nil){
+        tree = tree->right;
+    }
+    return tree;    
+}
+
+node mostLeft(BinTree tree){
+    while (tree->left != Nil){
+        tree = tree->left;
+    }
+    return tree;
+}
+
+void deleteTree(BinTree &tree){
+    if(tree == Nil){
+        return;
+    } else {
+        deleteTree(tree->left);
+        deleteTree(tree->right);
+        dealokasi(tree);
+        tree = Nil;
+    }
+}
+
+int size(BinTree tree){ //mengembalikan jumlah semua node
+    if(isEmpty(tree) == true){
+        return 0;
+    } else {
+        return 1 + size(tree->left) + size(tree->right);
     }
     cout << endl;
 }
 
-void searchData(stack listStack, int data){
-    if(isEmpty(listStack) == true){
-        cout << "List kosong!" << endl;
-    } else {
-        address nodeBantu = listStack.top;
-        int posisi = 1;
-        bool found = false;
-        cout << "Mencari data " << data << "..." << endl;
-        while(nodeBantu != Nil){
-            if(nodeBantu->dataAngka == data){
-                cout << "Data " << data << " ditemukan pada posisi ke-" << posisi << endl;
-                found = true;
-                cout << endl;
-                break;
-            } else {
-                posisi++;
-                nodeBantu = nodeBantu->next;
-            }
-        }
-        if(found == false){
-            cout << "Data " << data << " tidak ditemukan didalam stack!" << endl;
-            cout << endl;
-        }
-    }
-}
+int height(BinTree
 ```
-Program ini adalah implementasi struktur data Stack dengan cara penyimpanan berantai (mirip daftar yang saling terhubung). Stack bekerja dengan aturan LIFO (Last In, First Out), artinya data yang terakhir masuk akan menjadi data pertama yang keluar.
+File implementasi yang berisi logika dan algoritma BST. Pada file ini didefinisikan seluruh fungsi BST, seperti pembuatan tree, penyisipan node secara rekursif, pencarian data, traversal (preorder, inorder, postorder), penghapusan node berdasarkan kasus (leaf, satu child, dua child), serta perhitungan ukuran dan tinggi tree. File ini merepresentasikan inti pemrosesan struktur data BST.
 
 ### 3. [main.cpp]
 
@@ -342,7 +434,7 @@ int main() {
     return 0;
 }
 ```
-ini main program stack yang digunakan untuk mengelola data dalam sebuah Stack dengan melakukan operasi push, pop, update, view, dan search. Program akan menunjukkan bagaimana stack berubah setelah setiap operasi.
+File program utama yang berisi fungsi main() dan menu interaktif. File ini berfungsi sebagai antarmuka pengguna untuk memanggil fungsi-fungsi BST yang didefinisikan di bst.cpp melalui bst.h. Pengguna dapat melakukan insert, delete, search, traversal, dan operasi lainnya melalui menu.
 
 ## Unguided 
 ### 1. [doublelist.h]
