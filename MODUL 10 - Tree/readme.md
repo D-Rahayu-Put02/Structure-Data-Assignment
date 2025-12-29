@@ -14,37 +14,54 @@ Manfaat penggunaan subprogram, termasuk subprogram rekursif, antara lain sebagai
 Dengan demikian, penggunaan rekursif dalam subprogram dapat membantu menghasilkan program yang lebih terstruktur, mudah dipahami, dan efisien dalam pengembangan maupun pemeliharaan.
 ## Guided
 
-### 1. [Stack.h]
+### 1. [bst.h]
 
 ```C++
-#ifndef STACK
-#define STACK 
-#define Nil nullptr
+#ifndef BST_H
+#define BST_H
 
-#include <iostream>
-using namespace std;
+#define Nil NULL
 
-typedef struct node *address;
-
-struct node {
-    int dataAngka;
-    address next;
+// Struktur node BST
+struct BST {
+    int angka;
+    BST *left;
+    BST *right;
 };
 
-struct stack{
-    address top;
-};
+// Tipe data
+typedef BST* node;
+typedef BST* BinTree;
 
-bool isEmpty(stack listStack);
-void createStack(stack &listStack);
-address alokasi(int angka);
-void dealokasi(address &node);
+// Fungsi dasar
+bool isEmpty(BinTree tree);
+void createTree(BinTree &tree);
 
-void push(stack &listStack, address nodeBaru);
-void pop(stack &listStack);
-void update(stack &listStack, int posisi);
-void view(stack listStack);
-void searchData(stack listStack, int data);
+// Alokasi & dealokasi
+node alokasi(int angkaInput);
+void dealokasi(node nodeHapus);
+
+// Operasi BST
+void insertNode(BinTree &tree, node nodeBaru);
+void searchByData(BinTree tree, int angkaCari);
+
+// Traversal
+void preOrder(BinTree tree);
+void inOrder(BinTree tree);
+void postOrder(BinTree tree);
+
+// Delete
+bool deleteNode(BinTree &tree, int angka);
+
+// Utility
+node mostRight(BinTree tree);
+node mostLeft(BinTree tree);
+void deleteTree(BinTree &tree);
+
+// Informasi tree
+int size(BinTree tree);
+int height(BinTree tree);
+
 #endif
 ```
 Program stack.h digunakan untuk membuat dan mengelola sebuah struktur data Stack. Stack adalah tempat penyimpanan data dengan sistem LIFO (Last In, First Out), artinya data yang terakhir dimasukkan akan menjadi data yang pertama diambil. di file ini berisi deklarasi struktur dan fungsi seperti membuat stack baru, mengecek apakah stack kosong, menambah data atau push, mengahpus data atau pop, mengubah data atau update, menampilkan isi stack dan mencari data tertentu.
