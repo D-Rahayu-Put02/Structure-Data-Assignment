@@ -1,11 +1,19 @@
-# <h1 align="center">Laporan Praktikum Modul 7 Stack </h1>
+# <h1 align="center">Laporan Praktikum Modul 10 Tree </h1>
 <p align="center">Dwi Rahayu Putra</p>
 
 ## Dasar Teori
-- Pengertian Stack
-
-Stack adalah struktur data yang bekerja dengan dengan prinsip LIFO (Last in First Out), artinya elemen yang terakhir masuk akan menjadi yang pertama keluar. Dalam stack hanya ada satu pointer penting yaitu TOP yang menunjuk ke elemen paling atas, implementasi stack di modul ini menggunakan pointer seperti linked list, dengan node yang berisi info dan pointer next. Operasi utama pada stack adalah push untuk menambahkan elemen kebagian atas dan pop untuk mengambil sekaligus menghapus elemen paling atas. stack dianggap kosong jika TOP berniali NULL. Stack hanya bisa diakses dari bagian atas sehingga elemen dibawah nya tidak dapat diambil tanpa mengeluarkan elemen elemen di atas nya terlebih dahulu. 
-
+- Pengertian Rekursif
+Secara harfiah, rekursif berarti suatu proses pengulangan sesuatu dengan cara kesamaan-diri atau
+suatu proses yang memanggil dirinya sendiri. Prosedur dan fungsi merupakan sub program yang
+sangat bermanfaat dalam pemrograman, terutama untuk program atau proyek yang besar.
+Manfaat penggunaan sub program antara lain adalah :
+    1. meningkatkan readibility, yaitu mempermudah pembacaan program
+    2. meningkatkan modularity, yaitu memecah sesuatu yang besar menjadi modul-modul atau
+bagian-bagian yang lebih kecil sesuai dengan fungsinya, sehingga mempermudah
+pengecekan, testing dan lokalisasi kesalahan.
+    3. meningkatkan reusability, yaitu suatu sub program dapat dipakai berulang kali dengan hanya
+memanggil sub program tersebut tanpa menuliskan perintah-perintah yang semestinya
+diulang-ulang
 ## Guided
 
 ### 1. [Stack.h]
