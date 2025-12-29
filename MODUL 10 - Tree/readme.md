@@ -680,7 +680,7 @@ Program ini mensimulasikan cara kerja struktur data Double Linked List untuk pen
 
 
 ## Kesimpulan
-Ringkasan dan interpretasi pandangan kalian dari hasil praktikum dan pembelajaran yang didapat[1]. Modul 10 pada modul ini materi yang di sampaikan itu tentang Binary search Tree, Melalui praktikum Binary Search Tree (BST), diperoleh pemahaman tentang struktur data tree dan penerapan rekursi dalam proses insert, search, traversal, dan delete. Praktikum ini menunjukkan bahwa BST mempermudah pengelolaan data secara terurut dan efisien. Selain itu, pembelajaran ini meningkatkan pemahaman tentang struktur data non-linear dan pemrograman yang modular.
+Ringkasan dan interpretasi pandangan kalian dari hasil praktikum dan pembelajaran yang didapat[1]. Modul 10 pada modul ini materi yang di sampaikan itu tentang Binary search Tree, Melalui praktikum Binary Search Tree (BST), mendapatkan pemahaman tentang struktur data tree dan penerapan rekursi dalam proses insert, search, traversal, dan delete. Praktikum ini menunjukkan bahwa BST mempermudah pengelolaan data secara terurut dan efisien. Selain itu, pembelajaran ini meningkatkan pemahaman tentang struktur data non-linear dan pemrograman yang modular.
 
 
 
