@@ -64,7 +64,7 @@ int height(BinTree tree);
 
 #endif
 ```
-File header yang berisi deklarasi struktur dan fungsi bst 
+Berisi deklarasi struktur node dan prototype fungsi BST yang digunakan sebagai penghubung antara main.cpp dan bst.cpp.
 
 ### 2. [bst.cpp]
 
@@ -680,7 +680,7 @@ Program ini mensimulasikan cara kerja struktur data Double Linked List untuk pen
 
 
 ## Kesimpulan
-Ringkasan dan interpretasi pandangan kalian dari hasil praktikum dan pembelajaran yang didapat[1]. Modul 7 pada modul ini materi yang di sampaikan itu tentang stack, Stack adalah struktur data yang bekerja dengan dengan prinsip LIFO (Last in First Out), jadi node yang terakhir masuk akan keluar paling awal, latihan ini membantu memahami cara kerja stack secara praktis, dengan mengimplementasi kan banyak operasi, jadi dapat memahami bagaimana cara stack itu digunakan untuk mengatur data yang masuk dan kelaur secara teratur serta dapat memecahkan masalah menggunakan LIFO
+Ringkasan dan interpretasi pandangan kalian dari hasil praktikum dan pembelajaran yang didapat[1]. Modul 10 pada modul ini materi yang di sampaikan itu tentang Binary search Tree, Melalui praktikum Binary Search Tree (BST), diperoleh pemahaman tentang struktur data tree dan penerapan rekursi dalam proses insert, search, traversal, dan delete. Praktikum ini menunjukkan bahwa BST mempermudah pengelolaan data secara terurut dan efisien. Selain itu, pembelajaran ini meningkatkan pemahaman tentang struktur data non-linear dan pemrograman yang modular.
 
 
 
