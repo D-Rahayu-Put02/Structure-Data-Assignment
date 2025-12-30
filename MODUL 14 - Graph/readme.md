@@ -56,9 +56,9 @@ void PrintDFS(Graph G, infoGraph StartInfo);        // Traversal DFS
 
 #endif
 ```
-Program stack.h digunakan untuk membuat dan mengelola sebuah struktur data Stack. Stack adalah tempat penyimpanan data dengan sistem LIFO (Last In, First Out), artinya data yang terakhir dimasukkan akan menjadi data yang pertama diambil. di file ini berisi deklarasi struktur dan fungsi seperti membuat stack baru, mengecek apakah stack kosong, menambah data atau push, mengahpus data atau pop, mengubah data atau update, menampilkan isi stack dan mencari data tertentu.
+graph.h berisi pendefinisian struktur data graph yaitu (node, edge dan graph) serta deklarasi fungsi-fungsi dasar seperti insert node, connect node, delete node dan traversal BFS-DFS.
 
-### 2. [Stack.cpp]
+### 2. [graph.cpp]
 
 ```C++
 #include "Graph.h"
@@ -296,7 +296,7 @@ void PrintDFS(Graph G, infoGraph StartInfo) {
     cout << endl;
 }
 ```
-Program ini adalah implementasi struktur data Stack dengan cara penyimpanan berantai (mirip daftar yang saling terhubung). Stack bekerja dengan aturan LIFO (Last In, First Out), artinya data yang terakhir masuk akan menjadi data pertama yang keluar.
+graph.cpp berisi implementasi seluruh fungsi graph, termasuk pembuatan graph, penghubungan node secara undirected, penghapusan node berserta edgenya, serta traversal BFS dan DFS.
 
 ### 3. [main.cpp]
 
@@ -360,7 +360,7 @@ int main() {
     return 0;
 }
 ```
-ini main program stack yang digunakan untuk mengelola data dalam sebuah Stack dengan melakukan operasi push, pop, update, view, dan search. Program akan menunjukkan bagaimana stack berubah setelah setiap operasi.
+main.cpp digunakan untuk menguji program dengan membuat graph, menghubungkan node, menampilkan adjacency list, melakukan traversal, dan menghapus node.
 
 ## Unguided 
 ### 1. [doublelist.h]
