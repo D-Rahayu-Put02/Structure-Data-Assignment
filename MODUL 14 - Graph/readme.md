@@ -548,16 +548,9 @@ int main() {
 <img width="1451" height="70" alt="image" src="https://github.com/user-attachments/assets/765cb6b8-d08d-468e-99e2-5ac8046d6ed2" />
 
 
-Program ini dibuat untuk mengelola data kendaraan menggunakan Doubly Linked List.
-Setiap node menyimpan nomor polisi, warna kendaraan, dan tahun pembuatan.
-Program dapat melakukan:
-- menambah data kendaraan ke belakang list (insertLast)
-- menampilkan seluruh data (printInfo)
-- mengecek apakah nopol sudah terdaftar (findElm)
-- mencari data kendaraan tertentu
-- menghapus data berdasarkan posisi (deleteFirst, deleteLast, deleteAfter)
-- menolak input kendaraan dengan nopol yang sama (duplikasi)
-Program ini mensimulasikan cara kerja struktur data Double Linked List untuk pengolahan data kendaraan secara dinamis.
+Program ini digunakan untuk merepresentasikan graph tidak berarah menggunakan linked list, di mana setiap node dapat terhubung ke banyak node lain. Struktur ini cocok untuk memodelkan relasi kompleks seperti jaringan, peta, atau hubungan antar data.
+DFS digunakan untuk menelusuri graph secara mendalam dengan pendekatan rekursif, sedangkan BFS menelusuri graph secara melebar menggunakan konsep queue. Keduanya menunjukkan cara berbeda dalam menjelajahi struktur graph.
+
 #### Full code Screenshot:
 <img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/9312ae5c-1ac7-4f28-ad23-b16838bdda48" />
 
@@ -567,7 +560,7 @@ Program ini mensimulasikan cara kerja struktur data Double Linked List untuk pen
 
 
 ## Kesimpulan
-Ringkasan dan interpretasi pandangan kalian dari hasil praktikum dan pembelajaran yang didapat[1]. Modul 14 pada modul ini materi yang di sampaikan itu tentang Graph, 
+Ringkasan dan interpretasi pandangan kalian dari hasil praktikum dan pembelajaran yang didapat[1]. Modul 14 pada modul ini materi yang di sampaikan itu tentang Graph, Graph adalah struktur data yang terdiri dari node dan edge untuk merepresentasikan hubungan antar data. Graph dapat ditelusuri menggunakan DFS dan BFS yang masing-masing memiliki cara penelusuran berbeda. 
 
 
 ## Referensi
