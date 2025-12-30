@@ -2,43 +2,58 @@
 <p align="center">Dwi Rahayu Putra</p>
 
 ## Dasar Teori
-- Pengertian Stack
+- Pengertian Graph
 
-Stack adalah struktur data yang bekerja dengan dengan prinsip LIFO (Last in First Out), artinya elemen yang terakhir masuk akan menjadi yang pertama keluar. Dalam stack hanya ada satu pointer penting yaitu TOP yang menunjuk ke elemen paling atas, implementasi stack di modul ini menggunakan pointer seperti linked list, dengan node yang berisi info dan pointer next. Operasi utama pada stack adalah push untuk menambahkan elemen kebagian atas dan pop untuk mengambil sekaligus menghapus elemen paling atas. stack dianggap kosong jika TOP berniali NULL. Stack hanya bisa diakses dari bagian atas sehingga elemen dibawah nya tidak dapat diambil tanpa mengeluarkan elemen elemen di atas nya terlebih dahulu. 
+Graph merupakan himpunan tidak kosong dari node (vertex) dan garis penghubung (edge) yang merepresentasikan hubungan antar objek. Contoh sederhana graph adalah hubungan antara Tempat Kost dan Common Lab, di mana Tempat Kost dan Common Lab berperan sebagai node, sedangkan jalan yang menghubungkan keduanya merupakan edge.
+
+Selain itu, graph dapat digunakan untuk memodelkan berbagai permasalahan nyata seperti peta jalan, jaringan komputer, hubungan pertemanan, dan alur komunikasi, sehingga sangat berguna dalam pemodelan struktur data yang kompleks.
 
 ## Guided
 
-### 1. [Stack.h]
+### 1. [grap.h]
 
 ```C++
-#ifndef STACK
-#define STACK 
-#define Nil nullptr
+#ifndef GRAPH_H
+#define GRAPH_H
 
 #include <iostream>
 using namespace std;
 
-typedef struct node *address;
+typedef char infoGraph;
+typedef struct ElmNode *adrNode;
+typedef struct ElmEdge *adrEdge;
 
-struct node {
-    int dataAngka;
-    address next;
+struct ElmNode {
+    infoGraph info;         // Menyimpan data node (misal: char/int)
+    int visited;            // Penanda untuk traversal (0/1)
+    adrEdge firstEdge;      // Pointer ke edge pertama yang terhubung
+    adrNode Next;           // Pointer ke node berikutnya dalam graph
 };
 
-struct stack{
-    address top;
+struct ElmEdge {
+    adrNode Node;           // Pointer yang menunjuk ke lokasi node tujuan
+    adrEdge Next;           // Pointer ke edge berikutnya
 };
 
-bool isEmpty(stack listStack);
-void createStack(stack &listStack);
-address alokasi(int angka);
-void dealokasi(address &node);
+struct Graph {
+    adrNode First;          // Pointer ke node pertama dalam list graph
+};
 
-void push(stack &listStack, address nodeBaru);
-void pop(stack &listStack);
-void update(stack &listStack, int posisi);
-void view(stack listStack);
-void searchData(stack listStack, int data);
+void CreateGraph(Graph &G);                         // Set first = NULL
+adrNode AlokasiNode(infoGraph data);                // Alokasi node baru
+adrEdge AlokasiEdge(adrNode nodeTujuan);            // Alokasi edge baru
+
+void InsertNode(Graph &G, infoGraph data);          // Menambahkan node
+adrNode FindNode(Graph G, infoGraph data);         // Mencari node
+void ConnectNode(Graph &G, infoGraph info1, infoGraph info2);                  // Menghubungkan node
+void DisconnectNode(Graph &G, infoGraph info1, infoGraph info2);               // Memutus hubungan node
+void DeleteNode(Graph &G, infoGraph X);             // Menghapus node dan edge
+
+void PrintInfoGraph(Graph G);                       // Menampilkan adjacency list
+void ResetVisited(Graph &G);                        // Reset visited
+void PrintBFS(Graph G, infoGraph StartInfo);        // Traversal BFS
+void PrintDFS(Graph G, infoGraph StartInfo);        // Traversal DFS
+
 #endif
 ```
 Program stack.h digunakan untuk membuat dan mengelola sebuah struktur data Stack. Stack adalah tempat penyimpanan data dengan sistem LIFO (Last In, First Out), artinya data yang terakhir dimasukkan akan menjadi data yang pertama diambil. di file ini berisi deklarasi struktur dan fungsi seperti membuat stack baru, mengecek apakah stack kosong, menambah data atau push, mengahpus data atau pop, mengubah data atau update, menampilkan isi stack dan mencari data tertentu.
@@ -46,122 +61,239 @@ Program stack.h digunakan untuk membuat dan mengelola sebuah struktur data Stack
 ### 2. [Stack.cpp]
 
 ```C++
-#include "stack.h"
+#include "Graph.h"
 #include <iostream>
+#include <queue> //library queue untuk BFS
+#include <stack> //library stack untuk DFS
 
 using namespace std;
 
-bool isEmpty(stack listStack){
-    if(listStack.top == Nil){
-        return true;
-    } else {
-        return false;
-    }
+//prosedur untuk mengeset first dari graph sebagai NULL
+void CreateGraph(Graph &G) {
+    G.First = NULL;
 }
 
-void createStack(stack &listStack){
-    listStack.top = Nil;
-}
-
-address alokasi(int angka){
-    address nodeBaru = new node;
-    nodeBaru->dataAngka = angka;
-    nodeBaru->next = Nil;
+//alokasi Node baru
+adrNode AlokasiNode(infoGraph data) {
+    adrNode nodeBaru = new ElmNode;
+    nodeBaru->info = data;
+    nodeBaru->visited = 0; //isinya 0/1
+    nodeBaru->firstEdge = NULL;
+    nodeBaru->Next = NULL;
     return nodeBaru;
 }
 
-void dealokasi(address &node){
-    node->next = Nil;
-    delete node;
+//alokasi Edge baru
+adrEdge AlokasiEdge(adrNode nodeTujuan) {
+    adrEdge edgeBaru = new ElmEdge;
+    edgeBaru->Node = nodeTujuan;
+    edgeBaru->Next = NULL;
+    return edgeBaru;
 }
 
-void push(stack &listStack, address nodeBaru){
-    nodeBaru->next = listStack.top;
-    listStack.top = nodeBaru;
-    cout << "Node " << nodeBaru->dataAngka << " berhasil ditambahkan kedalam stack!" << endl;
-}
-
-void pop(stack &listStack){
-    address nodeHapus;
-    if(isEmpty(listStack) == true){
-        cout << "Stack kosong!" << endl;
+//Menambahkan Node ke dalam Graph
+void InsertNode(Graph &G, infoGraph data) {
+    adrNode nodeBaru = AlokasiNode(data);
+    if (G.First == NULL) {
+        G.First = nodeBaru;
     } else {
-        nodeHapus = listStack.top;
-        listStack.top = listStack.top->next;
-        nodeHapus->next = Nil;
-        dealokasi(nodeHapus);
-        cout << "node " <<  nodeHapus->dataAngka << " berhasil dihapus dari stack!" << endl;
+        //konsepnya insert last
+        adrNode nodeBantu = G.First;
+        while (nodeBantu->Next != NULL) {
+            nodeBantu = nodeBantu->Next;
+        }
+        nodeBantu->Next = nodeBaru;
     }
 }
 
-void update(stack &listStack, int posisi){
-    if(isEmpty(listStack) == true){
-        cout << "Stack kosong!" << endl;
+//function untuk mencari alamat Node berdasarkan infonya
+adrNode FindNode(Graph G, infoGraph data) {
+    adrNode nodeBantu = G.First;
+    while (nodeBantu != NULL) {
+        if (nodeBantu->info == data) {
+            return nodeBantu;
+        }
+        nodeBantu = nodeBantu->Next;
+    }
+    return NULL;
+}
+
+//prosedur untuk menghubungkan dua Node (Undirected Graph)
+void ConnectNode(Graph &G, infoGraph info1, infoGraph info2) {
+    adrNode node1 = FindNode(G, info1);
+    adrNode node2 = FindNode(G, info2);
+
+    if (node1 != NULL && node2 != NULL) {
+        //Hubungkan node1 ke node2
+        adrEdge Edge1 = AlokasiEdge(node2);
+        Edge1->Next = node1->firstEdge; // Insert First pada list edge
+        node1->firstEdge = Edge1;
+
+        //Hubungkan node2 ke node1 (Karena Undirected/Bolak-balik)
+        adrEdge Edge2 = AlokasiEdge(node1);
+        Edge2->Next = node2->firstEdge;
+        node2->firstEdge = Edge2;
     } else {
-        if(posisi == 0){
-            cout << "Posisi tidak valid!" << endl;
-        } else {
-            address nodeBantu = listStack.top;
-            int count = 1;
-            bool found = false;
-            while(nodeBantu != Nil){
-                if(count < posisi){
-                    nodeBantu = nodeBantu->next;
-                    count++;
-                } else if(count == posisi){
-                    cout << "Update node poisisi ke-" << posisi << endl;
-                    cout << "Masukkan angka : ";
-                    cin >> nodeBantu->dataAngka;
-                    cout << "Data berhasil diupdate!" << endl;
-                    cout << endl;
-                    found = true;
-                    break;
-                }
+        cout << "Node tidak ditemukan!" << endl;
+    }
+}
+
+//prosedur untuk memutuskan hubungan dua node
+void DisconnectNode(adrNode node1, adrNode node2) {
+    if (node1 != NULL && node2 != NULL) {
+        adrEdge edgeBantu = node1->firstEdge;
+        adrEdge PrevE = NULL;
+
+        //Cari edge yang mengarah ke node2 di dalam list milik node1
+        while (edgeBantu != NULL && edgeBantu->Node != node2) {
+            PrevE = edgeBantu;
+            edgeBantu = edgeBantu->Next;
+        }
+
+        if (edgeBantu != NULL) { //jika Edge ditemukan
+            if (PrevE == NULL) {
+                //Hapus edge pertama
+                node1->firstEdge = edgeBantu->Next;
+            } else {
+                //Hapus edge di tengah/akhir
+                PrevE->Next = edgeBantu->Next;
             }
-            if(found == false){
-                cout << "Posisi " << posisi << " tidak valid!" << endl;
-            }
+            delete edgeBantu;
         }
     }
 }
 
-void view(stack listStack){
-    if(isEmpty(listStack) == true){
-        cout << "List kosong!" << endl;
+//prosedur untuk menghapus Node X beserta semua edge yang berhubungan dengannya
+void DeleteNode(Graph &G, infoGraph X) {
+    //1. Cari Node yang akan dihapus (nodeHapus)
+    adrNode nodeHapus = FindNode(G, X);
+    if (nodeHapus == NULL) {
+        cout << "Node tidak ditemukan." << endl;
+        return;
+    }
+
+    //2. Hapus semua Edge yang MENGARAH ke nodeHapus (Incoming Edges)
+    //cek setiap node di graph, apakah punya edge ke nodeHapus
+    adrNode nodeLainnya = G.First;
+    while (nodeLainnya != NULL) {
+        DisconnectNode(nodeLainnya, nodeHapus); //putus hubungan nodeLainnya ke nodeHapus
+        nodeLainnya = nodeLainnya->Next;
+    }
+
+    //3. Hapus semua Edge yang KELUAR dari nodeHapus (Outgoing Edges)
+    //Deallokasi list edge milik nodeHapus
+    adrEdge edgeBantu = nodeHapus->firstEdge;
+    while (edgeBantu != NULL) {
+        adrEdge tempE = edgeBantu;
+        edgeBantu = edgeBantu->Next;
+        delete tempE;
+    }
+    nodeHapus->firstEdge = NULL;
+
+    //4. Hapus nodeHapus dari List Utama Graph
+    if (G.First == nodeHapus) {
+        //jika nodeHapus di awal
+        G.First = nodeHapus->Next;
     } else {
-        address nodeBantu = listStack.top;
-        while(nodeBantu != Nil){
-            cout << nodeBantu->dataAngka << " ";
-            nodeBantu = nodeBantu->next;
+        //jika nodeHapus di tengah/akhir
+        adrNode nodeBantu = G.First;
+        while (nodeBantu->Next != nodeHapus) {
+            nodeBantu = nodeBantu->Next;
+        }
+        nodeBantu->Next = nodeHapus->Next;
+    }
+
+    //5. delete nodeHapus
+    delete nodeHapus;
+}
+
+//Menampilkan isi Graph (Adjacency List) 
+void PrintInfoGraph(Graph G) {
+    adrNode nodeBantu = G.First;
+    while (nodeBantu != NULL) {
+        cout << "Node " << nodeBantu->info << " terhubung ke: ";
+        adrEdge edgeBantu = nodeBantu->firstEdge;
+        while (edgeBantu != NULL) {
+            cout << edgeBantu->Node->info << " "; //Akses info dari node tujuan
+            edgeBantu = edgeBantu->Next;
+        }
+        cout << endl;
+        nodeBantu = nodeBantu->Next;
+    }
+}
+
+//Reset status visited sebelum traversal
+void ResetVisited(Graph &G) {
+    adrNode nodeReset = G.First;
+    while (nodeReset != NULL) {
+        nodeReset->visited = 0;
+        nodeReset = nodeReset->Next;
+    }
+}
+
+//traversal Breadth First Search / BFS (Menggunakan Queue)
+void PrintBFS(Graph G, infoGraph StartInfo) {
+    ResetVisited(G);
+    adrNode StartNode = FindNode(G, StartInfo);
+    
+    if (StartNode == NULL) return;
+
+    queue<adrNode> Qyu;
+    
+    //Enqueue start
+    Qyu.push(StartNode);
+    StartNode->visited = 1;
+
+    cout << "BFS Traversal: ";
+    while (!Qyu.empty()) {
+        adrNode nodeBantu = Qyu.front();
+        Qyu.pop();
+        cout << nodeBantu->info << " - ";
+
+        //Cek semua tetangga atau edge nya
+        adrEdge edgeBantu = nodeBantu->firstEdge;
+        while (edgeBantu != NULL) {
+            if (edgeBantu->Node->visited == 0) {
+                edgeBantu->Node->visited = 1;
+                Qyu.push(edgeBantu->Node);
+            }
+            edgeBantu = edgeBantu->Next;
         }
     }
     cout << endl;
 }
 
-void searchData(stack listStack, int data){
-    if(isEmpty(listStack) == true){
-        cout << "List kosong!" << endl;
-    } else {
-        address nodeBantu = listStack.top;
-        int posisi = 1;
-        bool found = false;
-        cout << "Mencari data " << data << "..." << endl;
-        while(nodeBantu != Nil){
-            if(nodeBantu->dataAngka == data){
-                cout << "Data " << data << " ditemukan pada posisi ke-" << posisi << endl;
-                found = true;
-                cout << endl;
-                break;
-            } else {
-                posisi++;
-                nodeBantu = nodeBantu->next;
+//Traversal Depth First Search / DFS (Menggunakan Stack)
+void PrintDFS(Graph G, infoGraph StartInfo) {
+    ResetVisited(G);
+    adrNode StartNode = FindNode(G, StartInfo);
+    
+    if (StartNode == NULL) return;
+
+    stack<adrNode> Stak;
+    
+    Stak.push(StartNode);
+
+    cout << "DFS Traversal: ";
+    while (!Stak.empty()) {
+        adrNode nodeBantu = Stak.top();
+        Stak.pop();
+
+        if (nodeBantu->visited == 0) {
+            nodeBantu->visited = 1;
+            cout << nodeBantu->info << " - ";
+
+            //masukkan tetangga ke stack
+            adrEdge edgeBantu = nodeBantu->firstEdge;
+            while (edgeBantu != NULL) {
+                if (edgeBantu->Node->visited == 0) {
+                    Stak.push(edgeBantu->Node);
+                }
+                edgeBantu = edgeBantu->Next;
             }
         }
-        if(found == false){
-            cout << "Data " << data << " tidak ditemukan didalam stack!" << endl;
-            cout << endl;
-        }
     }
+    cout << endl;
 }
 ```
 Program ini adalah implementasi struktur data Stack dengan cara penyimpanan berantai (mirip daftar yang saling terhubung). Stack bekerja dengan aturan LIFO (Last In, First Out), artinya data yang terakhir masuk akan menjadi data pertama yang keluar.
@@ -169,52 +301,62 @@ Program ini adalah implementasi struktur data Stack dengan cara penyimpanan bera
 ### 3. [main.cpp]
 
 ```C++
-#include "stack.h"
+#include "graph.h"
 #include <iostream>
+#include <queue> //library queue untuk BFS
+#include <stack> //library stack untuk DFS
 
 using namespace std;
 
-int main(){
-    stack listStack;
-    address nodeA, nodeB, nodeC, nodeD, nodeE = Nil;
-    createStack(listStack);
+int main() {
+    Graph G;
+    CreateGraph(G);
 
-    nodeA = alokasi(1);
-    nodeB = alokasi(2);
-    nodeC = alokasi(3);
-    nodeD = alokasi(4);
-    nodeE = alokasi(5);
+    InsertNode(G, 'A');
+    InsertNode(G, 'B');
+    InsertNode(G, 'C');
+    InsertNode(G, 'D');
+    InsertNode(G, 'E');
+    InsertNode(G, 'F');
 
-    push(listStack, nodeA);
-    push(listStack, nodeB);
-    push(listStack, nodeC);
-    push(listStack, nodeD);
-    push(listStack, nodeE);
+    //hubungkan antar node
+    ConnectNode(G, 'A', 'B');
+    ConnectNode(G, 'A', 'D');
+    ConnectNode(G, 'B', 'C');
+    ConnectNode(G, 'D', 'C');
+    ConnectNode(G, 'B', 'E');
+    ConnectNode(G, 'C', 'E');
+    ConnectNode(G, 'C', 'F');
+    ConnectNode(G, 'E', 'F');
+
+    cout << "=== REPRESENTASI ADJACENCY LIST ===" << endl;
+    PrintInfoGraph(G);
     cout << endl;
 
-    cout << "--- Stack setelah push ---" << endl;
-    view(listStack);
+    cout << "=== HASIL TRAVERSAL ===" << endl;
+    //mulai traversal dari node A
+    PrintBFS(G, 'A'); //BFS
+    PrintDFS(G, 'A'); //DFS
     cout << endl;
 
-    pop(listStack);
-    pop(listStack);
+    cout << "=== HAPUS NODE E ===" << endl;
+    DeleteNode(G, 'E');
+    if(FindNode(G, 'E') == NULL){
+        cout << "Node E berhasil terhapus" << endl;
+    } else {
+        cout << "Node E tidak berhasil terhapus" << endl;
+    }
     cout << endl;
 
-    cout << "--- Stack setelah pop 2 kali ---" << endl;
-    view(listStack);
+    cout << "=== REPRESENTASI ADJACENCY LIST ===" << endl;
+    PrintInfoGraph(G);
     cout << endl;
 
-    update(listStack, 2);
-    update(listStack, 1);
-    update(listStack, 4);
-    cout << endl;
+    cout << "=== HASIL TRAVERSAL ===" << endl;
+    //mulai traversal dari node A
+    PrintBFS(G, 'A'); //BFS
+    PrintDFS(G, 'A'); //DFS
 
-    cout << "--- Stack setelah update ---" << endl;
-    view(listStack);
-    cout << endl;
-
-    searchData(listStack, 4);
-    searchData(listStack, 9);
     return 0;
 }
 ```
@@ -224,43 +366,64 @@ ini main program stack yang digunakan untuk mengelola data dalam sebuah Stack de
 ### 1. [doublelist.h]
 
 ```C++
-#ifndef DOUBLELIST_H
-#define DOUBLELIST_H
-#define NIL NULL
+#include "graph.h"
 #include <iostream>
+#include <queue> //library queue untuk BFS
+#include <stack> //library stack untuk DFS
+
 using namespace std;
 
-struct kendaraan {
-    string nopol;
-    string warna;
-    int tahunbuat;
-};
+int main() {
+    Graph G;
+    CreateGraph(G);
 
-typedef kendaraan infotype;
-typedef struct ElmtList *address;
+    InsertNode(G, 'A');
+    InsertNode(G, 'B');
+    InsertNode(G, 'C');
+    InsertNode(G, 'D');
+    InsertNode(G, 'E');
+    InsertNode(G, 'F');
 
-struct ElmtList {
-    infotype info;
-    address next;
-    address prev;
-};
+    //hubungkan antar node
+    ConnectNode(G, 'A', 'B');
+    ConnectNode(G, 'A', 'D');
+    ConnectNode(G, 'B', 'C');
+    ConnectNode(G, 'D', 'C');
+    ConnectNode(G, 'B', 'E');
+    ConnectNode(G, 'C', 'E');
+    ConnectNode(G, 'C', 'F');
+    ConnectNode(G, 'E', 'F');
 
-struct List {
-    address first;
-    address last;
-};
+    cout << "=== REPRESENTASI ADJACENCY LIST ===" << endl;
+    PrintInfoGraph(G);
+    cout << endl;
 
-void CreateList(List &L);
-address alokasi(infotype x);
-void dealokasi(address &P);
-void insertLast(List &L, address P);
-void printInfo(List L);
-address findElm(List L, string nopol);
-void deleteFirst(List &L);
-void deleteLast(List &L);
-void deleteAfter(List &L, address Prec);
+    cout << "=== HASIL TRAVERSAL ===" << endl;
+    //mulai traversal dari node A
+    PrintBFS(G, 'A'); //BFS
+    PrintDFS(G, 'A'); //DFS
+    cout << endl;
 
-#endif
+    cout << "=== HAPUS NODE E ===" << endl;
+    DeleteNode(G, 'E');
+    if(FindNode(G, 'E') == NULL){
+        cout << "Node E berhasil terhapus" << endl;
+    } else {
+        cout << "Node E tidak berhasil terhapus" << endl;
+    }
+    cout << endl;
+
+    cout << "=== REPRESENTASI ADJACENCY LIST ===" << endl;
+    PrintInfoGraph(G);
+    cout << endl;
+
+    cout << "=== HASIL TRAVERSAL ===" << endl;
+    //mulai traversal dari node A
+    PrintBFS(G, 'A'); //BFS
+    PrintDFS(G, 'A'); //DFS
+
+    return 0;
+}
 ```
 ### 2. [doublelist.cpp]
 ```C++
