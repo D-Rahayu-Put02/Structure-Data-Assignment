@@ -363,249 +363,189 @@ int main() {
 main.cpp digunakan untuk menguji program dengan membuat graph, menghubungkan node, menampilkan adjacency list, melakukan traversal, dan menghapus node.
 
 ## Unguided 
-### 1. [doublelist.h]
+### 1. [graph.h]
 
 ```C++
-#include "graph.h"
-#include <iostream>
-#include <queue> //library queue untuk BFS
-#include <stack> //library stack untuk DFS
+#ifndef GRAPH_H
+#define GRAPH_H
 
+#include <iostream>
 using namespace std;
 
-int main() {
-    Graph G;
-    CreateGraph(G);
+typedef char infoGraph;
+typedef struct elmNode *adrNode;
+typedef struct elmEdge *adrEdge;
 
-    InsertNode(G, 'A');
-    InsertNode(G, 'B');
-    InsertNode(G, 'C');
-    InsertNode(G, 'D');
-    InsertNode(G, 'E');
-    InsertNode(G, 'F');
+struct elmEdge {
+    adrNode node;
+    adrEdge next;
+};
 
-    //hubungkan antar node
-    ConnectNode(G, 'A', 'B');
-    ConnectNode(G, 'A', 'D');
-    ConnectNode(G, 'B', 'C');
-    ConnectNode(G, 'D', 'C');
-    ConnectNode(G, 'B', 'E');
-    ConnectNode(G, 'C', 'E');
-    ConnectNode(G, 'C', 'F');
-    ConnectNode(G, 'E', 'F');
+struct elmNode {
+    infoGraph info;
+    int visited;
+    adrEdge firstEdge;
+    adrNode next;
+};
 
-    cout << "=== REPRESENTASI ADJACENCY LIST ===" << endl;
-    PrintInfoGraph(G);
-    cout << endl;
+struct Graph {
+    adrNode first;
+};
 
-    cout << "=== HASIL TRAVERSAL ===" << endl;
-    //mulai traversal dari node A
-    PrintBFS(G, 'A'); //BFS
-    PrintDFS(G, 'A'); //DFS
-    cout << endl;
+void createGraph(Graph &G);
+adrNode createNode(infoGraph x);
+void insertNode(Graph &G, infoGraph x);
+adrNode findNode(Graph G, infoGraph x);
+void connectNode(adrNode N1, adrNode N2);
+void printInfoGraph(Graph G);
 
-    cout << "=== HAPUS NODE E ===" << endl;
-    DeleteNode(G, 'E');
-    if(FindNode(G, 'E') == NULL){
-        cout << "Node E berhasil terhapus" << endl;
-    } else {
-        cout << "Node E tidak berhasil terhapus" << endl;
-    }
-    cout << endl;
+void printDFS(Graph &G, adrNode N);
+void printBFS(Graph G, adrNode N);
 
-    cout << "=== REPRESENTASI ADJACENCY LIST ===" << endl;
-    PrintInfoGraph(G);
-    cout << endl;
-
-    cout << "=== HASIL TRAVERSAL ===" << endl;
-    //mulai traversal dari node A
-    PrintBFS(G, 'A'); //BFS
-    PrintDFS(G, 'A'); //DFS
-
-    return 0;
-}
+#endif
 ```
-### 2. [doublelist.cpp]
+### 2. [graph.cpp]
 ```C++
-#include "doublelist.h"
+#include "graph.h"
 
-void CreateList(List &L) {
-    L.first = NIL;
-    L.last = NIL;
+void createGraph(Graph &G) {
+    G.first = NULL;
 }
 
-address alokasi(infotype x) {
-    address P = new ElmtList;
+adrNode createNode(infoGraph x) {
+    adrNode P = new elmNode;
     P->info = x;
-    P->next = NIL;
-    P->prev = NIL;
+    P->visited = 0;
+    P->firstEdge = NULL;
+    P->next = NULL;
     return P;
 }
 
-void dealokasi(address &P) {
-    delete P;
-    P = NIL;
+void insertNode(Graph &G, infoGraph x) {
+    adrNode P = createNode(x);
+    P->next = G.first;
+    G.first = P;
 }
 
-void insertLast(List &L, address P) {
-    if (L.first == NIL) {
-        L.first = P;
-        L.last = P;
-    } else {
-        L.last->next = P;
-        P->prev = L.last;
-        L.last = P;
+adrNode findNode(Graph G, infoGraph x) {
+    adrNode P = G.first;
+    while (P != NULL) {
+        if (P->info == x)
+            return P;
+        P = P->next;
     }
+    return NULL;
 }
 
-void printInfo(List L) {
-    address P = L.first;
-    while (P != NIL) {
-        cout << "Nomor Polisi : " << P->info.nopol << endl;
-        cout << "Warna        : " << P->info.warna << endl;
-        cout << "Tahun        : " << P->info.tahunbuat << endl;
+void connectNode(adrNode N1, adrNode N2) {
+    adrEdge E1 = new elmEdge;
+    E1->node = N2;
+    E1->next = N1->firstEdge;
+    N1->firstEdge = E1;
+
+    adrEdge E2 = new elmEdge;
+    E2->node = N1;
+    E2->next = N2->firstEdge;
+    N2->firstEdge = E2;
+}
+
+void printInfoGraph(Graph G) {
+    adrNode P = G.first;
+    while (P != NULL) {
+        cout << P->info << " : ";
+        adrEdge E = P->firstEdge;
+        while (E != NULL) {
+            cout << E->node->info << " ";
+            E = E->next;
+        }
         cout << endl;
         P = P->next;
     }
 }
 
-address findElm(List L, string nopol) {
-    address P = L.first;
-    while (P != NIL) {
-        if (P->info.nopol == nopol) return P;
-        P = P->next;
-    }
-    return NIL;
-}
-
-void deleteFirst(List &L) {
-    if (L.first != NIL) {
-        address P = L.first;
-
-        if (L.first == L.last) {
-            L.first = L.last = NIL;
-        } else {
-            L.first = P->next;
-            L.first->prev = NIL;
+void printDFS(Graph &G, adrNode N) {
+    if (N != NULL && N->visited == 0) {
+        cout << N->info << " ";
+        N->visited = 1;
+        adrEdge E = N->firstEdge;
+        while (E != NULL) {
+            printDFS(G, E->node);
+            E = E->next;
         }
-        dealokasi(P);
     }
 }
 
-void deleteLast(List &L) {
-    if (L.first != NIL) {
-        address P = L.last;
+void printBFS(Graph G, adrNode N) {
+    adrNode Q[20];
+    int front = 0, rear = 0;
 
-        if (L.first == L.last) {
-            L.first = L.last = NIL;
-        } else {
-            L.last = P->prev;
-            L.last->next = NIL;
-        }
-        dealokasi(P);
-    }
-}
+    Q[rear++] = N;
+    N->visited = 1;
 
-void deleteAfter(List &L, address Prec) {
-    if (Prec != NIL && Prec->next != NIL) {
-        address P = Prec->next;
-        Prec->next = P->next;
-        if (P->next != NIL) {
-            P->next->prev = Prec;
-        } else {
-            L.last = Prec;
+    while (front < rear) {
+        adrNode P = Q[front++];
+        cout << P->info << " ";
+
+        adrEdge E = P->firstEdge;
+        while (E != NULL) {
+            if (E->node->visited == 0) {
+                E->node->visited = 1;
+                Q[rear++] = E->node;
+            }
+            E = E->next;
         }
-        dealokasi(P);
     }
 }
 ```
 ### 3. [main.cpp]
 
 ```C++
-#include "doublelist.h"
+#include "graph.h"
 
 int main() {
-    List L;
-    CreateList(L);
+    Graph G;
+    createGraph(G);
 
-    infotype x;
-    address P;
-    string nopolInput;
+    insertNode(G, 'A');
+    insertNode(G, 'B');
+    insertNode(G, 'C');
+    insertNode(G, 'D');
+    insertNode(G, 'E');
+    insertNode(G, 'F');
+    insertNode(G, 'G');
+    insertNode(G, 'H');
 
-    // Input 4 kali sesuai contoh modul
-    for (int i = 0; i < 4; i++) {
-        cout << "masukkan nomor polisi: ";
-        cin >> x.nopol;
+    connectNode(findNode(G,'A'), findNode(G,'B'));
+    connectNode(findNode(G,'A'), findNode(G,'C'));
+    connectNode(findNode(G,'B'), findNode(G,'D'));
+    connectNode(findNode(G,'B'), findNode(G,'E'));
+    connectNode(findNode(G,'C'), findNode(G,'F'));
+    connectNode(findNode(G,'C'), findNode(G,'G'));
+    connectNode(findNode(G,'D'), findNode(G,'H'));
+    connectNode(findNode(G,'E'), findNode(G,'H'));
+    connectNode(findNode(G,'F'), findNode(G,'H'));
+    connectNode(findNode(G,'G'), findNode(G,'H'));
 
-        // Cek duplikasi
-        if (findElm(L, x.nopol) != NIL) {
-            cout << "nomor polisi sudah terdaftar\n\n";
-            // skip input warna/tahun kalau dupe
-            continue;
-        }
-
-        cout << "masukkan warna kendaraan: ";
-        cin >> x.warna;
-
-        cout << "masukkan tahun kendaraan: ";
-        cin >> x.tahunbuat;
-
-        cout << endl;
-
-        P = alokasi(x);
-        insertLast(L, P);
-    }
-
-    cout << "DATA LIST 1\n";
-    printInfo(L);
+    cout << "DFS : ";
+    printDFS(G, findNode(G,'A'));
     cout << endl;
 
-
-    // ===== SOAL NOMOR 2 : Find D001 =====
-    cout << "Masukkan Nomor Polisi yang dicari : ";
-    cin >> nopolInput;
-
-    address found = findElm(L, nopolInput);
-    if (found != NIL) {
-        cout << "Nomor Polisi : " << found->info.nopol << endl;
-        cout << "Warna        : " << found->info.warna << endl;
-        cout << "Tahun        : " << found->info.tahunbuat << endl;
-    } else {
-        cout << "Data tidak ditemukan.\n";
+    adrNode P = G.first;
+    while (P != NULL) {
+        P->visited = 0;
+        P = P->next;
     }
 
+    cout << "BFS : ";
+    printBFS(G, findNode(G,'A'));
     cout << endl;
-
-
-    // ===== SOAL NOMOR 3 : Hapus =====
-    cout << "Masukkan Nomor Polisi yang akan dihapus : ";
-    cin >> nopolInput;
-
-    address target = findElm(L, nopolInput);
-
-    if (target != NIL) {
-        if (target == L.first) {
-            deleteFirst(L);
-        } else if (target == L.last) {
-            deleteLast(L);
-        } else {
-            deleteAfter(L, target->prev);
-        }
-        cout << "Data dengan nomor polisi " << nopolInput << " berhasil dihapus.\n";
-    } else {
-        cout << "Data tidak ditemukan.\n";
-    }
-
-    cout << "\nDATA LIST 1\n";
-    printInfo(L);
 
     return 0;
 }
 ```
 
 #### Output:
-<img width="1020" height="920" alt="image" src="https://github.com/user-attachments/assets/ead53e62-fdab-42d5-84a6-fa2a90b31401" />
-
+<img width="1451" height="70" alt="image" src="https://github.com/user-attachments/assets/765cb6b8-d08d-468e-99e2-5ac8046d6ed2" />
 
 
 Program ini dibuat untuk mengelola data kendaraan menggunakan Doubly Linked List.
@@ -619,16 +559,15 @@ Program dapat melakukan:
 - menolak input kendaraan dengan nopol yang sama (duplikasi)
 Program ini mensimulasikan cara kerja struktur data Double Linked List untuk pengolahan data kendaraan secara dinamis.
 #### Full code Screenshot:
-<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/cb3d1f32-c50b-487f-b408-ae51c39b75b6" />
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/9312ae5c-1ac7-4f28-ad23-b16838bdda48" />
 
-<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/362d23f7-1a6d-48df-851b-5f8361dffdda" />
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/8b0a9cc4-cbef-4ac2-af93-7312eaee681c" />
 
-<img width="1917" height="1079" alt="image" src="https://github.com/user-attachments/assets/cae371a4-c2bb-432e-a55a-fcb7a56fb7ca" />
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/2151f9d8-4adb-4d56-9ba6-646defe68845" />
 
 
 ## Kesimpulan
-Ringkasan dan interpretasi pandangan kalian dari hasil praktikum dan pembelajaran yang didapat[1]. Modul 7 pada modul ini materi yang di sampaikan itu tentang stack, Stack adalah struktur data yang bekerja dengan dengan prinsip LIFO (Last in First Out), jadi node yang terakhir masuk akan keluar paling awal, latihan ini membantu memahami cara kerja stack secara praktis, dengan mengimplementasi kan banyak operasi, jadi dapat memahami bagaimana cara stack itu digunakan untuk mengatur data yang masuk dan kelaur secara teratur serta dapat memecahkan masalah menggunakan LIFO
-
+Ringkasan dan interpretasi pandangan kalian dari hasil praktikum dan pembelajaran yang didapat[1]. Modul 14 pada modul ini materi yang di sampaikan itu tentang Graph, 
 
 
 ## Referensi
