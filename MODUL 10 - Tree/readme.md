@@ -437,246 +437,158 @@ int main() {
 File program utama yang berisi fungsi main() dan menu interaktif. File ini berfungsi sebagai antarmuka pengguna untuk memanggil fungsi-fungsi BST yang didefinisikan di bst.cpp melalui bst.h. Pengguna dapat melakukan insert, delete, search, traversal, dan operasi lainnya melalui menu.
 
 ## Unguided 
-### 1. [doublelist.h]
+### 1. [bstree.h]
 
 ```C++
-#ifndef DOUBLELIST_H
-#define DOUBLELIST_H
+#ifndef BSTREE_H
+#define BSTREE_H
 #define NIL NULL
+
 #include <iostream>
 using namespace std;
 
-struct kendaraan {
-    string nopol;
-    string warna;
-    int tahunbuat;
-};
+typedef int infotype;
+typedef struct Node *address;
 
-typedef kendaraan infotype;
-typedef struct ElmtList *address;
-
-struct ElmtList {
+struct Node {
     infotype info;
-    address next;
-    address prev;
+    address left;
+    address right;
 };
 
-struct List {
-    address first;
-    address last;
-};
-
-void CreateList(List &L);
+// ADT BST
 address alokasi(infotype x);
-void dealokasi(address &P);
-void insertLast(List &L, address P);
-void printInfo(List L);
-address findElm(List L, string nopol);
-void deleteFirst(List &L);
-void deleteLast(List &L);
-void deleteAfter(List &L, address Prec);
+void insertNode(address &root, infotype x);
+address findNode(address root, infotype x);
+void InOrder(address root);
+
+// latihan tambahan
+int hitungJumlahNode(address root);
+int hitungTotalInfo(address root);
+int hitungKedalaman(address root, int start);
 
 #endif
 ```
-### 2. [doublelist.cpp]
+### 2. [bstree.cpp]
 ```C++
-#include "doublelist.h"
+#include "bstree.h"
 
-void CreateList(List &L) {
-    L.first = NIL;
-    L.last = NIL;
-}
-
+// Alokasi node
 address alokasi(infotype x) {
-    address P = new ElmtList;
+    address P = new Node;
     P->info = x;
-    P->next = NIL;
-    P->prev = NIL;
+    P->left = NIL;
+    P->right = NIL;
     return P;
 }
 
-void dealokasi(address &P) {
-    delete P;
-    P = NIL;
+// Insert BST
+void insertNode(address &root, infotype x) {
+    if (root == NIL) {
+        root = alokasi(x);
+    } else if (x < root->info) {
+        insertNode(root->left, x);
+    } else if (x > root->info) {
+        insertNode(root->right, x);
+    }
 }
 
-void insertLast(List &L, address P) {
-    if (L.first == NIL) {
-        L.first = P;
-        L.last = P;
+// Cari node
+address findNode(address root, infotype x) {
+    if (root == NIL || root->info == x) {
+        return root;
+    } else if (x < root->info) {
+        return findNode(root->left, x);
     } else {
-        L.last->next = P;
-        P->prev = L.last;
-        L.last = P;
+        return findNode(root->right, x);
     }
 }
 
-void printInfo(List L) {
-    address P = L.first;
-    while (P != NIL) {
-        cout << "Nomor Polisi : " << P->info.nopol << endl;
-        cout << "Warna        : " << P->info.warna << endl;
-        cout << "Tahun        : " << P->info.tahunbuat << endl;
-        cout << endl;
-        P = P->next;
+// Traversal InOrder
+void InOrder(address root) {
+    if (root != NIL) {
+        InOrder(root->left);
+        cout << root->info << " - ";
+        InOrder(root->right);
     }
 }
 
-address findElm(List L, string nopol) {
-    address P = L.first;
-    while (P != NIL) {
-        if (P->info.nopol == nopol) return P;
-        P = P->next;
+// Hitung jumlah node
+int hitungJumlahNode(address root) {
+    if (root == NIL) {
+        return 0;
     }
-    return NIL;
+    return 1 + hitungJumlahNode(root->left) + hitungJumlahNode(root->right);
 }
 
-void deleteFirst(List &L) {
-    if (L.first != NIL) {
-        address P = L.first;
-
-        if (L.first == L.last) {
-            L.first = L.last = NIL;
-        } else {
-            L.first = P->next;
-            L.first->prev = NIL;
-        }
-        dealokasi(P);
+// Hitung total nilai info
+int hitungTotalInfo(address root) {
+    if (root == NIL) {
+        return 0;
     }
+    return root->info +
+           hitungTotalInfo(root->left) +
+           hitungTotalInfo(root->right);
 }
 
-void deleteLast(List &L) {
-    if (L.first != NIL) {
-        address P = L.last;
-
-        if (L.first == L.last) {
-            L.first = L.last = NIL;
-        } else {
-            L.last = P->prev;
-            L.last->next = NIL;
-        }
-        dealokasi(P);
+// Hitung kedalaman maksimal tree
+int hitungKedalaman(address root, int start) {
+    if (root == NIL) {
+        return start;
     }
-}
 
-void deleteAfter(List &L, address Prec) {
-    if (Prec != NIL && Prec->next != NIL) {
-        address P = Prec->next;
-        Prec->next = P->next;
-        if (P->next != NIL) {
-            P->next->prev = Prec;
-        } else {
-            L.last = Prec;
-        }
-        dealokasi(P);
-    }
+    int kiri = hitungKedalaman(root->left, start + 1);
+    int kanan = hitungKedalaman(root->right, start + 1);
+
+    return (kiri > kanan) ? kiri : kanan;
 }
 ```
 ### 3. [main.cpp]
 
 ```C++
-#include "doublelist.h"
+#include <iostream>
+#include "bstree.h"
+
+using namespace std;
 
 int main() {
-    List L;
-    CreateList(L);
+    cout << "Hello World!" << endl;
 
-    infotype x;
-    address P;
-    string nopolInput;
+    address root = NIL;
 
-    // Input 4 kali sesuai contoh modul
-    for (int i = 0; i < 4; i++) {
-        cout << "masukkan nomor polisi: ";
-        cin >> x.nopol;
+    insertNode(root, 1);
+    insertNode(root, 2);
+    insertNode(root, 6);
+    insertNode(root, 4);
+    insertNode(root, 5);
+    insertNode(root, 3);
+    insertNode(root, 6); // duplikat, tidak masuk
+    insertNode(root, 7);
 
-        // Cek duplikasi
-        if (findElm(L, x.nopol) != NIL) {
-            cout << "nomor polisi sudah terdaftar\n\n";
-            // skip input warna/tahun kalau dupe
-            continue;
-        }
-
-        cout << "masukkan warna kendaraan: ";
-        cin >> x.warna;
-
-        cout << "masukkan tahun kendaraan: ";
-        cin >> x.tahunbuat;
-
-        cout << endl;
-
-        P = alokasi(x);
-        insertLast(L, P);
-    }
-
-    cout << "DATA LIST 1\n";
-    printInfo(L);
+    InOrder(root);
     cout << endl;
 
-
-    // ===== SOAL NOMOR 2 : Find D001 =====
-    cout << "Masukkan Nomor Polisi yang dicari : ";
-    cin >> nopolInput;
-
-    address found = findElm(L, nopolInput);
-    if (found != NIL) {
-        cout << "Nomor Polisi : " << found->info.nopol << endl;
-        cout << "Warna        : " << found->info.warna << endl;
-        cout << "Tahun        : " << found->info.tahunbuat << endl;
-    } else {
-        cout << "Data tidak ditemukan.\n";
-    }
-
-    cout << endl;
-
-
-    // ===== SOAL NOMOR 3 : Hapus =====
-    cout << "Masukkan Nomor Polisi yang akan dihapus : ";
-    cin >> nopolInput;
-
-    address target = findElm(L, nopolInput);
-
-    if (target != NIL) {
-        if (target == L.first) {
-            deleteFirst(L);
-        } else if (target == L.last) {
-            deleteLast(L);
-        } else {
-            deleteAfter(L, target->prev);
-        }
-        cout << "Data dengan nomor polisi " << nopolInput << " berhasil dihapus.\n";
-    } else {
-        cout << "Data tidak ditemukan.\n";
-    }
-
-    cout << "\nDATA LIST 1\n";
-    printInfo(L);
+    cout << "kedalaman : " << hitungKedalaman(root, 0) << endl;
+    cout << "jumlah node : " << hitungJumlahNode(root) << endl;
+    cout << "total : " << hitungTotalInfo(root) << endl;
 
     return 0;
 }
 ```
 
 #### Output:
-<img width="1020" height="920" alt="image" src="https://github.com/user-attachments/assets/ead53e62-fdab-42d5-84a6-fa2a90b31401" />
+<img width="960" height="130" alt="image" src="https://github.com/user-attachments/assets/542afa9d-b37d-4207-bbdf-24f0ac4a92f1" />
 
 
+File bstree.h berisi definisi struktur Binary Search Tree dan deklarasi fungsi-fungsi yang digunakan. File bstree.cpp berisi implementasi seluruh fungsi BST seperti insert, traversal inorder, dan perhitungan node, total, serta kedalaman tree. File main.cpp digunakan untuk menjalankan dan menguji program dengan memasukkan data ke dalam tree lalu menampilkan hasilnya.
 
-Program ini dibuat untuk mengelola data kendaraan menggunakan Doubly Linked List.
-Setiap node menyimpan nomor polisi, warna kendaraan, dan tahun pembuatan.
-Program dapat melakukan:
-- menambah data kendaraan ke belakang list (insertLast)
-- menampilkan seluruh data (printInfo)
-- mengecek apakah nopol sudah terdaftar (findElm)
-- mencari data kendaraan tertentu
-- menghapus data berdasarkan posisi (deleteFirst, deleteLast, deleteAfter)
-- menolak input kendaraan dengan nopol yang sama (duplikasi)
-Program ini mensimulasikan cara kerja struktur data Double Linked List untuk pengolahan data kendaraan secara dinamis.
+Program ini dibuat untuk menerapkan konsep Binary Search Tree dan rekursif dalam pengolahan data secara terstruktur, sehingga memudahkan proses pencarian, pengurutan, dan perhitungan data pada struktur tree.
 #### Full code Screenshot:
-<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/cb3d1f32-c50b-487f-b408-ae51c39b75b6" />
+<img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/93c3d1ca-7ce1-44b2-9cd6-b8bdbc8f9c29" />
 
-<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/362d23f7-1a6d-48df-851b-5f8361dffdda" />
+<img width="1919" height="1078" alt="image" src="https://github.com/user-attachments/assets/935e8920-a031-4a95-831a-ee55cf51d73b" />
 
-<img width="1917" height="1079" alt="image" src="https://github.com/user-attachments/assets/cae371a4-c2bb-432e-a55a-fcb7a56fb7ca" />
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/ecb0c691-e897-44ba-89d8-179e0a49b9e8" />
 
 
 ## Kesimpulan
