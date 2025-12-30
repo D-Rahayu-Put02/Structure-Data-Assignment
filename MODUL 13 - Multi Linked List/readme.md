@@ -708,219 +708,207 @@ int main() {
 main.cpp merupakan program utama yang digunakan untuk menguji seluruh fungsi dengan studi kasus menu restoran, mulai dari penambahan data, pencarian, pembaruan, hingga penghapusan data.
 
 ## Unguided 
-### 1. [doublelist.h]
+### 1. [circularlist.h]
 
 ```C++
-#ifndef DOUBLELIST_H
-#define DOUBLELIST_H
-#define NIL NULL
+#ifndef CIRCULARLIST_H
+#define CIRCULARLIST_H
+
 #include <iostream>
 using namespace std;
 
-struct kendaraan {
-    string nopol;
-    string warna;
-    int tahunbuat;
+struct mahasiswa {
+    string nama;
+    string nim;
+    char jenis_kelamin;
+    float ipk;
 };
 
-typedef kendaraan infotype;
-typedef struct ElmtList *address;
+typedef mahasiswa infotype;
+typedef struct ElmList *address;
 
-struct ElmtList {
+struct ElmList {
     infotype info;
     address next;
-    address prev;
 };
 
 struct List {
     address first;
-    address last;
 };
 
-void CreateList(List &L);
+void createList(List &L);
 address alokasi(infotype x);
 void dealokasi(address &P);
+
+void insertFirst(List &L, address P);
 void insertLast(List &L, address P);
+void insertAfter(List &L, address Prec, address P);
+
+void deleteFirst(List &L, address &P);
+void deleteLast(List &L, address &P);
+
+address findElm(List L, infotype x);
 void printInfo(List L);
-address findElm(List L, string nopol);
-void deleteFirst(List &L);
-void deleteLast(List &L);
-void deleteAfter(List &L, address Prec);
 
 #endif
 ```
-### 2. [doublelist.cpp]
+### 2. [circularlist.cpp]
 ```C++
-#include "doublelist.h"
+#include "circularlist.h"
 
-void CreateList(List &L) {
-    L.first = NIL;
-    L.last = NIL;
+void createList(List &L) {
+    L.first = NULL;
 }
 
 address alokasi(infotype x) {
-    address P = new ElmtList;
+    address P = new ElmList;
     P->info = x;
-    P->next = NIL;
-    P->prev = NIL;
+    P->next = NULL;
     return P;
 }
 
 void dealokasi(address &P) {
     delete P;
-    P = NIL;
+    P = NULL;
+}
+
+void insertFirst(List &L, address P) {
+    if (L.first == NULL) {
+        L.first = P;
+        P->next = P;
+    } else {
+        address Q = L.first;
+        while (Q->next != L.first) {
+            Q = Q->next;
+        }
+        P->next = L.first;
+        Q->next = P;
+        L.first = P;
+    }
 }
 
 void insertLast(List &L, address P) {
-    if (L.first == NIL) {
+    if (L.first == NULL) {
         L.first = P;
-        L.last = P;
+        P->next = P;
     } else {
-        L.last->next = P;
-        P->prev = L.last;
-        L.last = P;
+        address Q = L.first;
+        while (Q->next != L.first) {
+            Q = Q->next;
+        }
+        Q->next = P;
+        P->next = L.first;
     }
+}
+
+void insertAfter(List &L, address Prec, address P) {
+    if (Prec != NULL) {
+        P->next = Prec->next;
+        Prec->next = P;
+    }
+}
+
+void deleteFirst(List &L, address &P) {
+    if (L.first != NULL) {
+        address Q = L.first;
+        if (Q->next == Q) {
+            P = Q;
+            L.first = NULL;
+        } else {
+            address last = L.first;
+            while (last->next != L.first) {
+                last = last->next;
+            }
+            P = L.first;
+            L.first = P->next;
+            last->next = L.first;
+        }
+        P->next = NULL;
+    }
+}
+
+void deleteLast(List &L, address &P) {
+    if (L.first != NULL) {
+        address Q = L.first;
+        if (Q->next == Q) {
+            P = Q;
+            L.first = NULL;
+        } else {
+            address prev = NULL;
+            while (Q->next != L.first) {
+                prev = Q;
+                Q = Q->next;
+            }
+            P = Q;
+            prev->next = L.first;
+        }
+        P->next = NULL;
+    }
+}
+
+address findElm(List L, infotype x) {
+    if (L.first == NULL) return NULL;
+
+    address P = L.first;
+    do {
+        if (P->info.nim == x.nim) {
+            return P;
+        }
+        P = P->next;
+    } while (P != L.first);
+
+    return NULL;
 }
 
 void printInfo(List L) {
-    address P = L.first;
-    while (P != NIL) {
-        cout << "Nomor Polisi : " << P->info.nopol << endl;
-        cout << "Warna        : " << P->info.warna << endl;
-        cout << "Tahun        : " << P->info.tahunbuat << endl;
-        cout << endl;
-        P = P->next;
-    }
-}
-
-address findElm(List L, string nopol) {
-    address P = L.first;
-    while (P != NIL) {
-        if (P->info.nopol == nopol) return P;
-        P = P->next;
-    }
-    return NIL;
-}
-
-void deleteFirst(List &L) {
-    if (L.first != NIL) {
+    if (L.first != NULL) {
         address P = L.first;
-
-        if (L.first == L.last) {
-            L.first = L.last = NIL;
-        } else {
-            L.first = P->next;
-            L.first->prev = NIL;
-        }
-        dealokasi(P);
-    }
-}
-
-void deleteLast(List &L) {
-    if (L.first != NIL) {
-        address P = L.last;
-
-        if (L.first == L.last) {
-            L.first = L.last = NIL;
-        } else {
-            L.last = P->prev;
-            L.last->next = NIL;
-        }
-        dealokasi(P);
-    }
-}
-
-void deleteAfter(List &L, address Prec) {
-    if (Prec != NIL && Prec->next != NIL) {
-        address P = Prec->next;
-        Prec->next = P->next;
-        if (P->next != NIL) {
-            P->next->prev = Prec;
-        } else {
-            L.last = Prec;
-        }
-        dealokasi(P);
+        do {
+            cout << "Nama : " << P->info.nama << endl;
+            cout << "NIM  : " << P->info.nim << endl;
+            cout << "JK   : " << P->info.jenis_kelamin << endl;
+            cout << "IPK  : " << P->info.ipk << endl;
+            cout << "---------------------" << endl;
+            P = P->next;
+        } while (P != L.first);
     }
 }
 ```
 ### 3. [main.cpp]
 
 ```C++
-#include "doublelist.h"
+#include "circularlist.h"
+
+address createData(string nama, string nim, char jk, float ipk) {
+    infotype x;
+    x.nama = nama;
+    x.nim = nim;
+    x.jenis_kelamin = jk;
+    x.ipk = ipk;
+    return alokasi(x);
+}
 
 int main() {
     List L;
-    CreateList(L);
+    createList(L);
 
+    address P1, P2;
     infotype x;
-    address P;
-    string nopolInput;
 
-    // Input 4 kali sesuai contoh modul
-    for (int i = 0; i < 4; i++) {
-        cout << "masukkan nomor polisi: ";
-        cin >> x.nopol;
+    P1 = createData("Danu", "04", 'L', 4.0);
+    insertFirst(L, P1);
 
-        // Cek duplikasi
-        if (findElm(L, x.nopol) != NIL) {
-            cout << "nomor polisi sudah terdaftar\n\n";
-            // skip input warna/tahun kalau dupe
-            continue;
-        }
+    P1 = createData("Fahmi", "06", 'L', 3.45);
+    insertLast(L, P1);
 
-        cout << "masukkan warna kendaraan: ";
-        cin >> x.warna;
+    P1 = createData("Bobi", "02", 'L', 3.71);
+    insertFirst(L, P1);
 
-        cout << "masukkan tahun kendaraan: ";
-        cin >> x.tahunbuat;
+    x.nim = "06";
+    P1 = findElm(L, x);
+    P2 = createData("Cindi", "03", 'P', 3.5);
+    insertAfter(L, P1, P2);
 
-        cout << endl;
-
-        P = alokasi(x);
-        insertLast(L, P);
-    }
-
-    cout << "DATA LIST 1\n";
-    printInfo(L);
-    cout << endl;
-
-
-    // ===== SOAL NOMOR 2 : Find D001 =====
-    cout << "Masukkan Nomor Polisi yang dicari : ";
-    cin >> nopolInput;
-
-    address found = findElm(L, nopolInput);
-    if (found != NIL) {
-        cout << "Nomor Polisi : " << found->info.nopol << endl;
-        cout << "Warna        : " << found->info.warna << endl;
-        cout << "Tahun        : " << found->info.tahunbuat << endl;
-    } else {
-        cout << "Data tidak ditemukan.\n";
-    }
-
-    cout << endl;
-
-
-    // ===== SOAL NOMOR 3 : Hapus =====
-    cout << "Masukkan Nomor Polisi yang akan dihapus : ";
-    cin >> nopolInput;
-
-    address target = findElm(L, nopolInput);
-
-    if (target != NIL) {
-        if (target == L.first) {
-            deleteFirst(L);
-        } else if (target == L.last) {
-            deleteLast(L);
-        } else {
-            deleteAfter(L, target->prev);
-        }
-        cout << "Data dengan nomor polisi " << nopolInput << " berhasil dihapus.\n";
-    } else {
-        cout << "Data tidak ditemukan.\n";
-    }
-
-    cout << "\nDATA LIST 1\n";
     printInfo(L);
 
     return 0;
@@ -928,32 +916,23 @@ int main() {
 ```
 
 #### Output:
-<img width="1020" height="920" alt="image" src="https://github.com/user-attachments/assets/ead53e62-fdab-42d5-84a6-fa2a90b31401" />
+<img width="1532" height="506" alt="image" src="https://github.com/user-attachments/assets/4608a832-1c2c-41e5-a6d8-6e934fed7690" />
 
 
 
-Program ini dibuat untuk mengelola data kendaraan menggunakan Doubly Linked List.
-Setiap node menyimpan nomor polisi, warna kendaraan, dan tahun pembuatan.
-Program dapat melakukan:
-- menambah data kendaraan ke belakang list (insertLast)
-- menampilkan seluruh data (printInfo)
-- mengecek apakah nopol sudah terdaftar (findElm)
-- mencari data kendaraan tertentu
-- menghapus data berdasarkan posisi (deleteFirst, deleteLast, deleteAfter)
-- menolak input kendaraan dengan nopol yang sama (duplikasi)
-Program ini mensimulasikan cara kerja struktur data Double Linked List untuk pengolahan data kendaraan secara dinamis.
+Program ini dibuat untuk mengelola data mahasiswa menggunakan struktur Multi Linked List berbentuk circular, di mana setiap node menyimpan data mahasiswa dan terhubung membentuk lingkaran. Program mendukung operasi insert, delete, pencarian, dan penampilan data untuk melatih pemahaman pointer dan relasi antar node.
+
 #### Full code Screenshot:
-<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/cb3d1f32-c50b-487f-b408-ae51c39b75b6" />
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/bd2cc9f1-c541-4309-a95a-20f57bb7fa42" />
 
-<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/362d23f7-1a6d-48df-851b-5f8361dffdda" />
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/4f4787a6-12f8-49a0-b6ff-aa8acc52073a" />
 
-<img width="1917" height="1079" alt="image" src="https://github.com/user-attachments/assets/cae371a4-c2bb-432e-a55a-fcb7a56fb7ca" />
-
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/9fb11713-7f6c-4e43-a880-b6aa06463d39" />
 
 ## Kesimpulan
-Ringkasan dan interpretasi pandangan kalian dari hasil praktikum dan pembelajaran yang didapat[1]. Modul 7 pada modul ini materi yang di sampaikan itu tentang stack, Stack adalah struktur data yang bekerja dengan dengan prinsip LIFO (Last in First Out), jadi node yang terakhir masuk akan keluar paling awal, latihan ini membantu memahami cara kerja stack secara praktis, dengan mengimplementasi kan banyak operasi, jadi dapat memahami bagaimana cara stack itu digunakan untuk mengatur data yang masuk dan kelaur secara teratur serta dapat memecahkan masalah menggunakan LIFO
+Ringkasan dan interpretasi pandangan kalian dari hasil praktikum dan pembelajaran yang didapat[1]. Modul 13 pada modul ini materi yang di sampaikan itu tentang MLL, Multi Linked List digunakan untuk mengelola data yang kompleks dan saling berelasi dengan memanfaatkan pointer. Struktur ini membantu memahami alokasi memori, relasi antar data, serta operasi insert, delete, dan search secara lebih mendalam.
 
-
+materi ini penting sebagai dasar menuju struktur data lanjutan seperti tree dan graph, serta melatih logika dan ketelitian dalam pemrograman berbasis struktur data.
 
 ## Referensi
 [1] I. Holm, Narrator, and J. Fullerton-Smith, Producer, How to Build a Human [DVD]. London: BBC; 2002.
